@@ -15,7 +15,7 @@ import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 public class Main extends HvlTemplateInteg2D {
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4,
-			playerSmall2Index = 5;
+			playerSmall2Index = 5, player3Index = 6;
 
 	private float playerRotation = 0;
 
@@ -37,6 +37,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("Player2");
 		getTextureLoader().loadResource("PlayerSmall1");
 		getTextureLoader().loadResource("PlayerSmall2");
+		getTextureLoader().loadResource("Player3");
 
 		MenuManager.initialize();
 
@@ -74,6 +75,9 @@ public class Main extends HvlTemplateInteg2D {
 
 		HvlCamera.undoTransform();
 		float size = HvlMath.lerp(512, Player.radius, Math.min(zoom, 1));
+		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), playerRotation * -4);
+		hvlDrawQuad((Display.getWidth()/2) - size, (Display.getHeight()/2) - size, size*2, size*2, getTexture(player3Index), new Color(1, 1, 1, 1 - zoom - (float)Math.sin(playerRotation)));
+		hvlResetRotation();
 		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), -playerRotation * 3);
 		hvlDrawQuad((Display.getWidth()/2) - size, (Display.getHeight()/2) - size, size*2, size*2, getTexture(player2Index), new Color(1, 1, 1, 1 - zoom));
 		hvlResetRotation();
@@ -85,7 +89,7 @@ public class Main extends HvlTemplateInteg2D {
 		hvlDrawQuad((Display.getWidth()/2) - (size*2), (Display.getHeight()/2) - (size*2), (size*2)*2, (size*2)*2, getTexture(playerSmall1Index), new Color(1, 1, 1, -(0.9f - zoom)));
 		hvlResetRotation();
 		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), playerRotation * -64);
-		hvlDrawQuad((Display.getWidth()/2) - (size*2), (Display.getHeight()/2) - (size*2), (size*2)*2, (size*2)*2, getTexture(playerSmall2Index), new Color(1, 1, 1, -(0.5f - zoom)));
+		hvlDrawQuad((Display.getWidth()/2) - (size*2), (Display.getHeight()/2) - (size*2), (size*2)*2, (size*2)*2, getTexture(playerSmall2Index), new Color(1, 1, 1, -(0.2f - zoom)));
 		hvlResetRotation();
 
 		HvlCamera.doTransform();

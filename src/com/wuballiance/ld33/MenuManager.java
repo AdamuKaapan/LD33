@@ -106,7 +106,7 @@ public class MenuManager {
 		}).setReleasedAction(new HvlAction1<HvlInput>(){
 			@Override
 			public void run(HvlInput aArg){
-				if(HvlMenu.getCurrent() == paused) HvlMenu.setCurrent(game); else if(HvlMenu.getCurrent() == game) HvlMenu.setCurrent(paused);
+				if(Main.getZoom() == 0 || Main.getZoom() == 1) if(HvlMenu.getCurrent() == paused) HvlMenu.setCurrent(game); else if(HvlMenu.getCurrent() == game) HvlMenu.setCurrent(paused);
 			}
 		});
 	}
