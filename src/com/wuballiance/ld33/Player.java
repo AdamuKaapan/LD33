@@ -46,9 +46,11 @@ public class Player {
 				vel.x = 0;
 				vel.y = 0;
 			}
+			
+			pos.add(vel.multNew(delta));
+			
+			Game.activateTile(Game.getMap().toTileX(pos.x), Game.getMap().toTileY(pos.y));
 		}
-		
-		pos.add(vel.multNew(delta));
 	}
 
 	public static void draw(float delta) {
