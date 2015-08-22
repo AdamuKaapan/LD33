@@ -25,7 +25,7 @@ public class Player {
 		
 		if (Mouse.isButtonDown(0) && Game.getState() == State.WINDUP)
 		{
-			HvlCoord dir = new HvlCoord(HvlCursor.getCursorX() - pos.x, HvlCursor.getCursorY() - pos.y).normalize().fixNaN().mult(64.0f);
+			HvlCoord dir = new HvlCoord(HvlCursor.getCursorX() - pos.x, HvlCursor.getCursorY() - pos.y).normalize().fixNaN().mult(96.0f);
 			vel.x = dir.x;
 			vel.y = dir.y;
 			Game.setState(State.MOVING);
@@ -44,6 +44,7 @@ public class Player {
 			
 			if (vel.length() < 12f)
 			{
+				Game.setCurrentTurn(Game.getCurrentTurn() + 1);
 				Game.setState(State.WINDUP);
 				vel.x = 0;
 				vel.y = 0;
@@ -51,7 +52,7 @@ public class Player {
 			
 			pos.add(vel.multNew(delta));
 			
-			Game.activateTile(pos.x, pos.y, radius * 1.0f);
+			Game.activateTile(pos.x, pos.y, radius * 3f);
 		}
 	}
 
