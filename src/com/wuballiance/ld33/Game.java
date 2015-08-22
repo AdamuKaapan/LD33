@@ -31,6 +31,8 @@ public class Game {
 	private static HvlLayeredTileMap map;
 	private static String currentLevel;
 	
+	public static float mapOpacity = 0f;
+	
 	public static void reset() {
 		Player.reset();
 		currentTurn = 0;
@@ -49,6 +51,7 @@ public class Game {
 	}
 	
 	public static void draw(float delta) {
+		for(int i = 0; i < map.getLayerCount(); i++) map.getLayer(i).setOpacity(mapOpacity);
 		map.draw(delta);
 		Player.draw(delta);
 	}

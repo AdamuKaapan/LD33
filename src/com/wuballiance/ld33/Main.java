@@ -3,8 +3,11 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
 
 import org.lwjgl.opengl.Display;
 
+import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
+import com.osreboot.ridhvl.painter.HvlCamera;
+import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 
@@ -35,25 +38,43 @@ public class Main extends HvlTemplateInteg2D {
 		
 		Game.setCurrentLevel("TestMap");
 		Game.initialize();
+		
+		HvlCamera.setAlignment(HvlCameraAlignment.CENTER);
 	}
 
 	@Override
 	public void update(float delta) {
 		playerRotation += delta;
 		
-		drawPlayer(delta);
-		
 		MenuManager.update(delta);
 		HvlMenu.updateMenus(delta);
+		
+		drawPlayer(delta);
 	}
 	
+	private float zoom = 0f, zoomGoal = 0f;
+	public static final float mapFadeThreshold = 0.9f;
+	
 	private void drawPlayer(float delta){
-		hvlRotate(Display.getWidth()/2, Display.getHeight()/2, -playerRotation * 3);
-		hvlDrawQuad((Display.getWidth()/2) - 512, (Display.getHeight()/2) - 512, 1024, 1024, getTexture(player2Index));
+		if(HvlMenu.getCurrent() == MenuManager.game){
+			HvlCamera.setPosition(Player.getX(), Player.getY());
+			zoomGoal = 1f;
+		}else{
+			HvlCamera.setPosition((Display.getWidth()/2), (Display.getHeight()/2));
+			zoomGoal = 0f;
+		}
+		zoom = HvlMath.stepTowards(zoom, delta/2f, zoomGoal);
+		Game.mapOpacity = zoom > mapFadeThreshold ? (zoom - mapFadeThreshold) / (1 - mapFadeThreshold) : 0;
+		
+		HvlCamera.undoTransform();
+		float size = HvlMath.lerp(512, Player.radius, zoom);
+		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), -playerRotation * 3);
+		hvlDrawQuad((Display.getWidth()/2) - size, (Display.getHeight()/2) - size, size*2, size*2, getTexture(player2Index));
 		hvlResetRotation();
-		hvlRotate(Display.getWidth()/2, Display.getHeight()/2, playerRotation * 2);
-		hvlDrawQuad((Display.getWidth()/2) - 512, (Display.getHeight()/2) - 512, 1024, 1024, getTexture(player1Index));
+		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), playerRotation * 2);
+		hvlDrawQuad((Display.getWidth()/2) - size, (Display.getHeight()/2) - size, size*2, size*2, getTexture(player1Index));
 		hvlResetRotation();
+		HvlCamera.doTransform();
 	}
 	
 }
