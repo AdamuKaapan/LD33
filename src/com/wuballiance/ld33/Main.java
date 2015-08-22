@@ -5,7 +5,7 @@ import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 
 public class Main extends HvlTemplateInteg2D {
 
-	public static final int tilesheetIndex = 0;
+	public static final int tilesheetIndex = 0, fontIndex = 1;
 	
 	public static void main(String[] args) {
 		new Main();
@@ -20,6 +20,8 @@ public class Main extends HvlTemplateInteg2D {
 		HvlTilemapCollisionUtil.registerCornerSet(25, 26, 33, 34);
 		
 		getTextureLoader().loadResource("Tilesheet");
+		getTextureLoader().loadResource("Font");
+		
 		Game.setCurrentLevel("TestMap");
 		Game.initialize();
 	}
