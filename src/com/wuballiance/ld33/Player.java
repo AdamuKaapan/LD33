@@ -1,6 +1,7 @@
 package com.wuballiance.ld33;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlCoord;
@@ -31,7 +32,7 @@ public class Player {
 	public static void update(float delta) {
 		if (Game.getState() == State.WINDUP) {
 			if (Mouse.isButtonDown(0)) {
-				if (HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), pos.x, pos.y) < radius) {
+				if (HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2) < radius) {
 					isDragging = true;
 					dragStart = new HvlCoord(HvlCursor.getCursorX(), HvlCursor.getCursorY());
 				}
