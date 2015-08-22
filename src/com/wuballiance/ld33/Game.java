@@ -8,12 +8,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
+import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.particle.HvlParticle;
 import com.osreboot.ridhvl.particle.collection.HvlLinearPositionProvider;
+import com.osreboot.ridhvl.particle.collection.HvlRectanglePositionProvider;
 import com.osreboot.ridhvl.particle.collection.HvlSimpleParticle;
 import com.osreboot.ridhvl.particle.collection.HvlSimpleParticleSystem;
 import com.osreboot.ridhvl.particle.correlation.HvlParticleCorrelator;
@@ -55,6 +58,7 @@ public class Game {
 
 		for (int x = 0; x < map.getLayer(1).getMapWidth(); x++) {
 			for (int y = 0; y < map.getLayer(1).getMapHeight(); y++) {
+
 				if (!map.getLayer(1).isTileInLocation(x, y))
 					continue;
 
@@ -109,10 +113,65 @@ public class Game {
 		for (int i = 0; i < map.getLayerCount(); i++)
 			map.getLayer(i).setOpacity(mapOpacity);
 		map.draw(delta);
+		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 1; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 1; x++) {
+			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 1; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 1; y++) {
+				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(0).getMapHeight() || !map.isTileInLocation(x, y, 0, 1, 2)) {
+					HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(),
+							isTileBlacked(x, y) ? Color.black : Color.white);
+				}
+			}
+		}
 		for (HvlSimpleParticleSystem ps : particles) {
 			ps.draw(delta);
 		}
 		Player.draw(delta);
+	}
+
+	private static boolean isTileBlacked(final int xArg, final int yArg) {
+		int radius = 1;
+
+		class Temp implements Comparable<Temp> {
+			int x, y;
+
+			public Temp(int x, int y) {
+				this.x = x;
+				this.y = y;
+			}
+
+			@Override
+			public int compareTo(Temp o) {
+				return (int) Math.signum(HvlMath.distance(map.toWorldX(x) + (map.getTileWidth() / 2), map.toWorldY(y) + (map.getTileHeight() / 2),
+						map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2))
+						- HvlMath.distance(map.toWorldX(o.x) + (map.getTileWidth() / 2), map.toWorldY(o.y) + (map.getTileHeight() / 2), map.toWorldX(xArg)
+								+ (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)));
+			}
+		}
+		List<Temp> found = new ArrayList<>();
+
+		while (true) {
+			for (int x = -radius; x < radius + 1; x++) {
+				for (int y = -radius; y < radius + 1; y++) {
+					if (xArg + x < 0 || xArg + x >= map.getLayer(0).getMapWidth() || yArg + y < 0 || yArg + y >= map.getLayer(0).getMapHeight())
+						continue;
+
+					if (!map.getLayer(0).isTileInLocation(xArg + x, yArg + y))
+						continue;
+
+					HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(xArg + x, yArg + y);
+					if (t.getTile() == offTile || t.getTile() == onTile)
+						found.add(new Temp(xArg + x, yArg + y));
+				}
+			}
+
+			if (!found.isEmpty()) {
+				Collections.sort(found);
+
+				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(found.get(0).x, found.get(0).y);
+				return t.getTile() == onTile;
+			}
+
+			radius++;
+		}
 	}
 
 	public static State getState() {
@@ -270,8 +329,10 @@ public class Game {
 
 		for (int x = 0; x < map.getLayer(0).getMapWidth(); x++) {
 			for (int y = 0; y < map.getLayer(0).getMapHeight(); y++) {
+				if (!map.isTileInLocation(x, y, 0)) continue;
+				
 				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
-
+				
 				if (t.getTile() == offTile) {
 					win = false;
 					break;
@@ -313,25 +374,44 @@ public class Game {
 		tr.setMaxLifetime(4f);
 		tr.setMinTimeToSpawn(2.5f);
 		tr.setMaxTimeToSpawn(7.5f);
-		tr.addCorrelator(new HvlParticleCorrelator(){
+		tr.addCorrelator(new HvlParticleCorrelator() {
 			{
 				setContinuous(true);
 			}
+
 			@Override
 			public void correlate(HvlParticle in, float delta) {
 				HvlSimpleParticle sp = (HvlSimpleParticle) in;
-				
-				if (HvlMath.distance(Player.getX(), Player.getY(), sp.getX(), sp.getY()) < 128.0f)
-				{
+
+				if (HvlMath.distance(Player.getX(), Player.getY(), sp.getX(), sp.getY()) < 128.0f) {
 					float len = new HvlCoord(sp.getxVel(), sp.getyVel()).length();
-					
+
 					len *= (float) Math.pow(Math.E, 2.5f * delta);
-					
+
 					HvlCoord newDir = new HvlCoord(Player.getX() - sp.getX(), Player.getY() - sp.getY()).normalize().fixNaN().mult(len);
 					sp.setxVel(newDir.x);
 					sp.setyVel(newDir.y);
 				}
-			}});
+			}
+		});
 		return tr;
 	}
+	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
+	// int tileY) {
+	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
+	// map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
+	// new HvlRectanglePositionProvider(0, map.getTileWidth(), 0,
+	// map.getTileHeight()),
+	// HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
+	// tr.setStartColor(new Color(1, 1, 1, 1f));
+	// tr.setEndColor(Color.transparent);
+	// tr.setMinScale(0.8f);
+	// tr.setMaxScale(1.0f);
+	// tr.setParticlesPerSpawn(25);
+	// tr.setMinLifetime(5f);
+	// tr.setMaxLifetime(7f);
+	// tr.setMinTimeToSpawn(5f);
+	// tr.setMaxTimeToSpawn(5f);
+	// return tr;
+	// }
 }
