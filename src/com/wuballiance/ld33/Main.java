@@ -10,6 +10,8 @@ import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.HvlCamera;
+import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraTransformation;
+import com.osreboot.ridhvl.painter.HvlShader;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
@@ -24,6 +26,7 @@ public class Main extends HvlTemplateInteg2D {
 	private float playerRotation = 0;
 	
 	public static HvlRenderFrame frame1;
+	public static HvlShader bloom;
 	
 	public static HvlAnimatedTextureUV collisionAnimation;
 
@@ -54,6 +57,7 @@ public class Main extends HvlTemplateInteg2D {
 		collisionAnimation.setAutoStop(true);
 		
 		frame1 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
+		bloom = new HvlShader(HvlShader.PATH_SHADER_DEFAULT + "bloom" + HvlShader.SUFFIX_FRAGMENT);
 		
 		MenuManager.initialize();
 
@@ -67,10 +71,21 @@ public class Main extends HvlTemplateInteg2D {
 	public void update(float delta) {
 		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth()/2), HvlCamera.getY() - (Display.getHeight()/2), Display.getWidth(), Display.getHeight(), new Color(1, 1, 1, getZoom()));
 		
+		frame1.setX((int)(HvlCamera.getX() - (Display.getWidth()/2)));
+		frame1.setY((int)(HvlCamera.getY() - (Display.getHeight()/2)));
+		HvlRenderFrame.setCurrentRenderFrame(frame1);
+		HvlCamera.doTransformation(HvlCameraTransformation.NEGATIVE);
 		playerRotation += delta;
-
 		MenuManager.update(delta);
 		HvlMenu.updateMenus(delta);
+		HvlCamera.doTransformation(HvlCameraTransformation.UNDONEGATIVE);
+		HvlRenderFrame.setCurrentRenderFrame(null);
+		
+		HvlShader.setCurrentShader(bloom);
+		HvlCamera.undoTransform();
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), frame1);
+		HvlCamera.doTransform();
+		HvlShader.setCurrentShader(null);
 		
 		drawPlayer(delta);
 	}
