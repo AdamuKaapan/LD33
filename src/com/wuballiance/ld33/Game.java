@@ -30,10 +30,46 @@ public class Game {
 	public enum State {
 		MOVING, WINDUP
 	}
+	
+	public static class TileCoord {
+		int x, y;
+
+		public TileCoord(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		@Override
+		public int hashCode() {
+			final int prime = 31;
+			int result = 1;
+			result = prime * result + x;
+			result = prime * result + y;
+			return result;
+		}
+
+		@Override
+		public boolean equals(Object obj) {
+			if (this == obj)
+				return true;
+			if (obj == null)
+				return false;
+			if (getClass() != obj.getClass())
+				return false;
+			TileCoord other = (TileCoord) obj;
+			if (x != other.x)
+				return false;
+			if (y != other.y)
+				return false;
+			return true;
+		}
+	}
 
 	public static final int offTile = 8, onTile = 16, largeExplosionTile = 62, smallExplosionTile = 63;
 
 	public static List<HvlSimpleParticleSystem> particles;
+	
+	private static Map<TileCoord, Float> opacities;
 
 	private static int currentTurn;
 	private static int par;
@@ -54,6 +90,7 @@ public class Game {
 
 	public static void initialize() {
 		particles = new LinkedList<>();
+		opacities = new HashMap<>();
 		map = HvlLayeredTileMap.load(currentLevel, true, 0, 0, 32, 32, HvlTemplateInteg2D.getTexture(Main.tilesheetIndex));
 
 		for (int x = 0; x < map.getLayer(1).getMapWidth(); x++) {
@@ -107,6 +144,11 @@ public class Game {
 	public static void update(float delta) {
 		map.update(delta);
 		Player.update(delta);
+		
+		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet())
+		{
+			entry.setValue(Math.min(1.0f, entry.getValue() + delta * 2));
+		}
 	}
 
 	public static void draw(float delta) {
@@ -116,8 +158,15 @@ public class Game {
 		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 1; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 1; x++) {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 1; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 1; y++) {
 				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(0).getMapHeight() || !map.isTileInLocation(x, y, 0, 1, 2)) {
-					if (isTileBlacked(x, y)) {
-						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), Color.black);
+					float black = isTileBlacked(x, y);
+					
+					if (black >= 0.0f) {
+						if (!opacities.containsKey(new TileCoord(x, y)))
+						{
+							opacities.put(new TileCoord(x, y), -black);
+						}
+						
+						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
 					}
 				}
 			}
@@ -128,26 +177,10 @@ public class Game {
 		Player.draw(delta);
 	}
 
-	private static boolean isTileBlacked(final int xArg, final int yArg) {
+	private static float isTileBlacked(final int xArg, final int yArg) {
 		int radius = 1;
-
-		class Temp implements Comparable<Temp> {
-			int x, y;
-
-			public Temp(int x, int y) {
-				this.x = x;
-				this.y = y;
-			}
-
-			@Override
-			public int compareTo(Temp o) {
-				return (int) Math.signum(HvlMath.distance(map.toWorldX(x) + (map.getTileWidth() / 2), map.toWorldY(y) + (map.getTileHeight() / 2),
-						map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2))
-						- HvlMath.distance(map.toWorldX(o.x) + (map.getTileWidth() / 2), map.toWorldY(o.y) + (map.getTileHeight() / 2), map.toWorldX(xArg)
-								+ (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)));
-			}
-		}
-		List<Temp> found = new ArrayList<>();
+		
+		List<TileCoord> found = new ArrayList<>();
 
 		while (true) {
 			for (int x = -radius; x < radius + 1; x++) {
@@ -160,15 +193,29 @@ public class Game {
 
 					HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(xArg + x, yArg + y);
 					if (t.getTile() == offTile || t.getTile() == onTile)
-						found.add(new Temp(xArg + x, yArg + y));
+						found.add(new TileCoord(xArg + x, yArg + y));
 				}
 			}
 
 			if (!found.isEmpty()) {
-				Collections.sort(found);
+				Collections.sort(found, new Comparator<TileCoord>() {
+
+					@Override
+					public int compare(TileCoord arg0, TileCoord arg1) {
+						return (int) Math.signum(HvlMath.distance(map.toWorldX(arg0.x) + (map.getTileWidth() / 2), map.toWorldY(arg0.y) + (map.getTileHeight() / 2),
+								map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2))
+								- HvlMath.distance(map.toWorldX(arg1.x) + (map.getTileWidth() / 2), map.toWorldY(arg1.y) + (map.getTileHeight() / 2), map.toWorldX(xArg)
+										+ (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)));
+					}});
 
 				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(found.get(0).x, found.get(0).y);
-				return t.getTile() == onTile;
+				if (t.getTile() == onTile)
+				{
+					return HvlMath.distance(map.toWorldX(found.get(0).x) + (map.getTileWidth() / 2), map.toWorldY(found.get(0).y) + (map.getTileHeight() / 2),
+							map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)) / 128.0f;
+				}
+				else
+					return -1.0f;
 			}
 
 			radius++;
