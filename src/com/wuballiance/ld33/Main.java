@@ -6,11 +6,12 @@ import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
-import com.osreboot.ridhvl.loader.HvlTextureSeriesLoader;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.HvlCamera;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
+import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
+import com.osreboot.ridhvl.painter.HvlRenderFrame;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 
@@ -20,6 +21,8 @@ public class Main extends HvlTemplateInteg2D {
 			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7;
 
 	private float playerRotation = 0;
+	
+	public static HvlRenderFrame frame1;
 	
 	public static HvlAnimatedTextureUV collisionAnimation;
 
@@ -45,6 +48,8 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("SpikeAnimation");
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 62, 1);
+		
+		frame1 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
 		
 		MenuManager.initialize();
 
