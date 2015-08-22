@@ -1,9 +1,11 @@
+package com.wuballiance.ld33;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 
-
 public class Main extends HvlTemplateInteg2D {
 
+	public static final int tilesheetIndex = 0;
+	
 	public static void main(String[] args) {
 		new Main();
 	}
@@ -14,12 +16,17 @@ public class Main extends HvlTemplateInteg2D {
 
 	@Override
 	public void initialize() {
-		
+		getTextureLoader().loadResource("Tilesheet");
+		Game.setCurrentLevel("TestMap");
+		Game.initialize();
 	}
 
 	@Override
 	public void update(float delta) {
+		Game.update(delta);
 		
+		Game.draw(delta);
 	}
-
+	
+	
 }
