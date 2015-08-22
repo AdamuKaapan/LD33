@@ -14,12 +14,12 @@ public class Main extends HvlTemplateInteg2D {
 
 	@Override
 	public void initialize() {
-
+		
 	}
 
 	@Override
 	public void update(float delta) {
-
+		
 	}
 
 }
