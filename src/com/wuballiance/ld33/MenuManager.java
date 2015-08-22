@@ -46,7 +46,7 @@ public class MenuManager {
 		defaultArrangerBox.setBorderU(16);
 		defaultArrangerBox.setBorderD(16);
 		HvlComponentDefault.setDefault(defaultArrangerBox);
-		HvlLabeledButton defaultButton = new HvlLabeledButton(512, 64, null, null, font, "woops text", Color.white);
+		HvlLabeledButton defaultButton = new HvlLabeledButton(256, 64, null, null, font, "woops text", Color.white);
 		defaultButton.setTextScale(0.2f);
 		defaultButton.setAlign(0.5f);
 		defaultButton.setDrawOverride(new HvlAction2<HvlComponent, Float>(){
