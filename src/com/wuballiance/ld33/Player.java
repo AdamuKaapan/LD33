@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
+import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.wuballiance.ld33.Game.State;
 
 public class Player {
@@ -57,7 +58,7 @@ public class Player {
 	}
 
 	public static void draw(float delta) {
-		HvlPainter2D.hvlDrawQuad(pos.x - radius, pos.y - radius, 2 * radius, 2 * radius, Color.red);
+		HvlPainter2D.hvlDrawQuad(pos.x - radius, pos.y - radius, 2 * radius, 2 * radius, HvlTemplateInteg2D.getTexture(Main.playerIndex));
 	}
 
 	public static HvlCoord getPos() {
