@@ -190,22 +190,29 @@ public class Game {
 	
 	public static void activateLargeExplosion(float x, float y)
 	{
-		System.out.println("BAM!");
 		int angleSubdivisions = 3;
 		float angleVar = (float) Math.toRadians(30.0f);
 		
-		float angle = (float)Math.atan2(Player.getY() - y, Player.getX() - x);
+		float angle = (float)Math.atan2(y - Player.getY(), x - Player.getX());
 		
 		for (float theta = angle - angleVar; theta <= angle + angleVar; theta += angleVar / angleSubdivisions)
 		{
-			for (int i = 0; i < 3; i++)
+			for (int i = 0; i < 10; i++)
 			{
-				float tX = x + (float) (Math.cos(theta) * (map.getTileWidth() * 0.5f * i));
-				float tY = y + (float) (Math.sin(theta) * (map.getTileHeight() * 0.5f * i));
-				
-				activateSingleTile(map.toTileX(tX), map.toTileY(tY));
+				activateSingleTile(x + (float)(Math.cos(theta) * map.getTileWidth() * i * 0.5f), y + (float)(Math.sin(theta) * map.getTileHeight() * i * 0.5f));
 			}
 		}
+		
+//		for (float theta = angle - angleVar; theta <= angle + angleVar; theta += angleVar / angleSubdivisions)
+//		{			
+//			for (int i = 0; i < 10; i++)
+//			{
+//				float tX = x + (float) (Math.cos(theta) * (map.getTileWidth() * 0.5f * i));
+//				float tY = y + (float) (Math.sin(theta) * (map.getTileHeight() * 0.5f * i));
+//				
+//				activateSingleTile(map.toTileX(tX), map.toTileY(tY));
+//			}
+//		}
 	}
 	
 	public static int getCurrentTurn() {
