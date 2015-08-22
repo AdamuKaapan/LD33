@@ -52,9 +52,9 @@ public class Player {
 			}
 			
 			pos.add(vel.multNew(delta));
-			
-			Game.activateTile(pos.x, pos.y, radius * 3f);
 		}
+		
+		Game.activateTile(pos.x, pos.y, radius * 3f);
 	}
 
 	public static void draw(float delta) {
