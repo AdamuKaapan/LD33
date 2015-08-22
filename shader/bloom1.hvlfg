@@ -1,0 +1,20 @@
+uniform sampler2D texture1;
+
+void main(){
+	float total = 9.0;
+
+	vec4 sum = texture2D(texture1, vec2(gl_TexCoord[0].x, gl_TexCoord[0].y));
+	
+	float blur = 1.0/1280.0;
+	
+	for(float sample = 0.0; sample < total; sample += 1){
+		float value = 1.0 - ((sample/total) * (sample/total));
+		
+		sum += texture2D(texture1, vec2(gl_TexCoord[0].x + sample*blur, gl_TexCoord[0].y)) * value;
+		sum += texture2D(texture1, vec2(gl_TexCoord[0].x - sample*blur, gl_TexCoord[0].y)) * value;
+	}
+	
+	sum /= total/1.0;
+	
+	gl_FragColor = sum*1.4;
+}
