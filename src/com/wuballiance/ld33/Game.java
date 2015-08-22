@@ -134,8 +134,7 @@ public class Game {
 			pos.y = coll.y + (mod.y * 0.001f);
 			
 			toReturn = (float) Math.toDegrees(normal);
-			Player.collisionAnimationPos.x = coll.x;
-			Player.collisionAnimationPos.y = coll.y;
+			Player.collisionAnimationPos = new HvlCoord(coll.x, coll.y);
 		}
 		throw new Exception("Looped too many times.");
 	}
