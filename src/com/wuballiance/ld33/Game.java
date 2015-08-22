@@ -300,19 +300,19 @@ public class Game {
 		float angle = (float) Math.atan2(end.y - start.y, end.x - start.x);
 		angle -= (Math.PI / 2);
 		HvlCoord dir = new HvlCoord((float) Math.cos(angle), (float) Math.sin(angle));
-		tr.setMinXVel(dir.x * 2.0f);
-		tr.setMinYVel(dir.y * 2.0f);
-		tr.setMaxXVel(dir.x * 4.0f);
-		tr.setMaxYVel(dir.y * 4.0f);
-		tr.setStartColor(new Color(1, 1, 1, 0.5f));
+		tr.setMinXVel(dir.x * 4.0f);
+		tr.setMinYVel(dir.y * 4.0f);
+		tr.setMaxXVel(dir.x * 8.0f);
+		tr.setMaxYVel(dir.y * 8.0f);
+		tr.setStartColor(new Color(1, 1, 1, 1f));
 		tr.setEndColor(Color.transparent);
 		tr.setMinScale(0.8f);
 		tr.setMaxScale(1.0f);
 		tr.setParticlesPerSpawn(1);
 		tr.setMinLifetime(2.5f);
 		tr.setMaxLifetime(4f);
-		tr.setMinTimeToSpawn(2.5f);
-		tr.setMaxTimeToSpawn(7.5f);
+		tr.setMinTimeToSpawn(1f);
+		tr.setMaxTimeToSpawn(2.5f);
 		tr.addCorrelator(new HvlParticleCorrelator(){
 			{
 				setContinuous(true);
