@@ -73,7 +73,6 @@ public class Player {
 	}
 
 	public static void draw(float delta) {
-		HvlPainter2D.hvlDrawQuad(pos.x - radius, pos.y - radius, 2 * radius, 2 * radius, HvlTemplateInteg2D.getTexture(Main.playerIndex));
 		
 		if (isDragging)
 		{
