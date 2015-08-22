@@ -116,8 +116,9 @@ public class Game {
 		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 1; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 1; x++) {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 1; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 1; y++) {
 				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(0).getMapHeight() || !map.isTileInLocation(x, y, 0, 1, 2)) {
-					HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(),
-							isTileBlacked(x, y) ? Color.black : Color.white);
+					if (isTileBlacked(x, y)) {
+						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), Color.black);
+					}
 				}
 			}
 		}
@@ -329,10 +330,11 @@ public class Game {
 
 		for (int x = 0; x < map.getLayer(0).getMapWidth(); x++) {
 			for (int y = 0; y < map.getLayer(0).getMapHeight(); y++) {
-				if (!map.isTileInLocation(x, y, 0)) continue;
-				
+				if (!map.isTileInLocation(x, y, 0))
+					continue;
+
 				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
-				
+
 				if (t.getTile() == offTile) {
 					win = false;
 					break;
