@@ -1,7 +1,6 @@
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 
-
 public class Main extends HvlTemplateInteg2D {
 
 	public static void main(String[] args) {
