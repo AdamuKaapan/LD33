@@ -64,6 +64,7 @@ public class Player {
 					Main.collisionAnimation.setRunning(true);
 					collisionAnimationPos = pos.clone();
 					collisionAnimationRot = angle;
+					System.out.println(angle);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -86,7 +87,7 @@ public class Player {
 	public static void draw(float delta) {
 		
 		if(collisionAnimationPos != null){
-			hvlRotate(collisionAnimationPos.x, collisionAnimationPos.y, (float)Math.toDegrees(collisionAnimationRot));
+			hvlRotate(collisionAnimationPos.x, collisionAnimationPos.y, collisionAnimationRot + 90);
 			hvlDrawQuad(collisionAnimationPos.x - 32, collisionAnimationPos.y - 32, 32, 32, Main.collisionAnimation);
 			hvlResetRotation();
 		}
