@@ -10,8 +10,10 @@ import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
+import com.osreboot.ridhvl.tile.HvlTile;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil.LineSegment;
+import com.osreboot.ridhvl.tile.collection.HvlSimpleTile;
 
 public class Game {
 	public enum State
@@ -37,7 +39,6 @@ public class Game {
 	public static void update(float delta) {
 		map.update(delta);
 		Player.update(delta);
-		System.out.println(state);
 	}
 	
 	public static void draw(float delta) {
@@ -120,5 +121,19 @@ public class Game {
 			pos.y = coll.y + (mod.y * 0.001f);
 		}
 		throw new Exception("Looped too many times.");
+	}
+	
+	public static void activateTile(int x, int y)
+	{
+		if (x < 0 || x >= map.getLayer(1).getMapWidth() || y < 0 || y >= map.getLayer(1).getMapHeight()) return;
+		
+		HvlTile tile = map.getLayer(0).getTile(x, y);
+		
+		HvlSimpleTile st = (HvlSimpleTile) tile;
+		
+		if (st.getTile() == 0)
+		{
+			map.getLayer(1).setTile(x, y, new HvlSimpleTile(18));
+		}
 	}
 }
