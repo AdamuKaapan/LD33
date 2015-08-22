@@ -21,7 +21,7 @@ public class Game {
 		MOVING, WINDUP
 	}
 	
-	public static final int offTile = 8, onTile = 16;
+	public static final int offTile = 8, onTile = 16, largeExplosionTile = 62, smallExplosionTile = 63;
 	
 	private static int currentTurn;
 	private static int par;
@@ -146,20 +146,39 @@ public class Game {
 		activateSingleTile(map.toTileX(x - (float) Math.sqrt(2) * radius), map.toTileY(y - (float) Math.sqrt(2) * radius));
 	}
 	
-	private static void activateSingleTile(int x, int y)
+	public static void activateSingleTile(int x, int y)
 	{
 		if (x < 0 || x >= map.getLayer(0).getMapWidth() || y < 0 || y >= map.getLayer(0).getMapHeight()) return;
 		
-		HvlTile tile = map.getLayer(0).getTile(x, y);
+		HvlSimpleTile st0 = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
+		HvlSimpleTile st2 = (HvlSimpleTile) map.getLayer(2).getTile(x, y);
 		
-		HvlSimpleTile st = (HvlSimpleTile) tile;
-		
-		if (st.getTile() == offTile)
+		if (st0 != null && st0.getTile() == offTile)
 		{
 			map.getLayer(0).setTile(x, y, new HvlSimpleTile(onTile));
 		}
+		if (st2 != null && st2.getTile() == smallExplosionTile)
+		{
+			map.getLayer(2).setTile(x, y, null);
+			for (int xI = -2; xI < 3; xI++)
+			{
+				for (int yI = -2; yI < 3; yI++)
+				{
+					activateSingleTile(x + xI, y + yI);
+				}
+			}
+		}
+		if (st2 != null && st2.getTile() == largeExplosionTile)
+		{
+			
+		}
 	}
 
+	public static void activateSmallExplosion(int x, int y)
+	{
+		
+	}
+	
 	public static int getCurrentTurn() {
 		return currentTurn;
 	}
