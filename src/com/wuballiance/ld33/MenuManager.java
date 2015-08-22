@@ -26,7 +26,7 @@ public class MenuManager {
 	
 	public static float textOpacityGoal = 1, textOpacity = 0, menuDecay;
 	
-	public static HvlMenu splash, main, levels, options, game, menuGoal;
+	public static HvlMenu splash, main, levels, options, game, quit, menuGoal;
 	
 	public static HvlFontPainter2D font;
 	
@@ -68,19 +68,26 @@ public class MenuManager {
 			public void update(float delta){
 				Game.update(delta);
 			}
+			@Override
+			public void draw(float delta){
+				Game.draw(delta);
+			}
 		};
+		quit = new HvlMenu();
 		
 		main.add(new HvlArrangerBox.Builder().build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("left in shadow").build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("levels").setClickedCommand(getMenuLink(levels)).build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("options").build());
-		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").build());
+		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(quit)).build());
 		
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
+		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("1").setTextScale(0.1f).setClickedCommand(getMenuLink(game)).build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 		
 		options.add(new HvlArrangerBox.Builder().build());
+		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 		
 		HvlMenu.setCurrent(main);
 	}
@@ -96,6 +103,7 @@ public class MenuManager {
 		if(menuGoal != null){
 			menuDecay += delta;
 			if(menuDecay > 1){
+				if(menuGoal == quit) System.exit(0);
 				HvlMenu.setCurrent(menuGoal);
 				menuDecay = 0;
 				menuGoal = null;
