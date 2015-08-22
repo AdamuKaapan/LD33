@@ -6,7 +6,9 @@ import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
+import com.osreboot.ridhvl.loader.HvlTextureSeriesLoader;
 import com.osreboot.ridhvl.menu.HvlMenu;
+import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.HvlCamera;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
@@ -15,9 +17,11 @@ import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 public class Main extends HvlTemplateInteg2D {
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4,
-			playerSmall2Index = 5, player3Index = 6;
+			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7;
 
 	private float playerRotation = 0;
+	
+	public static HvlAnimatedTextureUV collisionAnimation;
 
 	public static void main(String[] args) {
 		new Main();
@@ -38,7 +42,10 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("PlayerSmall1");
 		getTextureLoader().loadResource("PlayerSmall2");
 		getTextureLoader().loadResource("Player3");
-
+		getTextureLoader().loadResource("SpikeAnimation");
+		
+		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 62, 1);
+		
 		MenuManager.initialize();
 
 		Game.setCurrentLevel("TestMap");

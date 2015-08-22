@@ -75,7 +75,9 @@ public class Game {
 		Game.currentLevel = currentLevel;
 	}
 	
-	public static void applyCollision(float delta, HvlCoord pos, HvlCoord vel, float bounce) throws Exception {
+	public static final float NO_COLLISION = Float.MAX_VALUE;
+	
+	public static float applyCollision(float delta, HvlCoord pos, HvlCoord vel, float bounce) throws Exception {
 		for (int i = 0; i < 100; i++) {
 			List<LineSegment> segs = HvlTilemapCollisionUtil.getAllNearbySides(map, pos.x, pos.y, 1, 1);
 
@@ -89,7 +91,7 @@ public class Game {
 				}
 			}
 			if (colls.isEmpty())
-				return;
+				return NO_COLLISION;
 
 			final HvlCoord tempPos = pos.clone();
 
