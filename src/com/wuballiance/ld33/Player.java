@@ -1,5 +1,7 @@
 package com.wuballiance.ld33;
 
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
+
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -16,6 +18,9 @@ public class Player {
 
 	public static final float velDecay = -0.35f;
 
+	public static HvlCoord collisionAnimationPos = null;
+	public static float collisionAnimationRot;
+	
 	private static HvlCoord pos;
 	private static HvlCoord vel;
 
@@ -53,7 +58,13 @@ public class Player {
 			vel.y *= (float) Math.pow(Math.E, velDecay * delta);
 
 			try {
-				Game.applyCollision(delta, pos, vel, 1.0f);
+				float angle = Game.applyCollision(delta, pos, vel, 1.0f);
+				if(angle != Game.NO_COLLISION){
+					Main.collisionAnimation.reset();
+					Main.collisionAnimation.setRunning(true);
+					collisionAnimationPos = pos.clone();
+					collisionAnimationRot = angle;
+				}
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -73,6 +84,12 @@ public class Player {
 	}
 
 	public static void draw(float delta) {
+		
+		if(collisionAnimationPos != null){
+			hvlRotate(collisionAnimationPos.x, collisionAnimationPos.y, collisionAnimationRot);
+			hvlDrawQuad(collisionAnimationPos.x, collisionAnimationPos.y, 512, 512, Main.collisionAnimation);
+			hvlResetRotation();
+		}
 		
 		if (isDragging)
 		{

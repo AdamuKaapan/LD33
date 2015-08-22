@@ -5,6 +5,7 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlMath;
+import com.osreboot.ridhvl.HvlTimer;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
@@ -36,6 +37,8 @@ public class Main extends HvlTemplateInteg2D {
 
 	@Override
 	public void initialize() {
+		getTimer().setMaxDelta(HvlTimer.MD_TENTH);
+		
 		HvlTilemapCollisionUtil.registerCornerSet(25, 26, 33, 34);
 
 		getTextureLoader().loadResource("Tilesheet");
@@ -47,7 +50,8 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("Player3");
 		getTextureLoader().loadResource("SpikeAnimation");
 		
-		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 62, 1);
+		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
+		collisionAnimation.setAutoStop(true);
 		
 		frame1 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
 		
@@ -65,7 +69,7 @@ public class Main extends HvlTemplateInteg2D {
 
 		MenuManager.update(delta);
 		HvlMenu.updateMenus(delta);
-
+		
 		drawPlayer(delta);
 	}
 
