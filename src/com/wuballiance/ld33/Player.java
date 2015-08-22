@@ -8,7 +8,6 @@ import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
-import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.wuballiance.ld33.Game.State;
 
 public class Player {
@@ -40,7 +39,7 @@ public class Player {
 				if (isDragging && HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), pos.x, pos.y) > radius) {
 					HvlCoord dir = new HvlCoord(dragStart.x - HvlCursor.getCursorX(), dragStart.y - HvlCursor.getCursorY());
 					float oldLen = dir.length();
-					dir.normalize().mult(Math.min(oldLen, 256.0f));
+					dir.normalize().mult(Math.min(oldLen, 128.0f));
 					vel.x = dir.x;
 					vel.y = dir.y;
 					Game.setState(State.MOVING);
@@ -81,7 +80,7 @@ public class Player {
 			float oldLen = dir.length();
 			dir.normalize().fixNaN().mult(Math.min(oldLen, 256.0f));
 			
-			HvlPainter2D.hvlDrawLine(pos.x - dir.x, pos.y - dir.y, pos.x, pos.y, Color.red);
+			HvlPainter2D.hvlDrawLine(pos.x - dir.x, pos.y - dir.y, pos.x, pos.y, Color.gray, 2);
 		}
 	}
 

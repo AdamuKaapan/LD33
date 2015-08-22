@@ -10,7 +10,6 @@ import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.osreboot.ridhvl.tile.HvlLayeredTileMap;
-import com.osreboot.ridhvl.tile.HvlTile;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil.LineSegment;
 import com.osreboot.ridhvl.tile.collection.HvlSimpleTile;
