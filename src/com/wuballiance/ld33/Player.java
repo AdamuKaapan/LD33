@@ -41,7 +41,7 @@ public class Player {
 					dragStart = new HvlCoord(HvlCursor.getCursorX(), HvlCursor.getCursorY());
 				}
 			} else {
-				if (isDragging && HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), pos.x, pos.y) > radius) {
+				if (isDragging && HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2) > radius) {
 					HvlCoord dir = new HvlCoord(dragStart.x - HvlCursor.getCursorX(), dragStart.y - HvlCursor.getCursorY());
 					float oldLen = dir.length();
 					dir.normalize().mult(Math.min(oldLen, 128.0f));
@@ -64,7 +64,6 @@ public class Player {
 					Main.collisionAnimation.setRunning(true);
 					collisionAnimationPos = pos.clone();
 					collisionAnimationRot = angle;
-					System.out.println(angle);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
