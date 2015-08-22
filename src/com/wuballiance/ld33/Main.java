@@ -21,7 +21,7 @@ import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 public class Main extends HvlTemplateInteg2D {
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4,
-			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7;
+			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8;
 
 	private float playerRotation = 0;
 	
@@ -52,6 +52,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("PlayerSmall2");
 		getTextureLoader().loadResource("Player3");
 		getTextureLoader().loadResource("SpikeAnimation");
+		getTextureLoader().loadResource("DarkSpark");
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
