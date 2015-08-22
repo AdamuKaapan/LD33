@@ -117,7 +117,7 @@ public class Game {
 
 			float angle = (float) Math.atan2(pos.y - coll.y, pos.x - coll.x);
 
-			float normal = (float) ((Math.PI / 2) + Math.atan2(seg.end.y - seg.start.y, seg.end.x - seg.start.x) % Math.PI);
+			float normal = (float) ((Math.PI / 2) + Math.atan2(seg.end.y - seg.start.y, seg.end.x - seg.start.x));
 
 			float angleOfReflection = normal - angle;
 
@@ -134,7 +134,8 @@ public class Game {
 			pos.y = coll.y + (mod.y * 0.001f);
 			
 			toReturn = (float) Math.toDegrees(normal);
-			Player.collisionAnimationPos = new HvlCoord(coll.x, coll.y);
+			if (coll != null)
+				Player.collisionAnimationPos = new HvlCoord(coll.x, coll.y);
 		}
 		throw new Exception("Looped too many times.");
 	}
