@@ -64,7 +64,6 @@ public class Player {
 					Main.collisionAnimation.setRunning(true);
 					collisionAnimationPos = pos.clone();
 					collisionAnimationRot = angle;
-					System.out.println(angle);
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
