@@ -78,6 +78,8 @@ public class Game {
 	public static final float NO_COLLISION = Float.MAX_VALUE;
 	
 	public static float applyCollision(float delta, HvlCoord pos, HvlCoord vel, float bounce) throws Exception {
+		float toReturn = NO_COLLISION;
+		
 		for (int i = 0; i < 100; i++) {
 			List<LineSegment> segs = HvlTilemapCollisionUtil.getAllNearbySides(map, pos.x, pos.y, 1, 1);
 
@@ -91,7 +93,7 @@ public class Game {
 				}
 			}
 			if (colls.isEmpty())
-				return NO_COLLISION;
+				return toReturn;
 
 			final HvlCoord tempPos = pos.clone();
 
@@ -130,6 +132,8 @@ public class Game {
 
 			pos.x = coll.x + (mod.x * 0.001f);
 			pos.y = coll.y + (mod.y * 0.001f);
+			
+			toReturn = (float) Math.toDegrees(angle);
 		}
 		throw new Exception("Looped too many times.");
 	}
