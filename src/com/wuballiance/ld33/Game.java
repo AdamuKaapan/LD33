@@ -135,19 +135,22 @@ public class Game {
 	
 	public static void activateTile(float x, float y, float radius)
 	{
-		activateSingleTile(map.toTileX(x), map.toTileY(y));
-		activateSingleTile(map.toTileX(x + radius), map.toTileY(y));
-		activateSingleTile(map.toTileX(x - radius), map.toTileY(y));
-		activateSingleTile(map.toTileX(x), map.toTileY(y + radius));
-		activateSingleTile(map.toTileX(x), map.toTileY(y - radius));
-		activateSingleTile(map.toTileX(x + (float) Math.sqrt(2) * radius), map.toTileY(y + (float) Math.sqrt(2) * radius));
-		activateSingleTile(map.toTileX(x + (float) Math.sqrt(2) * radius), map.toTileY(y - (float) Math.sqrt(2) * radius));
-		activateSingleTile(map.toTileX(x - (float) Math.sqrt(2) * radius), map.toTileY(y + (float) Math.sqrt(2) * radius));
-		activateSingleTile(map.toTileX(x - (float) Math.sqrt(2) * radius), map.toTileY(y - (float) Math.sqrt(2) * radius));
+		activateSingleTile(x, y);
+		activateSingleTile(x + radius, y);
+		activateSingleTile(x - radius, y);
+		activateSingleTile(x, y + radius);
+		activateSingleTile(x, y - radius);
+		activateSingleTile(x + (float) Math.sqrt(2) * radius, y + (float) Math.sqrt(2) * radius);
+		activateSingleTile(x + (float) Math.sqrt(2) * radius, y - (float) Math.sqrt(2) * radius);
+		activateSingleTile(x - (float) Math.sqrt(2) * radius, y + (float) Math.sqrt(2) * radius);
+		activateSingleTile(x - (float) Math.sqrt(2) * radius, y - (float) Math.sqrt(2) * radius);
 	}
 	
-	public static void activateSingleTile(int x, int y)
+	public static void activateSingleTile(float xArg, float yArg)
 	{
+		int x = map.toTileX(xArg);
+		int y = map.toTileY(yArg);
+		
 		if (x < 0 || x >= map.getLayer(0).getMapWidth() || y < 0 || y >= map.getLayer(0).getMapHeight()) return;
 		
 		HvlSimpleTile st0 = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
@@ -160,23 +163,44 @@ public class Game {
 		if (st2 != null && st2.getTile() == smallExplosionTile)
 		{
 			map.getLayer(2).setTile(x, y, null);
-			for (int xI = -2; xI < 3; xI++)
-			{
-				for (int yI = -2; yI < 3; yI++)
-				{
-					activateSingleTile(x + xI, y + yI);
-				}
-			}
+			activateSmallExplosion(x, y);
 		}
 		if (st2 != null && st2.getTile() == largeExplosionTile)
 		{
-			
+			map.getLayer(2).setTile(x, y, null);
+			activateLargeExplosion(xArg, yArg);
 		}
 	}
 
 	public static void activateSmallExplosion(int x, int y)
 	{
+		for (int xI = -2; xI < 3; xI++)
+		{
+			for (int yI = -2; yI < 3; yI++)
+			{
+				activateSingleTile((x + xI) * map.getTileWidth(), (y + yI) * map.getTileHeight());
+			}
+		}
+	}
+	
+	public static void activateLargeExplosion(float x, float y)
+	{
+		System.out.println("BAM!");
+		int angleSubdivisions = 3;
+		float angleVar = (float) Math.toRadians(30.0f);
 		
+		float angle = (float)Math.atan2(Player.getY() - y, Player.getX() - x);
+		
+		for (float theta = angle - angleVar; theta <= angle + angleVar; theta += angleVar / angleSubdivisions)
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				float tX = x + (float) (Math.cos(theta) * (map.getTileWidth() * 0.5f * i));
+				float tY = y + (float) (Math.sin(theta) * (map.getTileHeight() * 0.5f * i));
+				
+				activateSingleTile(map.toTileX(tX), map.toTileY(tY));
+			}
+		}
 	}
 	
 	public static int getCurrentTurn() {
