@@ -14,7 +14,7 @@ import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil.LineSegment;
 import com.osreboot.ridhvl.tile.collection.HvlSimpleTile;
 
-public class Game {
+public class Game {	
 	public enum State
 	{
 		MOVING, WINDUP
@@ -133,7 +133,7 @@ public class Game {
 			pos.x = coll.x + (mod.x * 0.001f);
 			pos.y = coll.y + (mod.y * 0.001f);
 			
-			toReturn = (float) Math.toDegrees(angle);
+			toReturn = (float) Math.toDegrees(normal);
 		}
 		throw new Exception("Looped too many times.");
 	}
