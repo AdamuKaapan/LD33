@@ -25,8 +25,8 @@ public class Main extends HvlTemplateInteg2D {
 
 	private float playerRotation = 0;
 	
-	public static HvlRenderFrame frame1;
-	public static HvlShader bloom;
+	public static HvlRenderFrame frame1, frame2;
+	public static HvlShader bloom1, bloom2;
 	
 	public static HvlAnimatedTextureUV collisionAnimation;
 
@@ -58,7 +58,9 @@ public class Main extends HvlTemplateInteg2D {
 		collisionAnimation.setAutoStop(true);
 		
 		frame1 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
-		bloom = new HvlShader(HvlShader.PATH_SHADER_DEFAULT + "bloom" + HvlShader.SUFFIX_FRAGMENT);
+		frame2 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
+		bloom1 = new HvlShader(HvlShader.PATH_SHADER_DEFAULT + "bloom1" + HvlShader.SUFFIX_FRAGMENT);
+		bloom2 = new HvlShader(HvlShader.PATH_SHADER_DEFAULT + "bloom2" + HvlShader.SUFFIX_FRAGMENT);
 		
 		MenuManager.initialize();
 
@@ -82,11 +84,23 @@ public class Main extends HvlTemplateInteg2D {
 		HvlCamera.doTransformation(HvlCameraTransformation.UNDONEGATIVE);
 		HvlRenderFrame.setCurrentRenderFrame(null);
 		
-		HvlShader.setCurrentShader(bloom);
-		HvlCamera.undoTransform();
+		HvlRenderFrame.setCurrentRenderFrame(frame2);
+		HvlShader.setCurrentShader(bloom1);
+		HvlCamera.doTransformation(HvlCameraTransformation.NEGATIVE);
 		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), frame1);
+		HvlCamera.doTransformation(HvlCameraTransformation.UNDONEGATIVE);
+		HvlShader.setCurrentShader(null);
+		HvlRenderFrame.setCurrentRenderFrame(null);
+		
+		HvlShader.setCurrentShader(bloom2);
+		HvlCamera.undoTransform();
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), frame2);
 		HvlCamera.doTransform();
 		HvlShader.setCurrentShader(null);
+		
+		HvlCamera.doTransformation(HvlCameraTransformation.NEGATIVE);
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), frame1);
+		HvlCamera.doTransformation(HvlCameraTransformation.UNDONEGATIVE);
 		
 		drawPlayer(delta);
 	}

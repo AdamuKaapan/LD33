@@ -87,7 +87,7 @@ public class Player {
 		
 		if(collisionAnimationPos != null){
 			hvlRotate(collisionAnimationPos.x, collisionAnimationPos.y, collisionAnimationRot + 90);
-			hvlDrawQuad(collisionAnimationPos.x - 32, collisionAnimationPos.y - 32, 32, 32, Main.collisionAnimation);
+			hvlDrawQuad(collisionAnimationPos.x - 16, collisionAnimationPos.y - 8, 32, 32, Main.collisionAnimation);
 			hvlResetRotation();
 		}
 		
