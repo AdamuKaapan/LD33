@@ -65,6 +65,8 @@ public class Main extends HvlTemplateInteg2D {
 
 	@Override
 	public void update(float delta) {
+		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth()/2), HvlCamera.getY() - (Display.getHeight()/2), Display.getWidth(), Display.getHeight(), new Color(1, 1, 1, getZoom()));
+		
 		playerRotation += delta;
 
 		MenuManager.update(delta);

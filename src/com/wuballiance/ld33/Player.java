@@ -86,8 +86,8 @@ public class Player {
 	public static void draw(float delta) {
 		
 		if(collisionAnimationPos != null){
-			hvlRotate(collisionAnimationPos.x, collisionAnimationPos.y, collisionAnimationRot);
-			hvlDrawQuad(collisionAnimationPos.x, collisionAnimationPos.y, 512, 512, Main.collisionAnimation);
+			hvlRotate(collisionAnimationPos.x, collisionAnimationPos.y, (float)Math.toDegrees(collisionAnimationRot));
+			hvlDrawQuad(collisionAnimationPos.x - 32, collisionAnimationPos.y - 32, 32, 32, Main.collisionAnimation);
 			hvlResetRotation();
 		}
 		
