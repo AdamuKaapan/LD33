@@ -1,6 +1,7 @@
 package com.wuballiance.ld33;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
+import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 
 public class Main extends HvlTemplateInteg2D {
 
@@ -16,6 +17,8 @@ public class Main extends HvlTemplateInteg2D {
 
 	@Override
 	public void initialize() {
+		HvlTilemapCollisionUtil.registerCornerSet(25, 26, 33, 34);
+		
 		getTextureLoader().loadResource("Tilesheet");
 		Game.setCurrentLevel("TestMap");
 		Game.initialize();

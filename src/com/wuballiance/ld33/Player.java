@@ -9,13 +9,15 @@ import com.wuballiance.ld33.Game.State;
 
 public class Player {
 
-	public static final float velDecay = -0.5f;
+	public static final float radius = 8f;
+	
+	public static final float velDecay = -0.35f;
 	
 	private static HvlCoord pos;
 	private static HvlCoord vel;
 
 	public static void reset() {
-		pos = new HvlCoord(0, 0);
+		pos = new HvlCoord((Game.getMap().getTileWidth() / 2) + 5 * (Game.getMap().getTileWidth()), (Game.getMap().getTileHeight() / 2) + 5 * (Game.getMap().getTileHeight()));
 		vel = new HvlCoord(0, 0);
 	}
 
@@ -49,12 +51,12 @@ public class Player {
 			
 			pos.add(vel.multNew(delta));
 			
-			Game.activateTile(Game.getMap().toTileX(pos.x), Game.getMap().toTileY(pos.y));
+			Game.activateTile(pos.x, pos.y, radius * 1.0f);
 		}
 	}
 
 	public static void draw(float delta) {
-		HvlPainter2D.hvlDrawQuad(pos.x - 8, pos.y - 8, 16, 16, Color.red);
+		HvlPainter2D.hvlDrawQuad(pos.x - radius, pos.y - radius, 2 * radius, 2 * radius, Color.red);
 	}
 
 	public static HvlCoord getPos() {

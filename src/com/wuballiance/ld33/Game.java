@@ -123,17 +123,32 @@ public class Game {
 		throw new Exception("Looped too many times.");
 	}
 	
-	public static void activateTile(int x, int y)
+	public static void activateTile(float x, float y, float radius)
 	{
-		if (x < 0 || x >= map.getLayer(1).getMapWidth() || y < 0 || y >= map.getLayer(1).getMapHeight()) return;
+		activateSingleTile(map.toTileX(x), map.toTileY(y));
+		activateSingleTile(map.toTileX(x + radius), map.toTileY(y));
+		activateSingleTile(map.toTileX(x - radius), map.toTileY(y));
+		activateSingleTile(map.toTileX(x), map.toTileY(y + radius));
+		activateSingleTile(map.toTileX(x), map.toTileY(y - radius));
+		activateSingleTile(map.toTileX(x + (float) Math.sqrt(2) * radius), map.toTileY(y + (float) Math.sqrt(2) * radius));
+		activateSingleTile(map.toTileX(x + (float) Math.sqrt(2) * radius), map.toTileY(y - (float) Math.sqrt(2) * radius));
+		activateSingleTile(map.toTileX(x - (float) Math.sqrt(2) * radius), map.toTileY(y + (float) Math.sqrt(2) * radius));
+		activateSingleTile(map.toTileX(x - (float) Math.sqrt(2) * radius), map.toTileY(y - (float) Math.sqrt(2) * radius));
+	}
+	
+	private static void activateSingleTile(int x, int y)
+	{
+		if (x < 0 || x >= map.getLayer(0).getMapWidth() || y < 0 || y >= map.getLayer(0).getMapHeight()) return;
 		
 		HvlTile tile = map.getLayer(0).getTile(x, y);
 		
 		HvlSimpleTile st = (HvlSimpleTile) tile;
 		
-		if (st.getTile() == 0)
+		System.out.println(st.getTile());
+		
+		if (st.getTile() == 8)
 		{
-			map.getLayer(1).setTile(x, y, new HvlSimpleTile(18));
+			map.getLayer(0).setTile(x, y, new HvlSimpleTile(16));
 		}
 	}
 }
