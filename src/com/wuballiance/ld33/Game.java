@@ -21,6 +21,8 @@ public class Game {
 		MOVING, WINDUP
 	}
 	
+	private static int currentTurn;
+	
 	private static State state;
 	
 	private static HvlLayeredTileMap map;
@@ -28,6 +30,7 @@ public class Game {
 	
 	public static void reset() {
 		Player.reset();
+		currentTurn = 0;
 		state = State.WINDUP;
 	}
 	
@@ -144,11 +147,17 @@ public class Game {
 		
 		HvlSimpleTile st = (HvlSimpleTile) tile;
 		
-		System.out.println(st.getTile());
-		
 		if (st.getTile() == 8)
 		{
 			map.getLayer(0).setTile(x, y, new HvlSimpleTile(16));
 		}
+	}
+
+	public static int getCurrentTurn() {
+		return currentTurn;
+	}
+
+	public static void setCurrentTurn(int currentTurn) {
+		Game.currentTurn = currentTurn;
 	}
 }
