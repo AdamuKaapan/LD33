@@ -14,7 +14,14 @@ public class MenuManager {
 	public static void initialize(){
 		font = new HvlFontPainter2D(HvlTemplateInteg2D.getTexture(Main.fontIndex), HvlFontUtil.SIMPLISTIC, 2048, 2048, 128, 192, 16);
 		
-		
+		main = new HvlMenu();
+		splash = new HvlMenu();
+		game = new HvlMenu(){
+			@Override
+			public void update(float delta){
+				Game.update(delta);
+			}
+		};
 		
 		HvlMenu.setCurrent(main);
 	}
