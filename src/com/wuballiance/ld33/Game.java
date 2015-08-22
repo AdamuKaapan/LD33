@@ -21,7 +21,10 @@ public class Game {
 		MOVING, WINDUP
 	}
 	
+	public static final int offTile = 8, onTile = 16;
+	
 	private static int currentTurn;
+	private static int par;
 	
 	private static State state;
 	
@@ -31,6 +34,7 @@ public class Game {
 	public static void reset() {
 		Player.reset();
 		currentTurn = 0;
+		par = 3;
 		state = State.WINDUP;
 	}
 	
@@ -147,9 +151,9 @@ public class Game {
 		
 		HvlSimpleTile st = (HvlSimpleTile) tile;
 		
-		if (st.getTile() == 8)
+		if (st.getTile() == offTile)
 		{
-			map.getLayer(0).setTile(x, y, new HvlSimpleTile(16));
+			map.getLayer(0).setTile(x, y, new HvlSimpleTile(onTile));
 		}
 	}
 
@@ -159,5 +163,40 @@ public class Game {
 
 	public static void setCurrentTurn(int currentTurn) {
 		Game.currentTurn = currentTurn;
+	}
+	
+	public static void onEndTurn() {
+		boolean win = true;
+		
+		for (int x = 0; x < map.getLayer(0).getMapWidth(); x++)
+		{
+			for (int y = 0; y < map.getLayer(0).getMapHeight(); y++)
+			{
+				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
+				
+				if (t.getTile() == offTile)
+				{
+					win = false;
+					break;
+				}
+			}
+		}
+
+		if (win)
+		{
+			onWin();
+		}
+		else if (Game.currentTurn >= Game.par)
+		{
+			onLose();
+		}
+	}
+	
+	private static void onWin() {
+		System.out.println("Win!");
+	}
+	
+	private static void onLose() {
+		System.out.println("... you failed. Stalemate.");
 	}
 }

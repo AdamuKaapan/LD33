@@ -49,6 +49,7 @@ public class Player {
 				Game.setState(State.WINDUP);
 				vel.x = 0;
 				vel.y = 0;
+				Game.onEndTurn();
 			}
 			
 			pos.add(vel.multNew(delta));
