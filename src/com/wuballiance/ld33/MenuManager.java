@@ -1,6 +1,7 @@
 package com.wuballiance.ld33;
 import java.util.HashMap;
 
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
@@ -8,6 +9,7 @@ import com.osreboot.ridhvl.HvlFontUtil;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.action.HvlAction2;
+import com.osreboot.ridhvl.input.HvlInput;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlComponentDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
@@ -26,7 +28,7 @@ public class MenuManager {
 	
 	public static float textOpacityGoal = 1, textOpacity = 0, menuDecay;
 	
-	public static HvlMenu splash, main, levels, options, game, quit, menuGoal;
+	public static HvlMenu splash, main, levels, options, paused, game, quit, menuGoal;
 	
 	public static HvlFontPainter2D font;
 	
@@ -46,7 +48,7 @@ public class MenuManager {
 		defaultArrangerBox.setBorderU(16);
 		defaultArrangerBox.setBorderD(16);
 		HvlComponentDefault.setDefault(defaultArrangerBox);
-		HvlLabeledButton defaultButton = new HvlLabeledButton(512, 64, null, null, font, "woops text", Color.white);
+		HvlLabeledButton defaultButton = new HvlLabeledButton(256, 64, null, null, font, "woops text", Color.white);
 		defaultButton.setTextScale(0.2f);
 		defaultButton.setAlign(0.5f);
 		defaultButton.setDrawOverride(new HvlAction2<HvlComponent, Float>(){
@@ -73,6 +75,7 @@ public class MenuManager {
 				Game.draw(delta);
 			}
 		};
+		paused = new HvlMenu();
 		quit = new HvlMenu();
 		
 		main.add(new HvlArrangerBox.Builder().build());
@@ -89,7 +92,23 @@ public class MenuManager {
 		options.add(new HvlArrangerBox.Builder().build());
 		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 		
+		paused.add(new HvlArrangerBox.Builder().build());
+		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("paused").build());
+		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getMenuLink(game)).build());
+		
 		HvlMenu.setCurrent(main);
+		
+		new HvlInput(new HvlInput.HvlInputFilter(){
+			@Override
+			public float getCurrentOutput(){
+				return Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) ? 1 : 0;
+			}
+		}).setReleasedAction(new HvlAction1<HvlInput>(){
+			@Override
+			public void run(HvlInput aArg){
+				if(Main.getZoom() == 0 || Main.getZoom() == 1) if(HvlMenu.getCurrent() == paused) HvlMenu.setCurrent(game); else if(HvlMenu.getCurrent() == game) HvlMenu.setCurrent(paused);
+			}
+		});
 	}
 	
 	public static void update(float delta){
@@ -115,7 +134,7 @@ public class MenuManager {
 	
 	public static float getOpacity(HvlComponent component){
 		if(!opacity.containsKey(component)) opacity.put(component, 0f);
-		return Math.min(Math.max(opacity.get(component), Math.min(HvlMenu.getCurrent().getTotalTime()/2f, 0.2f)), 1 - menuDecay);
+		return Math.min(Math.max(opacity.get(component), Math.min(HvlMenu.getCurrent().getTotalTime()/2f, 0.2f)), 1 - menuDecay) - Main.getZoom();
 	}
 	
 	public static HvlAction1<HvlButton> getMenuLink(final HvlMenu menu){
