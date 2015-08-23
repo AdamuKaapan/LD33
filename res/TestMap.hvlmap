@@ -770,6 +770,12 @@ Tile:36
 <com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 7, 6>
 Tile:63
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
+<com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 10, 6>
+Tile:63
+</com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
+<com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 13, 6>
+Tile:63
+</com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
 <com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 13, 9>
 Tile:62
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
