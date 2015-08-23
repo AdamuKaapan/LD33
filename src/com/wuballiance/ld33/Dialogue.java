@@ -7,8 +7,6 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.menu.HvlMenu;
-import com.osreboot.ridhvl.painter.HvlCamera;
-import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraTransformation;
 
 public class Dialogue {
 	
