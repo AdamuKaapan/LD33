@@ -553,7 +553,7 @@ public class Game {
 	}
 
 	public static HvlAnimatedTextureUV getExplosionAnimation() {
-		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.darkenAnimationIndex), 256, 62, 0.02f);
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.explosionAnimationIndex), 512, 62, 0.03f);
 		tr.setAutoStop(true);
 		return tr;
 	}
