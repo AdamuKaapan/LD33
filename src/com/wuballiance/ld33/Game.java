@@ -204,6 +204,7 @@ public class Game {
 			if (!entry.getValue().isRunning()) {
 				Explosion.activateSmallExplosion(entry.getKey().x, entry.getKey().y);
 				trAnim.add(entry.getKey());
+				Game.map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(offTile));
 			}
 		}
 		
@@ -452,7 +453,10 @@ public class Game {
 		if (st2 != null && st2.getTile() == smallExplosionTile) {
 			map.getLayer(2).setTile(x, y, null);
 			if (!explosionAnimations.containsKey(new TileCoord(x, y)))
+			{
 				explosionAnimations.put(new TileCoord(x, y), getExplosionAnimation());
+				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
+			}
 		}
 		if (st2 != null && st2.getTile() == largeExplosionTile) {
 			map.getLayer(2).setTile(x, y, null);
@@ -549,7 +553,7 @@ public class Game {
 	}
 
 	public static float getHealthBar() {
-		return 1.0f - ((float) currentTurn / par);
+		return Math.max(0.0f, 1.0f - ((float) currentTurn / par));
 	}
 
 	public static HvlAnimatedTextureUV getExplosionAnimation() {
