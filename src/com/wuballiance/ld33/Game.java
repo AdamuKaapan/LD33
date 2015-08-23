@@ -71,7 +71,7 @@ public class Game {
 	private static Map<TileCoord, Float> opacities;
 
 	private static Map<Integer, Integer> tileReps;
-	
+
 	private static Map<TileCoord, Integer> tilesReplacedWithBlank;
 
 	private static int currentTurn;
@@ -170,8 +170,7 @@ public class Game {
 		map.update(delta);
 		Player.update(delta);
 
-		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet())
-		{
+		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet()) {
 			entry.setValue(Math.min(1.0f, entry.getValue() + delta * 2));
 		}
 	}
@@ -193,9 +192,9 @@ public class Game {
 
 							HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0,
 									0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
-						
+
 						}
-						}
+					}
 
 					if (map.isTileInLocation(x, y, 1)) {
 						float black = isTileBlacked(x, y);
@@ -207,23 +206,23 @@ public class Game {
 								if (!opacities.containsKey(new TileCoord(x, y))) {
 									opacities.put(new TileCoord(x, y), -black);
 								}
-								
+
 								if (!tilesReplacedWithBlank.containsKey(new TileCoord(x, y)))
 									tilesReplacedWithBlank.put(new TileCoord(x, y), st.getTile());
 
-								float uvX = (float)(tileReps.get(tilesReplacedWithBlank.get(new TileCoord(x, y))) % map.getLayer(1).getInfo().tileWidth) / map.getLayer(1).getInfo().tileWidth;
-								float uvY = (float)(tileReps.get(tilesReplacedWithBlank.get(new TileCoord(x, y))) / map.getLayer(1).getInfo().tileWidth) / map.getLayer(1).getInfo().tileHeight;
-								
+								float uvX = (float) (tileReps.get(tilesReplacedWithBlank.get(new TileCoord(x, y))) % map.getLayer(1).getInfo().tileWidth)
+										/ map.getLayer(1).getInfo().tileWidth;
+								float uvY = (float) (tileReps.get(tilesReplacedWithBlank.get(new TileCoord(x, y))) / map.getLayer(1).getInfo().tileWidth)
+										/ map.getLayer(1).getInfo().tileHeight;
+
 								HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), uvX, uvY,
 										uvX + (1.0f / map.getLayer(1).getInfo().tileWidth), uvY + (1.0f / map.getLayer(1).getInfo().tileHeight),
 										HvlTemplateInteg2D.getTexture(Main.tilesheetIndex),
 										new Color(1, 1, 1, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
-								
-								map.getLayer(1).setTile(x, y, new HvlSimpleTile(0));
+
+//								map.getLayer(1).setTile(x, y, new HvlSimpleTile(0));
 							}
 						}
-
-						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
 					}
 				}
 
@@ -503,18 +502,22 @@ public class Game {
 		return tr;
 	}
 
-//	public static HvlSimpleParticleSystem generateTileParticles(int tileX, int tileY){
-//		HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX * map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
-//				new HvlRectanglePositionProvider(0, map.getTileWidth(), 0, map.getTileHeight()), HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
-//		tr.setStartColor(new Color(1, 1, 1, 1f));
-//		tr.setEndColor(Color.transparent);
-//		tr.setMinScale(0.8f);
-//		tr.setMaxScale(1.0f);
-//		tr.setParticlesPerSpawn(25);
-//		tr.setMinLifetime(5f);
-//		tr.setMaxLifetime(7f);
-//		tr.setMinTimeToSpawn(5f);
-//		tr.setMaxTimeToSpawn(5f);
-//		return tr;
-//	}
+	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
+	// int tileY){
+	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
+	// map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
+	// new HvlRectanglePositionProvider(0, map.getTileWidth(), 0,
+	// map.getTileHeight()),
+	// HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
+	// tr.setStartColor(new Color(1, 1, 1, 1f));
+	// tr.setEndColor(Color.transparent);
+	// tr.setMinScale(0.8f);
+	// tr.setMaxScale(1.0f);
+	// tr.setParticlesPerSpawn(25);
+	// tr.setMinLifetime(5f);
+	// tr.setMaxLifetime(7f);
+	// tr.setMinTimeToSpawn(5f);
+	// tr.setMaxTimeToSpawn(5f);
+	// return tr;
+	// }
 }
