@@ -45,11 +45,11 @@ public class Explosion {
 			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(192f);
 
 			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()
-					+ (Game.getMap().getTileHeight() / 2)), dir, 0.75f));
+					+ (Game.getMap().getTileHeight() / 2)), dir, 0.25f));
 		}
 	}
 
-	public static void activateLargeExplosion(int x, int y, float xVel, float yVel) {
+	public static void activateDirectionalExplosion(int x, int y, float xVel, float yVel) {
 
 		float angle = (float) Math.atan2(yVel, xVel);
 
