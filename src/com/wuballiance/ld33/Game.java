@@ -454,6 +454,7 @@ public class Game {
 			map.getLayer(2).setTile(x, y, null);
 			if (!explosionAnimations.containsKey(new TileCoord(x, y)))
 			{
+				tileCoverAnimations.remove(new TileCoord(x, y));
 				explosionAnimations.put(new TileCoord(x, y), getExplosionAnimation());
 				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
 			}
