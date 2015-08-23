@@ -1,6 +1,7 @@
 package com.wuballiance.ld33;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
@@ -34,7 +35,18 @@ public class Dialogue {
 	public void draw(float delta){
 		if(fade < 5){
 			fade += delta;//TODO multiple lines
-			MenuManager.font.drawWord(words.get(index), (Display.getWidth()/2) - (MenuManager.font.getLineWidth(words.get(index)) * 0.1f), (Display.getHeight()/2), 0.2f, new Color(1, 1, 1, Math.min(fade, 1) - Math.max(0, fade - 4)));
+			ArrayList<String> currentWords = new ArrayList<String>(Arrays.asList(words.get(index).split(" ")));
+			ArrayList<String> currentLines = new ArrayList<String>();
+			currentLines.add("");
+			while(currentWords.size() > 0){
+				if((currentLines.get(currentLines.size() - 1) + " " + currentWords.get(0)).length() < 40){
+					currentLines.set(currentLines.size() - 1, (currentLines.get(currentLines.size() - 1) + " " + currentWords.get(0)));
+				}else{
+					currentLines.add(currentWords.get(0));
+				}
+				currentWords.remove(0);
+			}
+			for(String s : currentLines) MenuManager.font.drawWord(s, (Display.getWidth()/2) - (MenuManager.font.getLineWidth(s) * 0.05f), (Display.getHeight()/2) - (currentLines.size() * 8) + (currentLines.indexOf(s)*32), 0.1f, new Color(1, 1, 1, Math.min(fade, 1) - Math.max(0, fade - 4)));
 		}else{
 			index++;
 			fade = 0;
