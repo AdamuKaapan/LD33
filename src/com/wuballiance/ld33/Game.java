@@ -303,8 +303,8 @@ public class Game {
 					entry.getValue(), new Color(1, 1, 1, mapOpacity));
 		}
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : explosionAnimations.entrySet()) {
-			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
-					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(),
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 2.35f),
+					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 2.35f), 5.6f * map.getTileWidth(), 5.6f * map.getTileHeight(),
 					entry.getValue(), new Color(1, 1, 1, mapOpacity));
 		}
 		for (Explosion exp : explosions) {
@@ -595,7 +595,7 @@ public class Game {
 	}
 
 	public static HvlAnimatedTextureUV getExplosionAnimation() {
-		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.explosionAnimationIndex), 512, 62, 0.03f);
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.explosionAnimationIndex), 512, 126, 0.015f);
 		tr.setAutoStop(true);
 		return tr;
 	}
