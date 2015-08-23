@@ -122,7 +122,12 @@ public class MenuManager {
 		paused.add(new HvlArrangerBox.Builder().build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("paused").build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getMenuLink(game)).build());
-		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(getLevelLink(game, Game.getCurrentLevel())).build());
+		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton a) {
+				Game.reset();
+				menuGoal = game;
+			}}).build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(main)).build());
 
 		HvlMenu.setCurrent(splash);
