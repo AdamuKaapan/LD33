@@ -61,7 +61,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("Logo");
 		getTextureLoader().loadResource("LogoInvert");
 		getTextureLoader().loadResource("DarkenAnimation");
-		getTextureLoader().loadResource("ExplosionAnimation");
+		getTextureLoader().loadResource("Explosion Animation");
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
