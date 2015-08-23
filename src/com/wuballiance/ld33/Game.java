@@ -522,7 +522,7 @@ public class Game {
 		}
 		if (st2 != null && st2.getTile() == largeExplosionTile) {
 			map.getLayer(2).setTile(x, y, null);
-			Explosion.activateLargeExplosion(x, y, xVel, yVel);
+			Explosion.activateDirectionalExplosion(x, y, xVel, yVel);
 		}
 	}
 
