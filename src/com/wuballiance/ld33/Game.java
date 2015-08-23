@@ -30,7 +30,7 @@ public class Game {
 	public enum State {
 		MOVING, WINDUP
 	}
-	
+
 	public static class TileCoord {
 		int x, y;
 
@@ -68,7 +68,7 @@ public class Game {
 	public static final int offTile = 8, onTile = 16, largeExplosionTile = 62, smallExplosionTile = 63;
 
 	public static List<HvlSimpleParticleSystem> particles;
-	
+
 	private static Map<TileCoord, Float> opacities;
 
 	private static int currentTurn;
@@ -139,12 +139,14 @@ public class Game {
 		}
 
 		reset();
+
+		Player.initialize();
 	}
 
 	public static void update(float delta) {
 		map.update(delta);
 		Player.update(delta);
-		
+
 		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet())
 		{
 			entry.setValue(Math.min(1.0f, entry.getValue() + delta * 2));
@@ -159,13 +161,13 @@ public class Game {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 1; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 1; y++) {
 				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(0).getMapHeight() || !map.isTileInLocation(x, y, 0, 1, 2)) {
 					float black = isTileBlacked(x, y);
-					
+
 					if (black >= 0.0f) {
 						if (!opacities.containsKey(new TileCoord(x, y)))
 						{
 							opacities.put(new TileCoord(x, y), -black);
 						}
-						
+
 						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
 					}
 				}
@@ -179,7 +181,7 @@ public class Game {
 
 	private static float isTileBlacked(final int xArg, final int yArg) {
 		int radius = 1;
-		
+
 		List<TileCoord> found = new ArrayList<>();
 
 		while (true) {
@@ -445,22 +447,19 @@ public class Game {
 		});
 		return tr;
 	}
-	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
-	// int tileY) {
-	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
-	// map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
-	// new HvlRectanglePositionProvider(0, map.getTileWidth(), 0,
-	// map.getTileHeight()),
-	// HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
-	// tr.setStartColor(new Color(1, 1, 1, 1f));
-	// tr.setEndColor(Color.transparent);
-	// tr.setMinScale(0.8f);
-	// tr.setMaxScale(1.0f);
-	// tr.setParticlesPerSpawn(25);
-	// tr.setMinLifetime(5f);
-	// tr.setMaxLifetime(7f);
-	// tr.setMinTimeToSpawn(5f);
-	// tr.setMaxTimeToSpawn(5f);
-	// return tr;
-	// }
+
+//	public static HvlSimpleParticleSystem generateTileParticles(int tileX, int tileY){
+//		HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX * map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
+//				new HvlRectanglePositionProvider(0, map.getTileWidth(), 0, map.getTileHeight()), HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
+//		tr.setStartColor(new Color(1, 1, 1, 1f));
+//		tr.setEndColor(Color.transparent);
+//		tr.setMinScale(0.8f);
+//		tr.setMaxScale(1.0f);
+//		tr.setParticlesPerSpawn(25);
+//		tr.setMinLifetime(5f);
+//		tr.setMaxLifetime(7f);
+//		tr.setMinTimeToSpawn(5f);
+//		tr.setMaxTimeToSpawn(5f);
+//		return tr;
+//	}
 }

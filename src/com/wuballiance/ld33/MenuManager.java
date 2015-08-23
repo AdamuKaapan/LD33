@@ -89,7 +89,7 @@ public class MenuManager {
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
 		Dialogue only = new Dialogue(new ArrayList<String>(Arrays.asList("when you look into the abyss, the abyss looks into you", "only in soviet russia")), game);
-		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("1").setTextScale(0.1f).setClickedCommand(getMenuLink(only.getMenu())).build());
+		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("1").setTextScale(0.1f).setClickedCommand(getMenuLink(game)).build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 		
 		options.add(new HvlArrangerBox.Builder().build());
@@ -99,7 +99,7 @@ public class MenuManager {
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("paused").build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getMenuLink(game)).build());
 		
-		HvlMenu.setCurrent(main);
+		HvlMenu.setCurrent(splash);
 		
 		new HvlInput(new HvlInput.HvlInputFilter(){
 			@Override

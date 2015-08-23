@@ -34,7 +34,7 @@ public class Dialogue {
 	public void draw(float delta){
 		if(fade < 5){
 			fade += delta;//TODO multiple lines
-			MenuManager.font.drawWord(words.get(index), (Display.getWidth()/2) - (MenuManager.font.getLineWidth(words.get(index)) * 0.05f), (Display.getHeight()/2), 0.1f, new Color(1, 1, 1, Math.min(fade, 1) - Math.max(0, fade - 4)));
+			MenuManager.font.drawWord(words.get(index), (Display.getWidth()/2) - (MenuManager.font.getLineWidth(words.get(index)) * 0.1f), (Display.getHeight()/2), 0.2f, new Color(1, 1, 1, Math.min(fade, 1) - Math.max(0, fade - 4)));
 		}else{
 			index++;
 			fade = 0;

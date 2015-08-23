@@ -4,6 +4,7 @@ import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
+import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTimer;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
@@ -21,7 +22,8 @@ import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 public class Main extends HvlTemplateInteg2D {
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4,
-			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9;
+			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9,
+			auraIndex = 10, logoIndex = 11, logoInvertIndex = 12;
 
 	private float playerRotation = 0;
 	
@@ -54,6 +56,9 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("SpikeAnimation");
 		getTextureLoader().loadResource("DarkSpark");
 		getTextureLoader().loadResource("PlayerAnimation");
+		getTextureLoader().loadResource("Aura");
+		getTextureLoader().loadResource("Logo");
+		getTextureLoader().loadResource("LogoInvert");
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
@@ -107,37 +112,45 @@ public class Main extends HvlTemplateInteg2D {
 		
 		drawPlayer(delta);
 	}
-
-	private static float zoom = 0f;
-
-	private float zoomGoal = 0f;
+	
 	public static final float maxZoom = 2f, mapFadeThreshold = 1.2f;
+	private static float zoom = maxZoom;
+	private float zoomGoal = maxZoom;
+	
 
 	private void drawPlayer(float delta){
 		if(HvlMenu.getCurrent() == MenuManager.game){
 			HvlCamera.setPosition(Player.getX(), Player.getY());
 			zoomGoal = maxZoom;
+		}else if(HvlMenu.getCurrent() == MenuManager.splash){
+			HvlCamera.setPosition((Display.getWidth()/2), (Display.getHeight()/2));
+			zoomGoal = maxZoom;
+			Splash.draw(delta);
 		}else{
 			HvlCamera.setPosition((Display.getWidth()/2), (Display.getHeight()/2));
 			zoomGoal = 0f;
 		}
+		
+		//if(HvlMenu.getCurrent() == MenuManager.main) hvlDrawQuad((Display.getWidth()/2) - 64, (Display.getHeight()/2) - 64, 128, 128, getTexture(logoInvertIndex), new Color(1, 1, 1, MenuManager.textOpacity));
+		
 		zoom = HvlMath.stepTowards(zoom, delta, zoomGoal);
 		Game.mapOpacity = zoom > mapFadeThreshold ? (zoom - mapFadeThreshold) / (maxZoom - mapFadeThreshold) : 0;
 
 		HvlCamera.undoTransform();
 		float size = HvlMath.lerp(512, Player.radius, Math.min(zoom, 1));
-		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), playerRotation * -4);
-		hvlDrawQuad((Display.getWidth()/2) - size, (Display.getHeight()/2) - size, size*2, size*2, getTexture(player3Index), new Color(1, 1, 1, 1 - zoom - (float)Math.sin(playerRotation)));
+		HvlCoord offset = Splash.getOffset();
+		hvlRotate((Display.getWidth()/2) + offset.x, (Display.getHeight()/2) + offset.y, playerRotation * -4);
+		hvlDrawQuad((Display.getWidth()/2) - size + offset.x, (Display.getHeight()/2) - size + offset.y, size*2, size*2, getTexture(player3Index), new Color(1, 1, 1, 1 - zoom - (float)Math.sin(playerRotation)));
 		hvlResetRotation();
-		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), -playerRotation * 3);
-		hvlDrawQuad((Display.getWidth()/2) - size, (Display.getHeight()/2) - size, size*2, size*2, getTexture(player2Index), new Color(1, 1, 1, 1 - zoom));
+		hvlRotate((Display.getWidth()/2) + offset.x, (Display.getHeight()/2) + offset.y, -playerRotation * 3);
+		hvlDrawQuad((Display.getWidth()/2) - size + offset.x, (Display.getHeight()/2) - size + offset.y, size*2, size*2, getTexture(player2Index), new Color(1, 1, 1, 1 - zoom));
 		hvlResetRotation();
-		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), playerRotation * 2);
-		hvlDrawQuad((Display.getWidth()/2) - size, (Display.getHeight()/2) - size, size*2, size*2, getTexture(player1Index), new Color(1, 1, 1, 1 - zoom));
+		hvlRotate((Display.getWidth()/2) + offset.x, (Display.getHeight()/2) + offset.y, playerRotation * 2);
+		hvlDrawQuad((Display.getWidth()/2) - size + offset.x, (Display.getHeight()/2) - size + offset.y, size*2, size*2, getTexture(player1Index), new Color(1, 1, 1, 1 - zoom));
 		hvlResetRotation();
 
 		float size2 = (size*2.5f);
-		hvlDrawQuad((Display.getWidth()/2) - (size2*2), (Display.getHeight()/2) - (size2*2), (size2*2)*2, (size2*2)*2, playerAnimation, new Color(1, 1, 1, -(0.9f - zoom)));
+		hvlDrawQuad((Display.getWidth()/2) - (size2*2) + offset.x, (Display.getHeight()/2) - (size2*2) + offset.y, (size2*2)*2, (size2*2)*2, playerAnimation, new Color(1, 1, 1, -(0.9f - zoom)));
 
 		HvlCamera.doTransform();
 	}
