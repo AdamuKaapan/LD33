@@ -16,7 +16,6 @@ import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.particle.HvlParticle;
 import com.osreboot.ridhvl.particle.collection.HvlLinearPositionProvider;
-import com.osreboot.ridhvl.particle.collection.HvlRectanglePositionProvider;
 import com.osreboot.ridhvl.particle.collection.HvlSimpleParticle;
 import com.osreboot.ridhvl.particle.collection.HvlSimpleParticleSystem;
 import com.osreboot.ridhvl.particle.correlation.HvlParticleCorrelator;
@@ -30,7 +29,7 @@ public class Game {
 	public enum State {
 		MOVING, WINDUP
 	}
-	
+
 	public static class TileCoord {
 		int x, y;
 
@@ -68,8 +67,12 @@ public class Game {
 	public static final int offTile = 8, onTile = 16, largeExplosionTile = 62, smallExplosionTile = 63;
 
 	public static List<HvlSimpleParticleSystem> particles;
-	
+
 	private static Map<TileCoord, Float> opacities;
+
+	private static Map<Integer, Integer> tileReps;
+	
+	private static Map<TileCoord, Integer> tilesReplacedWithBlank;
 
 	private static int currentTurn;
 	private static int par;
@@ -91,6 +94,26 @@ public class Game {
 	public static void initialize() {
 		particles = new LinkedList<>();
 		opacities = new HashMap<>();
+		tilesReplacedWithBlank = new HashMap<>();
+		tileReps = new HashMap<>();
+		tileReps.put(1, 21);
+		tileReps.put(2, 22);
+		tileReps.put(3, 23);
+		tileReps.put(9, 29);
+		tileReps.put(10, 30);
+		tileReps.put(11, 31);
+		tileReps.put(17, 37);
+		tileReps.put(18, 38);
+		tileReps.put(19, 39);
+		tileReps.put(25, 6);
+		tileReps.put(26, 7);
+		tileReps.put(33, 14);
+		tileReps.put(34, 15);
+		tileReps.put(27, 4);
+		tileReps.put(28, 5);
+		tileReps.put(35, 12);
+		tileReps.put(36, 13);
+
 		map = HvlLayeredTileMap.load(currentLevel, true, 0, 0, 32, 32, HvlTemplateInteg2D.getTexture(Main.tilesheetIndex));
 
 		for (int x = 0; x < map.getLayer(1).getMapWidth(); x++) {
@@ -144,9 +167,8 @@ public class Game {
 	public static void update(float delta) {
 		map.update(delta);
 		Player.update(delta);
-		
-		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet())
-		{
+
+		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet()) {
 			entry.setValue(Math.min(1.0f, entry.getValue() + delta * 2));
 		}
 	}
@@ -157,18 +179,48 @@ public class Game {
 		map.draw(delta);
 		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 1; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 1; x++) {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 1; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 1; y++) {
-				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(0).getMapHeight() || !map.isTileInLocation(x, y, 0, 1, 2)) {
-					float black = isTileBlacked(x, y);
-					
-					if (black >= 0.0f) {
-						if (!opacities.containsKey(new TileCoord(x, y)))
-						{
-							opacities.put(new TileCoord(x, y), -black);
+				if (x >= 0 && y >= 0 && x < map.getLayer(0).getMapWidth() && y < map.getLayer(0).getMapHeight()) {
+					if (!map.isTileInLocation(x, y, 0, 1, 2)) {
+						float black = isTileBlacked(x, y);
+
+						if (black >= 0.0f) {
+							if (!opacities.containsKey(new TileCoord(x, y))) {
+								opacities.put(new TileCoord(x, y), -black);
+							}
+
+							HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0,
+									0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
 						}
-						
-						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
+					}
+
+					if (map.isTileInLocation(x, y, 1)) {
+						float black = isTileBlacked(x, y);
+
+						if (black >= 0.0f) {
+							HvlSimpleTile st = (HvlSimpleTile) map.getLayer(1).getTile(x, y);
+
+							if (tileReps.containsKey(st.getTile()) || tilesReplacedWithBlank.containsKey(new TileCoord(x, y))) {
+								if (!opacities.containsKey(new TileCoord(x, y))) {
+									opacities.put(new TileCoord(x, y), -black);
+								}
+								
+								if (!tilesReplacedWithBlank.containsKey(new TileCoord(x, y)))
+									tilesReplacedWithBlank.put(new TileCoord(x, y), st.getTile());
+
+								float uvX = (float)(tileReps.get(tilesReplacedWithBlank.get(new TileCoord(x, y))) % map.getLayer(1).getInfo().tileWidth) / map.getLayer(1).getInfo().tileWidth;
+								float uvY = (float)(tileReps.get(tilesReplacedWithBlank.get(new TileCoord(x, y))) / map.getLayer(1).getInfo().tileWidth) / map.getLayer(1).getInfo().tileHeight;
+								
+								HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), uvX, uvY,
+										uvX + (1.0f / map.getLayer(1).getInfo().tileWidth), uvY + (1.0f / map.getLayer(1).getInfo().tileHeight),
+										HvlTemplateInteg2D.getTexture(Main.tilesheetIndex),
+										new Color(1, 1, 1, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
+								
+								map.getLayer(1).setTile(x, y, new HvlSimpleTile(0));
+							}
+						}
 					}
 				}
+
 			}
 		}
 		for (HvlSimpleParticleSystem ps : particles) {
@@ -179,7 +231,7 @@ public class Game {
 
 	private static float isTileBlacked(final int xArg, final int yArg) {
 		int radius = 1;
-		
+
 		List<TileCoord> found = new ArrayList<>();
 
 		while (true) {
@@ -202,19 +254,18 @@ public class Game {
 
 					@Override
 					public int compare(TileCoord arg0, TileCoord arg1) {
-						return (int) Math.signum(HvlMath.distance(map.toWorldX(arg0.x) + (map.getTileWidth() / 2), map.toWorldY(arg0.y) + (map.getTileHeight() / 2),
-								map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2))
-								- HvlMath.distance(map.toWorldX(arg1.x) + (map.getTileWidth() / 2), map.toWorldY(arg1.y) + (map.getTileHeight() / 2), map.toWorldX(xArg)
-										+ (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)));
-					}});
+						return (int) Math.signum(HvlMath.distance(map.toWorldX(arg0.x) + (map.getTileWidth() / 2), map.toWorldY(arg0.y)
+								+ (map.getTileHeight() / 2), map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2))
+								- HvlMath.distance(map.toWorldX(arg1.x) + (map.getTileWidth() / 2), map.toWorldY(arg1.y) + (map.getTileHeight() / 2),
+										map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)));
+					}
+				});
 
 				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(found.get(0).x, found.get(0).y);
-				if (t.getTile() == onTile)
-				{
+				if (t.getTile() == onTile) {
 					return HvlMath.distance(map.toWorldX(found.get(0).x) + (map.getTileWidth() / 2), map.toWorldY(found.get(0).y) + (map.getTileHeight() / 2),
 							map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)) / 128.0f;
-				}
-				else
+				} else
 					return -1.0f;
 			}
 
@@ -423,7 +474,7 @@ public class Game {
 		tr.setMaxLifetime(4f);
 		tr.setMinTimeToSpawn(1f);
 		tr.setMaxTimeToSpawn(2.5f);
-		tr.addCorrelator(new HvlParticleCorrelator(){
+		tr.addCorrelator(new HvlParticleCorrelator() {
 			{
 				setContinuous(true);
 			}

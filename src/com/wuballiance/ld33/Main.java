@@ -15,6 +15,7 @@ import com.osreboot.ridhvl.painter.HvlShader;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
 import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
+import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 
@@ -137,7 +138,7 @@ public class Main extends HvlTemplateInteg2D {
 		hvlResetRotation();
 
 		float size2 = (size*2.5f);
-		hvlDrawQuad((Display.getWidth()/2) - (size2*2), (Display.getHeight()/2) - (size2*2), (size2*2)*2, (size2*2)*2, playerAnimation, new Color(1, 1, 1, -(0.9f - zoom)));
+		HvlPainter2D.hvlDrawQuad((Display.getWidth()/2) - (size2*2), (Display.getHeight()/2) - (size2*2), (size2*2)*2, (size2*2)*2, playerAnimation, new Color(1, 1, 1, -(0.9f - zoom)));
 
 		HvlCamera.doTransform();
 	}
