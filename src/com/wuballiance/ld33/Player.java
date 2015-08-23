@@ -18,7 +18,7 @@ public class Player {
 	public static final float radius = 8f;
 
 	public static final float velDecay = -0.5f, velStoppingDecay = -1.2f, velThreshold = 50;
-	public static final float launchSpeed = 2.5f;
+	public static final float launchSpeed = 2f;
 
 	public static HvlCoord collisionAnimationPos = null;
 	public static float collisionAnimationRot;
