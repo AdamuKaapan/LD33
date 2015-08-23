@@ -75,8 +75,8 @@ public class Game {
 
 	private static Map<TileCoord, HvlAnimatedTextureUV> tileCoverAnimations;
 
-	private static int currentTurn;
-	private static int par;
+	public static int currentTurn;
+	public static int par;
 
 	private static State state;
 
@@ -512,6 +512,10 @@ public class Game {
 		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.darkenAnimationIndex), 256, 62, 0.02f);
 		tr.setAutoStop(true);
 		return tr;
+	}
+	
+	public static float getHealthBar() {
+		return 1.0f - ((float) currentTurn / par);
 	}
 
 	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
