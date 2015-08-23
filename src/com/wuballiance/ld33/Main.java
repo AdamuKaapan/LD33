@@ -21,14 +21,14 @@ import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 public class Main extends HvlTemplateInteg2D {
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4,
-			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8;
+			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9;
 
 	private float playerRotation = 0;
 	
 	public static HvlRenderFrame frame1, frame2;
 	public static HvlShader bloom1, bloom2;
 	
-	public static HvlAnimatedTextureUV collisionAnimation;
+	public static HvlAnimatedTextureUV collisionAnimation, playerAnimation;
 
 	public static void main(String[] args) {
 		new Main();
@@ -53,9 +53,12 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("Player3");
 		getTextureLoader().loadResource("SpikeAnimation");
 		getTextureLoader().loadResource("DarkSpark");
+		getTextureLoader().loadResource("PlayerAnimation");
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
+		
+		playerAnimation = new HvlAnimatedTextureUV(getTexture(playerAnimationIndex), 512, 62, 0.02f);
 		
 		frame1 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
 		frame2 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
@@ -133,12 +136,8 @@ public class Main extends HvlTemplateInteg2D {
 		hvlDrawQuad((Display.getWidth()/2) - size, (Display.getHeight()/2) - size, size*2, size*2, getTexture(player1Index), new Color(1, 1, 1, 1 - zoom));
 		hvlResetRotation();
 
-		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), playerRotation * 32);
-		hvlDrawQuad((Display.getWidth()/2) - (size*2), (Display.getHeight()/2) - (size*2), (size*2)*2, (size*2)*2, getTexture(playerSmall1Index), new Color(1, 1, 1, -(0.9f - zoom)));
-		hvlResetRotation();
-		hvlRotate((Display.getWidth()/2), (Display.getHeight()/2), playerRotation * -64);
-		hvlDrawQuad((Display.getWidth()/2) - (size*2), (Display.getHeight()/2) - (size*2), (size*2)*2, (size*2)*2, getTexture(playerSmall2Index), new Color(1, 1, 1, -(0.2f - zoom)));
-		hvlResetRotation();
+		float size2 = (size*2.5f);
+		hvlDrawQuad((Display.getWidth()/2) - (size2*2), (Display.getHeight()/2) - (size2*2), (size2*2)*2, (size2*2)*2, playerAnimation, new Color(1, 1, 1, -(0.9f - zoom)));
 
 		HvlCamera.doTransform();
 	}
