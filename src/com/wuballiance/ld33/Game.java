@@ -74,6 +74,8 @@ public class Game {
 	private static Map<Integer, Integer> tileReps;
 
 	private static Map<TileCoord, HvlAnimatedTextureUV> tileCoverAnimations;
+	
+	private static Map<TileCoord, HvlAnimatedTextureUV> explosionAnimations;
 
 	private static List<Explosion> explosions;
 
@@ -93,6 +95,7 @@ public class Game {
 		particles.clear();
 		opacities.clear();
 		tileCoverAnimations.clear();
+		explosionAnimations.clear();
 		explosions.clear();
 		explosionsToAdd.clear();
 
@@ -155,6 +158,7 @@ public class Game {
 		opacities = new HashMap<>();
 		explosions = new LinkedList<>();
 		tileCoverAnimations = new HashMap<>();
+		explosionAnimations = new HashMap<>();
 		explosionsToAdd = new LinkedList<>();
 		tileReps = new HashMap<>();
 		tileReps.put(1, 21);
@@ -193,19 +197,33 @@ public class Game {
 				map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(onTile));
 			}
 		}
+		
+		List<TileCoord> trAnim = new LinkedList<>();
+		
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : explosionAnimations.entrySet()) {
+			if (!entry.getValue().isRunning()) {
+				Explosion.activateSmallExplosion(entry.getKey().x, entry.getKey().y);
+				trAnim.add(entry.getKey());
+			}
+		}
+		
+		for (TileCoord tr : trAnim)
+		{
+			explosionAnimations.remove(tr);
+		}
 
-		List<Explosion> tr = new LinkedList<>();
+		List<Explosion> trExp = new LinkedList<>();
 
 		for (Explosion exp : explosions) {
 			exp.update(delta);
 			if (exp.shouldBeDeleted)
-				tr.add(exp);
+				trExp.add(exp);
 		}
 		for (Explosion a : explosionsToAdd) {
 			explosions.add(a);
 		}
 		explosionsToAdd.clear();
-		for (Explosion r : tr) {
+		for (Explosion r : trExp) {
 			explosions.remove(r);
 		}
 	}
@@ -257,6 +275,11 @@ public class Game {
 			}
 		}
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
+					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(),
+					entry.getValue(), new Color(1, 1, 1, mapOpacity));
+		}
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : explosionAnimations.entrySet()) {
 			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
 					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(),
 					entry.getValue(), new Color(1, 1, 1, mapOpacity));
@@ -428,7 +451,8 @@ public class Game {
 		}
 		if (st2 != null && st2.getTile() == smallExplosionTile) {
 			map.getLayer(2).setTile(x, y, null);
-			Explosion.activateSmallExplosion(x, y);
+			if (!explosionAnimations.containsKey(new TileCoord(x, y)))
+				explosionAnimations.put(new TileCoord(x, y), getExplosionAnimation());
 		}
 		if (st2 != null && st2.getTile() == largeExplosionTile) {
 			map.getLayer(2).setTile(x, y, null);
@@ -528,6 +552,11 @@ public class Game {
 		return 1.0f - ((float) currentTurn / par);
 	}
 
+	public static HvlAnimatedTextureUV getExplosionAnimation() {
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.explosionAnimationIndex), 512, 62, 0.03f);
+		tr.setAutoStop(true);
+		return tr;
+	}
 	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
 	// int tileY){
 	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
