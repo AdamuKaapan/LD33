@@ -10,13 +10,6 @@ import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
-import com.osreboot.ridhvl.particle.HvlParticle;
-import com.osreboot.ridhvl.particle.HvlParticleSystem;
-import com.osreboot.ridhvl.particle.collection.HvlLinearPositionProvider;
-import com.osreboot.ridhvl.particle.collection.HvlSimpleParticle;
-import com.osreboot.ridhvl.particle.collection.HvlSimpleParticleSystem;
-import com.osreboot.ridhvl.particle.correlation.HvlParticleCorrelator;
-import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.wuballiance.ld33.Game.State;
 
 public class Player {
@@ -34,7 +27,7 @@ public class Player {
 	private static HvlCoord dragStart;
 	private static boolean isDragging;
 
-	private static HvlSimpleParticleSystem particles;
+//	private static HvlSimpleParticleSystem particles;
 
 	public static void initialize(){
 //		particles = new HvlSimpleParticleSystem(pos.x, pos.y, 32, 32, new HvlLinearPositionProvider(0, 0, 0, 0), HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
