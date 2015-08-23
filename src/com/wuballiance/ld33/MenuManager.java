@@ -109,7 +109,7 @@ public class MenuManager {
 						}catch(Exception e){}
 					}
 				}).setX((float)Display.getWidth() - 96).setY((float)Display.getHeight() - 96).build());
-
+		
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
 		//Dialogue only = new Dialogue(new ArrayList<String>(Arrays.asList("when you look into the abyss... the abyss looks into you", "only in soviet russia")), game);
@@ -142,8 +142,14 @@ public class MenuManager {
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("give up").setClickedCommand(getMenuLink(levels)).build());
 		
 		win.add(new HvlArrangerBox.Builder().build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("total eclipse (victory)").build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setText("in " + Game.currentTurn + " shots").build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("total eclipse [victory]").setScale(0.2f).build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabel)component).setText("in " + Game.getCurrentTurn() + " shots");
+				component.draw(delta);
+			}
+		}).build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("replay").setClickedCommand(new HvlAction1<HvlButton>(){
 			@Override
