@@ -162,13 +162,16 @@ public class Game {
 		}
 
 		reset();
+
+		Player.initialize();
 	}
 
 	public static void update(float delta) {
 		map.update(delta);
 		Player.update(delta);
 
-		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet()) {
+		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet())
+		{
 			entry.setValue(Math.min(1.0f, entry.getValue() + delta * 2));
 		}
 	}
@@ -190,8 +193,9 @@ public class Game {
 
 							HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0,
 									0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
+						
 						}
-					}
+						}
 
 					if (map.isTileInLocation(x, y, 1)) {
 						float black = isTileBlacked(x, y);
@@ -218,6 +222,8 @@ public class Game {
 								map.getLayer(1).setTile(x, y, new HvlSimpleTile(0));
 							}
 						}
+
+						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
 					}
 				}
 
@@ -496,22 +502,19 @@ public class Game {
 		});
 		return tr;
 	}
-	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
-	// int tileY) {
-	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
-	// map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
-	// new HvlRectanglePositionProvider(0, map.getTileWidth(), 0,
-	// map.getTileHeight()),
-	// HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
-	// tr.setStartColor(new Color(1, 1, 1, 1f));
-	// tr.setEndColor(Color.transparent);
-	// tr.setMinScale(0.8f);
-	// tr.setMaxScale(1.0f);
-	// tr.setParticlesPerSpawn(25);
-	// tr.setMinLifetime(5f);
-	// tr.setMaxLifetime(7f);
-	// tr.setMinTimeToSpawn(5f);
-	// tr.setMaxTimeToSpawn(5f);
-	// return tr;
-	// }
+
+//	public static HvlSimpleParticleSystem generateTileParticles(int tileX, int tileY){
+//		HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX * map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
+//				new HvlRectanglePositionProvider(0, map.getTileWidth(), 0, map.getTileHeight()), HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
+//		tr.setStartColor(new Color(1, 1, 1, 1f));
+//		tr.setEndColor(Color.transparent);
+//		tr.setMinScale(0.8f);
+//		tr.setMaxScale(1.0f);
+//		tr.setParticlesPerSpawn(25);
+//		tr.setMinLifetime(5f);
+//		tr.setMaxLifetime(7f);
+//		tr.setMinTimeToSpawn(5f);
+//		tr.setMaxTimeToSpawn(5f);
+//		return tr;
+//	}
 }

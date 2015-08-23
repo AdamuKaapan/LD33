@@ -10,6 +10,13 @@ import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
+import com.osreboot.ridhvl.particle.HvlParticle;
+import com.osreboot.ridhvl.particle.HvlParticleSystem;
+import com.osreboot.ridhvl.particle.collection.HvlLinearPositionProvider;
+import com.osreboot.ridhvl.particle.collection.HvlSimpleParticle;
+import com.osreboot.ridhvl.particle.collection.HvlSimpleParticleSystem;
+import com.osreboot.ridhvl.particle.correlation.HvlParticleCorrelator;
+import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.wuballiance.ld33.Game.State;
 
 public class Player {
@@ -20,20 +27,42 @@ public class Player {
 
 	public static HvlCoord collisionAnimationPos = null;
 	public static float collisionAnimationRot;
-	
+
 	private static HvlCoord pos;
 	private static HvlCoord vel;
 
 	private static HvlCoord dragStart;
 	private static boolean isDragging;
 
-	public static void reset() {
+	private static HvlSimpleParticleSystem particles;
+
+	public static void initialize(){
+//		particles = new HvlSimpleParticleSystem(pos.x, pos.y, 32, 32, new HvlLinearPositionProvider(0, 0, 0, 0), HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
+//		particles.setMinXVel(-32f);
+//		particles.setMinYVel(-32f);
+//		particles.setMaxXVel(32f);
+//		particles.setMaxYVel(32f);
+//		particles.setScaleDecay(-1.0f);
+//		particles.setStartColor(new Color(0, 0, 0, 1f));
+//		particles.setEndColor(Color.transparent);
+//		particles.setMinScale(0.8f);
+//		particles.setMaxScale(1.0f);
+//		particles.setMinParticlesPerSpawn(1);
+//		particles.setMaxParticlesPerSpawn(2);
+//		particles.setMinLifetime(3);
+//		particles.setMaxLifetime(4);
+//		particles.setMinTimeToSpawn(0.01f);
+//		particles.setMaxTimeToSpawn(0.1f);
+	}
+
+	public static void reset(){
 		pos = new HvlCoord((Game.getMap().getTileWidth() / 2) + 5 * (Game.getMap().getTileWidth()), (Game.getMap().getTileHeight() / 2) + 5
 				* (Game.getMap().getTileHeight()));
 		vel = new HvlCoord(0, 0);
 	}
 
 	public static void update(float delta) {
+		//particles.setPosition(pos.x, pos.y);
 		if (Game.getState() == State.WINDUP) {
 			if (Mouse.isButtonDown(0)) {
 				if (HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2) < radius) {
@@ -84,19 +113,19 @@ public class Player {
 	}
 
 	public static void draw(float delta) {
-		
+		//particles.draw(delta);
 		if(collisionAnimationPos != null){
 			hvlRotate(collisionAnimationPos.x, collisionAnimationPos.y, collisionAnimationRot + 90);
 			hvlDrawQuad(collisionAnimationPos.x - 16, collisionAnimationPos.y - 8, 32, 32, Main.collisionAnimation);
 			hvlResetRotation();
 		}
-		
+
 		if (isDragging)
 		{
 			HvlCoord dir = new HvlCoord(dragStart.x - HvlCursor.getCursorX(), dragStart.y - HvlCursor.getCursorY());
 			float oldLen = dir.length();
 			dir.normalize().fixNaN().mult(Math.min(oldLen, 256.0f));
-			
+
 			HvlPainter2D.hvlDrawLine(pos.x - dir.x, pos.y - dir.y, pos.x, pos.y, Color.gray, 2);
 		}
 	}
