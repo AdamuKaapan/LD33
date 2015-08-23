@@ -24,7 +24,7 @@ public class Main extends HvlTemplateInteg2D {
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4,
 			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9,
-			auraIndex = 10, logoIndex = 11, logoInvertIndex = 12;
+			auraIndex = 10, logoIndex = 11, logoInvertIndex = 12, darkenAnimationIndex = 13;
 
 	private float playerRotation = 0;
 	
@@ -60,6 +60,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("Aura");
 		getTextureLoader().loadResource("Logo");
 		getTextureLoader().loadResource("LogoInvert");
+		getTextureLoader().loadResource("DarkenAnimation");
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
@@ -77,7 +78,7 @@ public class Main extends HvlTemplateInteg2D {
 	}
 
 	@Override
-	public void update(float delta) {
+	public void update(float delta){
 		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth()/2), HvlCamera.getY() - (Display.getHeight()/2), Display.getWidth(), Display.getHeight(), new Color(1, 1, 1, getZoom()));
 		
 		frame1.setX((int)(HvlCamera.getX() - (Display.getWidth()/2)));
