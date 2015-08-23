@@ -226,7 +226,7 @@ public class Game {
 						}
 
 						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0,
-								Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
+								Math.max(0.0f, opacities.get(new TileCoord(x, y)) * mapOpacity)));
 
 					}
 				}
@@ -249,7 +249,7 @@ public class Game {
 								HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), uvX, uvY,
 										uvX + (1.0f / map.getLayer(1).getInfo().tileWidth), uvY + (1.0f / map.getLayer(1).getInfo().tileHeight),
 										HvlTemplateInteg2D.getTexture(Main.tilesheetIndex),
-										new Color(1, 1, 1, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
+										new Color(1, 1, 1, Math.max(0.0f, opacities.get(new TileCoord(x, y)) * mapOpacity)));
 							}
 						}
 					}
@@ -259,7 +259,7 @@ public class Game {
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
 			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
 					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(),
-					entry.getValue());
+					entry.getValue(), new Color(1, 1, 1, mapOpacity));
 		}
 		for (Explosion exp : explosions) {
 			exp.draw(delta);
