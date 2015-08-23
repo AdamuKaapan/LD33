@@ -71,7 +71,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("Tutorial1");
 		
 		pars = new HashMap<>();
-		pars.put("TestMap", 40);
+		pars.put("TestMap", 30);
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
