@@ -165,7 +165,7 @@ public class Game {
 
 		Player.reset();
 		currentTurn = 0;
-		par = 3;
+		par = Main.levels.get(currentLevel);
 		state = State.WINDUP;
 		Main.resetBar();
 	}

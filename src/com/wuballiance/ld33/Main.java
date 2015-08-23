@@ -1,6 +1,8 @@
 package com.wuballiance.ld33;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
 
+import java.util.Map;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
@@ -21,7 +23,9 @@ import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 
 public class Main extends HvlTemplateInteg2D {
-
+	
+	public static Map<String, Integer> levels;
+	
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4,
 			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9,
 			auraIndex = 10, logoIndex = 11, logoInvertIndex = 12, darkenAnimationIndex = 13, explosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16;
@@ -64,6 +68,8 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("ExplosionAnimation");
 		getTextureLoader().loadResource("DotAnimation");
 		getTextureLoader().loadResource("Tutorial1");
+		
+		levels.put("TestLevel", 4);
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
