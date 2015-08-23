@@ -147,6 +147,15 @@ public class MenuManager {
 			@Override
 			public void run(HvlComponent component, Float delta){
 				((HvlLabel)component).setText("in " + Game.getCurrentTurn() + " shots");
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)));
+				component.draw(delta);
+			}
+		}).build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabel)component).setText("[par " + Main.pars.get(Game.getCurrentLevel()) + "]");
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)));
 				component.draw(delta);
 			}
 		}).build());
