@@ -73,9 +73,6 @@ public class Main extends HvlTemplateInteg2D {
 		
 		MenuManager.initialize();
 
-		Game.setCurrentLevel("TestMap");
-		Game.initialize();
-
 		HvlCamera.setAlignment(HvlCameraAlignment.CENTER);
 	}
 
