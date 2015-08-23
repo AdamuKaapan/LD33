@@ -31,7 +31,7 @@ public class MenuManager {
 
 	public static float textOpacityGoal = 1, textOpacity = 0, menuDecay;
 
-	public static HvlMenu splash, main, levels, options, paused, game, quit, menuGoal;
+	public static HvlMenu splash, main, levels, options, paused, game, quit, menuGoal, win, loss;
 
 	public static HvlFontPainter2D font;
 
@@ -92,6 +92,8 @@ public class MenuManager {
 		};
 		paused = new HvlMenu();
 		quit = new HvlMenu();
+		win = new HvlMenu();
+		loss = new HvlMenu();
 
 		main.add(new HvlArrangerBox.Builder().build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("left in shadow").build());
@@ -128,6 +130,28 @@ public class MenuManager {
 			}}).build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(main)).build());
 
+		loss.add(new HvlArrangerBox.Builder().build());
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("depletion death").build());
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setText("you used all shots").build());
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton a) {
+				Game.reset();
+				menuGoal = game;
+			}}).build());
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("give up").setClickedCommand(getMenuLink(levels)).build());
+		
+		win.add(new HvlArrangerBox.Builder().build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("total eclipse (victory)").build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setText("in " + Game.currentTurn + " shots").build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("replay").setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton a) {
+				Game.reset();
+				menuGoal = game;
+			}}).build());
+		
 		HvlMenu.setCurrent(splash);
 
 		new HvlInput(new HvlInput.HvlInputFilter(){

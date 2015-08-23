@@ -17,7 +17,8 @@ public class Player {
 
 	public static final float radius = 8f;
 
-	public static final float velDecay = -0.35f;
+	public static final float velDecay = -0.5f, velStoppingDecay = -1.2f, velThreshold = 50;
+	public static final float launchSpeed = 2.5f;
 
 	public static HvlCoord collisionAnimationPos = null;
 	public static float collisionAnimationRot;
@@ -28,39 +29,39 @@ public class Player {
 	private static HvlCoord dragStart;
 	private static boolean isDragging;
 
-//	private static HvlSimpleParticleSystem particles;
+	//	private static HvlSimpleParticleSystem particles;
 
 	public static void initialize(){
-//		particles = new HvlSimpleParticleSystem(pos.x, pos.y, 32, 32, new HvlLinearPositionProvider(0, 0, 0, 0), HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
-//		particles.setMinXVel(-32f);
-//		particles.setMinYVel(-32f);
-//		particles.setMaxXVel(32f);
-//		particles.setMaxYVel(32f);
-//		particles.setScaleDecay(-1.0f);
-//		particles.setStartColor(new Color(0, 0, 0, 1f));
-//		particles.setEndColor(Color.transparent);
-//		particles.setMinScale(0.8f);
-//		particles.setMaxScale(1.0f);
-//		particles.setMinParticlesPerSpawn(1);
-//		particles.setMaxParticlesPerSpawn(2);
-//		particles.setMinLifetime(3);
-//		particles.setMaxLifetime(4);
-//		particles.setMinTimeToSpawn(0.01f);
-//		particles.setMaxTimeToSpawn(0.1f);
+		//		particles = new HvlSimpleParticleSystem(pos.x, pos.y, 32, 32, new HvlLinearPositionProvider(0, 0, 0, 0), HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
+		//		particles.setMinXVel(-32f);
+		//		particles.setMinYVel(-32f);
+		//		particles.setMaxXVel(32f);
+		//		particles.setMaxYVel(32f);
+		//		particles.setScaleDecay(-1.0f);
+		//		particles.setStartColor(new Color(0, 0, 0, 1f));
+		//		particles.setEndColor(Color.transparent);
+		//		particles.setMinScale(0.8f);
+		//		particles.setMaxScale(1.0f);
+		//		particles.setMinParticlesPerSpawn(1);
+		//		particles.setMaxParticlesPerSpawn(2);
+		//		particles.setMinLifetime(3);
+		//		particles.setMaxLifetime(4);
+		//		particles.setMinTimeToSpawn(0.01f);
+		//		particles.setMaxTimeToSpawn(0.1f);
 	}
 
 	public static void reset(){
 		int tileX = 5;
 		int tileY = 5;
-		
+
 		for (int x = 0; x < Game.getMap().getLayer(2).getMapWidth(); x++)
 		{
 			for (int y = 0; y < Game.getMap().getLayer(2).getMapHeight(); y++)
 			{
 				if (!Game.getMap().isTileInLocation(x, y, 2)) continue;
-				
+
 				HvlSimpleTile st = (HvlSimpleTile) Game.getMap().getLayer(2).getTile(x, y);
-				
+
 				if (st.getTile() == 56)
 				{
 					tileX = x;
@@ -68,7 +69,7 @@ public class Player {
 				}
 			}
 		}
-		
+
 		pos = new HvlCoord((Game.getMap().getTileWidth() / 2) + tileX * (Game.getMap().getTileWidth()), (Game.getMap().getTileHeight() / 2) + tileY
 				* (Game.getMap().getTileHeight()));
 		vel = new HvlCoord(0, 0);
@@ -83,10 +84,10 @@ public class Player {
 					dragStart = new HvlCoord(HvlCursor.getCursorX(), HvlCursor.getCursorY());
 				}
 			} else {
-				if (isDragging && HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2) > radius) {
+				if (isDragging && HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2) > radius * 2) {
 					HvlCoord dir = new HvlCoord(dragStart.x - HvlCursor.getCursorX(), dragStart.y - HvlCursor.getCursorY());
 					float oldLen = dir.length();
-					dir.normalize().mult(Math.min(oldLen, 128.0f));
+					dir.normalize().mult(Math.min(oldLen, 196.0f) * launchSpeed);
 					vel.x = dir.x;
 					vel.y = dir.y;
 					Game.setState(State.MOVING);
@@ -97,8 +98,8 @@ public class Player {
 		}
 
 		if (Game.getState() == State.MOVING) {
-			vel.x *= (float) Math.pow(Math.E, velDecay * delta);
-			vel.y *= (float) Math.pow(Math.E, velDecay * delta);
+			vel.x *= (float) Math.pow(Math.E, (vel.length() < velThreshold ? velStoppingDecay : velDecay) * delta);
+			vel.y *= (float) Math.pow(Math.E, (vel.length() < velThreshold ? velStoppingDecay : velDecay) * delta);
 
 			try {
 				float angle = Game.applyCollision(delta, pos, vel, 1.0f);
@@ -137,9 +138,16 @@ public class Player {
 		{
 			HvlCoord dir = new HvlCoord(dragStart.x - HvlCursor.getCursorX(), dragStart.y - HvlCursor.getCursorY());
 			float oldLen = dir.length();
-			dir.normalize().fixNaN().mult(Math.min(oldLen, 256.0f));
+			dir.normalize().fixNaN().mult(Math.min(oldLen, 196.0f));
 
-			HvlPainter2D.hvlDrawLine(pos.x - dir.x, pos.y - dir.y, pos.x, pos.y, Color.gray, 2);
+			float distance = HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2);
+			if(distance > radius * 2){
+				HvlCoord startPoint = new HvlCoord(dir.x, dir.y);
+				startPoint.normalize();
+				startPoint.mult(-16);
+				startPoint.add(pos);
+				HvlPainter2D.hvlDrawLine(startPoint.x, startPoint.y, pos.x - dir.x, pos.y - dir.y, Color.gray, 3);
+			}	
 		}
 	}
 
