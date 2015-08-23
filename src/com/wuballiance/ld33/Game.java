@@ -83,6 +83,8 @@ public class Game {
 	public static List<Explosion> explosionsToAdd;
 
 	private static Map<TileCoord, HvlAnimatedTextureUV> dotAnimations;
+	
+	private static Map<TileCoord, HvlAnimatedTextureUV> bombIdleAnimations;
 
 	public static int currentTurn;
 	public static int par;
@@ -99,6 +101,7 @@ public class Game {
 		opacities.clear();
 		tileCoverAnimations.clear();
 		explosionAnimations.clear();
+		bombIdleAnimations.clear();
 		explosions.clear();
 		explosionsToAdd.clear();
 		dotAnimations.clear();
@@ -178,6 +181,7 @@ public class Game {
 		explosionAnimations = new HashMap<>();
 		explosionsToAdd = new LinkedList<>();
 		dotAnimations = new HashMap<>();
+		bombIdleAnimations = new HashMap<>();
 		tileReps = new HashMap<>();
 		tileReps.put(1, 21);
 		tileReps.put(2, 22);
@@ -604,6 +608,12 @@ public class Game {
 
 	public static HvlAnimatedTextureUV getDotAnimation(int frame) {
 		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.dotAnimationIndex), 256, 62, 0.08f);
+		tr.setCurrentFrame(frame % tr.getAnimationLength());
+		return tr;
+	}
+	
+	public static HvlAnimatedTextureUV getSmallBombAnimation(int frame) {
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.smallBombIndex), 256, 62, 0.08f);
 		tr.setCurrentFrame(frame % tr.getAnimationLength());
 		return tr;
 	}
