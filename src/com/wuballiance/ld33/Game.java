@@ -91,31 +91,11 @@ public class Game {
 		par = 3;
 		state = State.WINDUP;
 		Main.resetBar();
-	}
 
-	public static void initialize() {
-		particles = new LinkedList<>();
-		opacities = new HashMap<>();
-		tileCoverAnimations = new HashMap<>();
-		tileReps = new HashMap<>();
-		tileReps.put(1, 21);
-		tileReps.put(2, 22);
-		tileReps.put(3, 23);
-		tileReps.put(9, 29);
-		tileReps.put(10, 30);
-		tileReps.put(11, 31);
-		tileReps.put(17, 37);
-		tileReps.put(18, 38);
-		tileReps.put(19, 39);
-		tileReps.put(25, 6);
-		tileReps.put(26, 7);
-		tileReps.put(33, 14);
-		tileReps.put(34, 15);
-		tileReps.put(27, 4);
-		tileReps.put(28, 5);
-		tileReps.put(35, 12);
-		tileReps.put(36, 13);
-
+		particles.clear();
+		opacities.clear();
+		tileCoverAnimations.clear();
+		
 		map = HvlLayeredTileMap.load(currentLevel, true, 0, 0, 48, 48, HvlTemplateInteg2D.getTexture(Main.tilesheetIndex));
 
 		for (int x = 0; x < map.getLayer(1).getMapWidth(); x++) {
@@ -162,6 +142,35 @@ public class Game {
 				}
 			}
 		}
+		
+		Player.reset();
+		currentTurn = 0;
+		par = 3;
+		state = State.WINDUP;
+	}
+
+	public static void initialize() {
+		particles = new LinkedList<>();
+		opacities = new HashMap<>();
+		tileCoverAnimations = new HashMap<>();
+		tileReps = new HashMap<>();
+		tileReps.put(1, 21);
+		tileReps.put(2, 22);
+		tileReps.put(3, 23);
+		tileReps.put(9, 29);
+		tileReps.put(10, 30);
+		tileReps.put(11, 31);
+		tileReps.put(17, 37);
+		tileReps.put(18, 38);
+		tileReps.put(19, 39);
+		tileReps.put(25, 6);
+		tileReps.put(26, 7);
+		tileReps.put(33, 14);
+		tileReps.put(34, 15);
+		tileReps.put(27, 4);
+		tileReps.put(28, 5);
+		tileReps.put(35, 12);
+		tileReps.put(36, 13);
 
 		reset();
 
