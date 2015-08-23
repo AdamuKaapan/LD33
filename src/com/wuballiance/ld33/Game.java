@@ -13,6 +13,7 @@ import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
+import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.particle.HvlParticle;
@@ -535,11 +536,12 @@ public class Game {
 	}
 
 	private static void onWin() {
-		System.out.println("Win!");
+		HvlMenu.setCurrent(MenuManager.win);
+		
 	}
 
 	private static void onLose() {
-		System.out.println("... you failed. Stalemate.");
+		HvlMenu.setCurrent(MenuManager.loss);
 	}
 
 	public static HvlSimpleParticleSystem generateWallParticles(HvlCoord start, HvlCoord end) {
