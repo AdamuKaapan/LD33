@@ -130,8 +130,6 @@ public class Main extends HvlTemplateInteg2D {
 			zoomGoal = 0f;
 		}
 		
-		//if(HvlMenu.getCurrent() == MenuManager.main) hvlDrawQuad((Display.getWidth()/2) - 64, (Display.getHeight()/2) - 64, 128, 128, getTexture(logoInvertIndex), new Color(1, 1, 1, MenuManager.textOpacity));
-		
 		zoom = HvlMath.stepTowards(zoom, delta, zoomGoal);
 		Game.mapOpacity = zoom > mapFadeThreshold ? (zoom - mapFadeThreshold) / (maxZoom - mapFadeThreshold) : 0;
 

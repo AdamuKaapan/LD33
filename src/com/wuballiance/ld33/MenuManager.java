@@ -122,6 +122,7 @@ public class MenuManager {
 		paused.add(new HvlArrangerBox.Builder().build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("paused").build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getMenuLink(game)).build());
+		//paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getLevelLink(only.getMenu(), game.)).build());
 
 		HvlMenu.setCurrent(splash);
 

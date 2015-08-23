@@ -16,5 +16,8 @@ void main(){
 	
 	sum /= total/1.4;
 	
-	gl_FragColor = vec4(sum.r, sum.g, sum.b, (sum.a + texture2D(texture1, gl_TexCoord[0].xy).a)*0.5);
+	float negate = distance(gl_TexCoord[0].xy, vec2(0.5, 0.5));
+	negate = pow(negate, 2);
+	
+	gl_FragColor = (sum*0.8) + vec4(0, 0, 0, negate*1.2);
 }

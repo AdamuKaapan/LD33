@@ -115,7 +115,7 @@ public class Game {
 		tileReps.put(35, 12);
 		tileReps.put(36, 13);
 
-		map = HvlLayeredTileMap.load(currentLevel, true, 0, 0, 32, 32, HvlTemplateInteg2D.getTexture(Main.tilesheetIndex));
+		map = HvlLayeredTileMap.load(currentLevel, true, 0, 0, 48, 48, HvlTemplateInteg2D.getTexture(Main.tilesheetIndex));
 
 		for (int x = 0; x < map.getLayer(1).getMapWidth(); x++) {
 			for (int y = 0; y < map.getLayer(1).getMapHeight(); y++) {
@@ -230,7 +230,7 @@ public class Game {
 		}
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
 			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
-					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.7f * map.getTileWidth(), 2.7f * map.getTileHeight(), entry.getValue());
+					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(), entry.getValue());
 		}
 
 		for (HvlSimpleParticleSystem ps : particles) {
