@@ -165,6 +165,19 @@ public class Game {
 				}
 			}
 		}
+		
+		for (int x = 0; x < map.getLayer(2).getMapWidth(); x++) {
+			for (int y = 0; y < map.getLayer(2).getMapHeight(); y++) {
+				if (!map.getLayer(2).isTileInLocation(x, y))
+					continue;
+				
+				HvlSimpleTile st = (HvlSimpleTile) map.getLayer(2).getTile(x, y);
+				if (st.getTile() == 62)
+				{
+					bombIdleAnimations.put(new TileCoord(x, y), getSmallBombAnimation());
+				}
+			}
+		}
 
 		Player.reset();
 		currentTurn = 0;
@@ -308,6 +321,11 @@ public class Game {
 					entry.getValue(), new Color(1, 1, 1, mapOpacity));
 		}
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : explosionAnimations.entrySet()) {
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 2.35f),
+					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 2.35f), 5.6f * map.getTileWidth(), 5.6f * map.getTileHeight(),
+					entry.getValue(), new Color(1, 1, 1, mapOpacity));
+		}
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : bombIdleAnimations.entrySet()) {
 			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 2.35f),
 					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 2.35f), 5.6f * map.getTileWidth(), 5.6f * map.getTileHeight(),
 					entry.getValue(), new Color(1, 1, 1, mapOpacity));
@@ -612,9 +630,8 @@ public class Game {
 		return tr;
 	}
 	
-	public static HvlAnimatedTextureUV getSmallBombAnimation(int frame) {
-		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.smallBombIndex), 256, 62, 0.08f);
-		tr.setCurrentFrame(frame % tr.getAnimationLength());
+	public static HvlAnimatedTextureUV getSmallBombAnimation() {
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.smallBombIndex), 256, 62, 0.04f);
 		return tr;
 	}
 
