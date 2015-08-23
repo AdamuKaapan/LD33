@@ -74,12 +74,14 @@ public class Game {
 	private static Map<Integer, Integer> tileReps;
 
 	private static Map<TileCoord, HvlAnimatedTextureUV> tileCoverAnimations;
-	
+
 	private static Map<TileCoord, HvlAnimatedTextureUV> explosionAnimations;
 
 	private static List<Explosion> explosions;
 
 	public static List<Explosion> explosionsToAdd;
+
+	private static Map<TileCoord, HvlAnimatedTextureUV> dotAnimations;
 
 	public static int currentTurn;
 	public static int par;
@@ -98,6 +100,7 @@ public class Game {
 		explosionAnimations.clear();
 		explosions.clear();
 		explosionsToAdd.clear();
+		dotAnimations.clear();
 
 		map = HvlLayeredTileMap.load(currentLevel, true, 0, 0, 48, 48, HvlTemplateInteg2D.getTexture(Main.tilesheetIndex));
 
@@ -146,6 +149,19 @@ public class Game {
 			}
 		}
 
+		for (int x = 0; x < map.getLayer(0).getMapWidth(); x++) {
+			for (int y = 0; y < map.getLayer(0).getMapHeight(); y++) {
+				if (!map.getLayer(0).isTileInLocation(x, y))
+					continue;
+				
+				HvlSimpleTile st = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
+				if (st.getTile() == offTile)
+				{
+					dotAnimations.put(new TileCoord(x, y), getDotAnimation(x * 2 + y * 2));
+				}
+			}
+		}
+
 		Player.reset();
 		currentTurn = 0;
 		par = 3;
@@ -160,6 +176,7 @@ public class Game {
 		tileCoverAnimations = new HashMap<>();
 		explosionAnimations = new HashMap<>();
 		explosionsToAdd = new LinkedList<>();
+		dotAnimations = new HashMap<>();
 		tileReps = new HashMap<>();
 		tileReps.put(1, 21);
 		tileReps.put(2, 22);
@@ -197,9 +214,9 @@ public class Game {
 				map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(onTile));
 			}
 		}
-		
+
 		List<TileCoord> trAnim = new LinkedList<>();
-		
+
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : explosionAnimations.entrySet()) {
 			if (!entry.getValue().isRunning()) {
 				Explosion.activateSmallExplosion(entry.getKey().x, entry.getKey().y);
@@ -207,9 +224,8 @@ public class Game {
 				Game.map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(offTile));
 			}
 		}
-		
-		for (TileCoord tr : trAnim)
-		{
+
+		for (TileCoord tr : trAnim) {
 			explosionAnimations.remove(tr);
 		}
 
@@ -274,6 +290,11 @@ public class Game {
 					}
 				}
 			}
+		}
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : dotAnimations.entrySet()) {
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth() * 0.5f),
+					entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (map.getTileHeight() * 0.5f), 1f * map.getTileWidth(), 1f * map.getTileHeight(),
+					entry.getValue(), new Color(1, 1, 1, mapOpacity));
 		}
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
 			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
@@ -449,11 +470,12 @@ public class Game {
 		if (st0 != null && st0.getTile() == offTile) {
 			if (!tileCoverAnimations.containsKey(new TileCoord(x, y)))
 				tileCoverAnimations.put(new TileCoord(x, y), getTileCoverParticles());
+			
+			dotAnimations.remove(new TileCoord(x, y));
 		}
 		if (st2 != null && st2.getTile() == smallExplosionTile) {
 			map.getLayer(2).setTile(x, y, null);
-			if (!explosionAnimations.containsKey(new TileCoord(x, y)))
-			{
+			if (!explosionAnimations.containsKey(new TileCoord(x, y))) {
 				tileCoverAnimations.remove(new TileCoord(x, y));
 				explosionAnimations.put(new TileCoord(x, y), getExplosionAnimation());
 				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
@@ -562,6 +584,13 @@ public class Game {
 		tr.setAutoStop(true);
 		return tr;
 	}
+
+	public static HvlAnimatedTextureUV getDotAnimation(int frame) {
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.dotAnimationIndex), 256, 62, 0.08f);
+		tr.setCurrentFrame(frame % tr.getAnimationLength());
+		return tr;
+	}
+
 	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
 	// int tileY){
 	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
