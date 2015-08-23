@@ -1,17 +1,12 @@
 package com.wuballiance.ld33;
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
-
 import java.awt.Desktop;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.Color;
 
-import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlFontUtil;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction1;
@@ -26,7 +21,6 @@ import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
-import com.osreboot.ridhvl.painter.HvlCamera;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 

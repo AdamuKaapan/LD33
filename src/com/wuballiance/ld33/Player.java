@@ -10,6 +10,7 @@ import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
+import com.osreboot.ridhvl.tile.collection.HvlSimpleTile;
 import com.wuballiance.ld33.Game.State;
 
 public class Player {
@@ -49,7 +50,26 @@ public class Player {
 	}
 
 	public static void reset(){
-		pos = new HvlCoord((Game.getMap().getTileWidth() / 2) + 5 * (Game.getMap().getTileWidth()), (Game.getMap().getTileHeight() / 2) + 5
+		int tileX = 5;
+		int tileY = 5;
+		
+		for (int x = 0; x < Game.getMap().getLayer(2).getMapWidth(); x++)
+		{
+			for (int y = 0; y < Game.getMap().getLayer(2).getMapHeight(); y++)
+			{
+				if (!Game.getMap().isTileInLocation(x, y, 2)) continue;
+				
+				HvlSimpleTile st = (HvlSimpleTile) Game.getMap().getLayer(2).getTile(x, y);
+				
+				if (st.getTile() == 56)
+				{
+					tileX = x;
+					tileY = y;
+				}
+			}
+		}
+		
+		pos = new HvlCoord((Game.getMap().getTileWidth() / 2) + tileX * (Game.getMap().getTileWidth()), (Game.getMap().getTileHeight() / 2) + tileY
 				* (Game.getMap().getTileHeight()));
 		vel = new HvlCoord(0, 0);
 	}
@@ -70,6 +90,7 @@ public class Player {
 					vel.x = dir.x;
 					vel.y = dir.y;
 					Game.setState(State.MOVING);
+					Game.setCurrentTurn(Game.getCurrentTurn() + 1);
 				}
 				isDragging = false;
 			}
@@ -92,7 +113,6 @@ public class Player {
 			}
 
 			if (vel.length() < 12f) {
-				Game.setCurrentTurn(Game.getCurrentTurn() + 1);
 				Game.setState(State.WINDUP);
 				vel.x = 0;
 				vel.y = 0;
