@@ -90,6 +90,7 @@ public class Game {
 		currentTurn = 0;
 		par = 3;
 		state = State.WINDUP;
+		Main.resetBar();
 	}
 
 	public static void initialize() {
