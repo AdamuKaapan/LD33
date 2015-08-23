@@ -623,11 +623,10 @@ public class Game {
 		switch (type)
 		{
 		case 40:
-			HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3, map.getTileHeight() * 2, HvlTemplateInteg2D.getTexture(Main.tutorial1Index), new Color(1, 1, 1, Main.getZoom()));
+			//HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3, map.getTileHeight() * 2, HvlTemplateInteg2D.getTexture(Main.tutorial1Index), new Color(1, 1, 1, Main.getZoom()));
 			break;
 		case 41:
-			HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3, map.getTileHeight() * 2, HvlTemplateInteg2D.getTexture(Main.tutorial1Index), new Color(1, 1, 1, Main.getZoom()));
-			MenuManager.font.drawWord("click and hold", x, y, 0.2f, Color.black);
+			MenuManager.font.drawWord("click and hold", x + (map.getTileWidth()/2) - (MenuManager.font.getLineWidth("click and hold")*0.2f*0.5f), y + (map.getTileHeight()/2), 0.2f, new Color(1, 1, 1, Main.getZoom()));
 			break;
 		}
 	}

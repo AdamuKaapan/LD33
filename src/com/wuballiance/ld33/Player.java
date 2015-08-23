@@ -146,7 +146,7 @@ public class Player {
 				startPoint.normalize();
 				startPoint.mult(-16);
 				startPoint.add(pos);
-				HvlPainter2D.hvlDrawLine(startPoint.x, startPoint.y, pos.x - dir.x, pos.y - dir.y, Color.gray, 3);
+				HvlPainter2D.hvlDrawLine(startPoint.x, startPoint.y, pos.x - dir.x, pos.y - dir.y, new Color(0.4f, 0.4f, 0.4f, 1), 3);
 			}	
 		}
 	}
