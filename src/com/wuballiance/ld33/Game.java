@@ -218,7 +218,7 @@ public class Game {
 
 							if (tileReps.containsKey(st.getTile()) || tilesReplacedWithBlank.containsKey(new TileCoord(x, y))) {
 								if (!opacities.containsKey(new TileCoord(x, y))) {
-									opacities.put(new TileCoord(x, y), -black);
+									opacities.put(new TileCoord(x, y), -black + 1.5f);
 								}
 
 								if (!tilesReplacedWithBlank.containsKey(new TileCoord(x, y)))
@@ -285,7 +285,7 @@ public class Game {
 				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(found.get(0).x, found.get(0).y);
 				if (t.getTile() == onTile) {
 					return HvlMath.distance(map.toWorldX(found.get(0).x) + (map.getTileWidth() / 2), map.toWorldY(found.get(0).y) + (map.getTileHeight() / 2),
-							map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)) * 0.001f;
+							map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)) / 128.0f;
 				} else
 					return -1.0f;
 			}
