@@ -32,7 +32,7 @@ public class Dialogue {
 
 	public void draw(float delta){
 		if(fade < 5){
-			fade += delta;//TODO multiple lines
+			fade += delta;
 			ArrayList<String> currentWords = new ArrayList<String>(Arrays.asList(words.get(index).split(" ")));
 			ArrayList<String> currentLines = new ArrayList<String>();
 			currentLines.add("");
