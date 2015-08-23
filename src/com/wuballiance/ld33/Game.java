@@ -157,7 +157,7 @@ public class Game {
 			for (int y = 0; y < map.getLayer(0).getMapHeight(); y++) {
 				if (!map.getLayer(0).isTileInLocation(x, y))
 					continue;
-				
+
 				HvlSimpleTile st = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
 				if (st.getTile() == offTile)
 				{
@@ -343,9 +343,9 @@ public class Game {
 			for (int y = 0; y < map.getLayer(2).getMapHeight(); y++)
 			{
 				if (!map.isTileInLocation(x, y, 2)) continue;
-				
+
 				HvlSimpleTile st = (HvlSimpleTile) map.getLayer(2).getTile(x, y);
-				
+
 				if (st.getTile() >= 40 && st.getTile() < 56)
 				{
 					specialDraw(x * map.getTileWidth(), y * map.getTileHeight(), st.getTile());
@@ -508,7 +508,7 @@ public class Game {
 		if (st0 != null && st0.getTile() == offTile) {
 			if (!tileCoverAnimations.containsKey(new TileCoord(x, y)))
 				tileCoverAnimations.put(new TileCoord(x, y), getTileCoverParticles());
-			
+
 			dotAnimations.remove(new TileCoord(x, y));
 		}
 		if (st2 != null && st2.getTile() == smallExplosionTile) {
@@ -559,7 +559,7 @@ public class Game {
 
 	private static void onWin() {
 		HvlMenu.setCurrent(MenuManager.win);
-		
+
 	}
 
 	private static void onLose() {
@@ -640,11 +640,14 @@ public class Game {
 		switch (type)
 		{
 		case 40:
-			HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3, map.getTileHeight() * 2, HvlTemplateInteg2D.getTexture(Main.tutorial1Index), new Color(1, 1, 1, Main.getZoom()));
+			//HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3, map.getTileHeight() * 2, HvlTemplateInteg2D.getTexture(Main.tutorial1Index), new Color(1, 1, 1, Main.getZoom()));
+			break;
+		case 41:
+			MenuManager.font.drawWord("click and hold", x + (map.getTileWidth()/2) - (MenuManager.font.getLineWidth("click and hold")*0.2f*0.5f), y + (map.getTileHeight()/2), 0.2f, new Color(1, 1, 1, Main.getZoom()));
 			break;
 		}
 	}
-	
+
 	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
 	// int tileY){
 	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
