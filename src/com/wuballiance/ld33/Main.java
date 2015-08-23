@@ -1,6 +1,7 @@
 package com.wuballiance.ld33;
 import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.lwjgl.opengl.Display;
@@ -24,7 +25,7 @@ import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 
 public class Main extends HvlTemplateInteg2D {
 	
-	public static Map<String, Integer> levels;
+	public static Map<String, Integer> pars;
 	
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4,
 			playerSmall2Index = 5, player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9,
@@ -69,7 +70,8 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("DotAnimation");
 		getTextureLoader().loadResource("Tutorial1");
 		
-		levels.put("TestLevel", 4);
+		pars = new HashMap<>();
+		pars.put("TestLevel", 4);
 		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
