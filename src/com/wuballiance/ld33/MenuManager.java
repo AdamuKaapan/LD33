@@ -113,7 +113,7 @@ public class MenuManager {
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
 		//Dialogue only = new Dialogue(new ArrayList<String>(Arrays.asList("when you look into the abyss... the abyss looks into you", "only in soviet russia")), game);
-		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("1").setTextScale(0.1f).setClickedCommand(getLevelLink(game, "TestMap")).build());
+		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("1").setTextScale(0.15f).setClickedCommand(getLevelLink(game, "TestMap")).build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		options.add(new HvlArrangerBox.Builder().build());
@@ -132,7 +132,13 @@ public class MenuManager {
 
 		loss.add(new HvlArrangerBox.Builder().build());
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("depletion death").build());
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setText("you used all shots").build());
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.15f).setText("you used all shots").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
+				component.draw(delta);
+			}
+		}).build());
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>(){
 			@Override
 			public void run(HvlButton a) {
@@ -143,19 +149,19 @@ public class MenuManager {
 		
 		win.add(new HvlArrangerBox.Builder().build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("total eclipse [victory]").setScale(0.2f).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.15f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
 				((HvlLabel)component).setText("in " + Game.getCurrentTurn() + " shots");
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)));
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
 				component.draw(delta);
 			}
 		}).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.15f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
 				((HvlLabel)component).setText("[par " + Main.pars.get(Game.getCurrentLevel()) + "]");
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)));
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
 				component.draw(delta);
 			}
 		}).build());
