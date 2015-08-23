@@ -611,7 +611,7 @@ public class Game {
 		switch (type)
 		{
 		case 40:
-			HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3, map.getTileHeight() * 2, HvlTemplateInteg2D.getTexture(Main.tutorial1Index));
+			HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3, map.getTileHeight() * 2, HvlTemplateInteg2D.getTexture(Main.tutorial1Index), new Color(1, 1, 1, Main.getZoom()));
 			break;
 		}
 	}
