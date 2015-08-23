@@ -47,7 +47,7 @@ public class Main extends HvlTemplateInteg2D {
 		
 		HvlTilemapCollisionUtil.registerCornerSet(25, 26, 33, 34);
 
-		getTextureLoader().loadResource("Tilesheet");
+		getTextureLoader().loadResource("TilesheetBlur");
 		getTextureLoader().loadResource("Font");
 		getTextureLoader().loadResource("Player1");
 		getTextureLoader().loadResource("Player2");

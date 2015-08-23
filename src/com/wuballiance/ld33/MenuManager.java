@@ -163,7 +163,7 @@ public class MenuManager {
 
 	public static float getOpacity(HvlComponent component){
 		if(!opacity.containsKey(component)) opacity.put(component, 0f);
-		return Math.min(Math.max(opacity.get(component), Math.min(HvlMenu.getCurrent().getTotalTime()/2f, 0.6f)), 1 - menuDecay) - (float)Math.pow(Main.getZoom(), 0.2f);
+		return Math.min(Math.max(opacity.get(component), Math.min(HvlMenu.getCurrent().getTotalTime()/2f, 0.5f)), 1 - menuDecay) - (float)Math.pow(Main.getZoom(), 0.2f);
 	}
 
 	public static HvlAction1<HvlButton> getMenuLink(final HvlMenu menu){

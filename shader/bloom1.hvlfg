@@ -1,7 +1,7 @@
 uniform sampler2D texture1;
 
 void main(){
-	float total = 9.0;
+	float total = 7.0;
 
 	vec4 sum = texture2D(texture1, vec2(gl_TexCoord[0].x, gl_TexCoord[0].y));
 	
@@ -14,7 +14,7 @@ void main(){
 		sum += texture2D(texture1, vec2(gl_TexCoord[0].x - sample*blur, gl_TexCoord[0].y)) * value;
 	}
 	
-	sum /= total/1.0;
+	sum /= total/1.45;
 	
-	gl_FragColor = sum*1.2;
+	gl_FragColor = vec4(sum.r, sum.g, sum.b, (sum.a + texture2D(texture1, gl_TexCoord[0].xy).a)*0.5);
 }
