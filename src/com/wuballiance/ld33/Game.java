@@ -74,6 +74,8 @@ public class Game {
 	private static Map<Integer, Integer> tileReps;
 
 	private static Map<TileCoord, HvlAnimatedTextureUV> tileCoverAnimations;
+	
+	private static List<Explosion> explosions;
 
 	public static int currentTurn;
 	public static int par;
@@ -90,6 +92,7 @@ public class Game {
 		particles.clear();
 		opacities.clear();
 		tileCoverAnimations.clear();
+		explosions.clear();
 		
 		map = HvlLayeredTileMap.load(currentLevel, true, 0, 0, 48, 48, HvlTemplateInteg2D.getTexture(Main.tilesheetIndex));
 
@@ -147,6 +150,7 @@ public class Game {
 	public static void initialize() {
 		particles = new LinkedList<>();
 		opacities = new HashMap<>();
+		explosions = new LinkedList<>();
 		tileCoverAnimations = new HashMap<>();
 		tileReps = new HashMap<>();
 		tileReps.put(1, 21);
@@ -184,6 +188,19 @@ public class Game {
 			if (!entry.getValue().isRunning()) {
 				map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(onTile));
 			}
+		}
+		
+		List<Explosion> tr = new LinkedList<>();
+		
+		for (Explosion exp : explosions)
+		{
+			exp.update(delta);
+			if (exp.shouldBeDeleted)
+				tr.add(exp);
+		}
+		for (Explosion r : tr)
+		{
+			explosions.remove(r);
 		}
 	}
 
@@ -236,6 +253,9 @@ public class Game {
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
 			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
 					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(), entry.getValue());
+		}
+		for (Explosion exp : explosions) {
+			exp.draw(delta);
 		}
 
 		for (HvlSimpleParticleSystem ps : particles) {
@@ -374,18 +394,18 @@ public class Game {
 	}
 
 	public static void activateTile(float x, float y, float radius) {
-		activateSingleTile(x, y);
-		activateSingleTile(x + radius, y);
-		activateSingleTile(x - radius, y);
-		activateSingleTile(x, y + radius);
-		activateSingleTile(x, y - radius);
-		activateSingleTile(x + (float) Math.sqrt(2) * radius, y + (float) Math.sqrt(2) * radius);
-		activateSingleTile(x + (float) Math.sqrt(2) * radius, y - (float) Math.sqrt(2) * radius);
-		activateSingleTile(x - (float) Math.sqrt(2) * radius, y + (float) Math.sqrt(2) * radius);
-		activateSingleTile(x - (float) Math.sqrt(2) * radius, y - (float) Math.sqrt(2) * radius);
+		activateSingleTile(x, y, Player.getXVel(), Player.getYVel(), true);
+		activateSingleTile(x + radius, y, Player.getXVel(), Player.getYVel(), true);
+		activateSingleTile(x - radius, y, Player.getXVel(), Player.getYVel(), true);
+		activateSingleTile(x, y + radius, Player.getXVel(), Player.getYVel(), true);
+		activateSingleTile(x, y - radius, Player.getXVel(), Player.getYVel(), true);
+		activateSingleTile(x + (float) Math.sqrt(2) * radius, y + (float) Math.sqrt(2) * radius, Player.getXVel(), Player.getYVel(), true);
+		activateSingleTile(x + (float) Math.sqrt(2) * radius, y - (float) Math.sqrt(2) * radius, Player.getXVel(), Player.getYVel(), true);
+		activateSingleTile(x - (float) Math.sqrt(2) * radius, y + (float) Math.sqrt(2) * radius, Player.getXVel(), Player.getYVel(), true);
+		activateSingleTile(x - (float) Math.sqrt(2) * radius, y - (float) Math.sqrt(2) * radius, Player.getXVel(), Player.getYVel(), true);
 	}
 
-	public static void activateSingleTile(float xArg, float yArg) {
+	public static void activateSingleTile(float xArg, float yArg, float xVel, float yVel, boolean hasVel) {
 		int x = map.toTileX(xArg);
 		int y = map.toTileY(yArg);
 
@@ -405,19 +425,25 @@ public class Game {
 		}
 		if (st2 != null && st2.getTile() == largeExplosionTile) {
 			map.getLayer(2).setTile(x, y, null);
-			activateLargeExplosion(xArg, yArg);
+			activateLargeExplosion(xArg, yArg, xVel, yVel, hasVel);
 		}
 	}
 
 	public static void activateSmallExplosion(int x, int y) {
-		for (int xI = -2; xI < 3; xI++) {
-			for (int yI = -2; yI < 3; yI++) {
-				activateSingleTile((x + xI) * map.getTileWidth(), (y + yI) * map.getTileHeight());
-			}
+//		for (int xI = -2; xI < 3; xI++) {
+//			for (int yI = -2; yI < 3; yI++) {
+//				activateSingleTile((x + xI) * map.getTileWidth(), (y + yI) * map.getTileHeight(), 0, 0, false);
+//			}
+//		}
+		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 4)
+		{
+			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(256f);
+			
+			explosions.add(new Explosion(new HvlCoord(x * map.getTileWidth() + (map.getTileWidth() / 2), y * map.getTileHeight() + (map.getTileHeight() / 2)), dir, 0.5f));
 		}
 	}
 
-	public static void activateLargeExplosion(float x, float y) {
+	public static void activateLargeExplosion(float x, float y, float xVel, float yVel, boolean hasVel) {
 		int angleSubdivisions = 3;
 		float angleVar = (float) Math.toRadians(30.0f);
 
@@ -426,7 +452,7 @@ public class Game {
 		for (float theta = angle - angleVar; theta <= angle + angleVar; theta += angleVar / angleSubdivisions) {
 			for (int i = 0; i < 10; i++) {
 				activateSingleTile(x + (float) (Math.cos(theta) * map.getTileWidth() * i * 0.5f), y
-						+ (float) (Math.sin(theta) * map.getTileHeight() * i * 0.5f));
+						+ (float) (Math.sin(theta) * map.getTileHeight() * i * 0.5f), xVel, yVel, hasVel);
 			}
 		}
 	}
