@@ -298,7 +298,7 @@ public class Game {
 	public static String getCurrentLevel() {
 		return currentLevel;
 	}
-
+	
 	public static void setCurrentLevel(String currentLevel) {
 		Game.currentLevel = currentLevel;
 	}
