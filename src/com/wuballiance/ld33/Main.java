@@ -73,8 +73,8 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("SmallBombAnimation");
 
 		pars = new HashMap<>();
-		pars.put("TestMap", 4);
-
+		pars.put("TestMap", 30);
+		
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
 
