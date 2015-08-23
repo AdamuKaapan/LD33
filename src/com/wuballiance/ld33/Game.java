@@ -73,8 +73,6 @@ public class Game {
 
 	private static Map<Integer, Integer> tileReps;
 
-	private static Map<TileCoord, Integer> tilesReplacedWithBlank;
-
 	private static Map<TileCoord, HvlAnimatedTextureUV> tileCoverAnimations;
 
 	private static int currentTurn;
@@ -97,7 +95,6 @@ public class Game {
 	public static void initialize() {
 		particles = new LinkedList<>();
 		opacities = new HashMap<>();
-		tilesReplacedWithBlank = new HashMap<>();
 		tileCoverAnimations = new HashMap<>();
 		tileReps = new HashMap<>();
 		tileReps.put(1, 21);
@@ -177,13 +174,9 @@ public class Game {
 		for (Map.Entry<TileCoord, Float> entry : opacities.entrySet()) {
 			entry.setValue(Math.min(1.0f, entry.getValue() + delta * 2));
 		}
-		
-		List<TileCoord> tr = new LinkedList<>();
-		
-		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet())
-		{
-			if (!entry.getValue().isRunning())
-			{
+
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
+			if (!entry.getValue().isRunning()) {
 				map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(onTile));
 			}
 		}
@@ -193,41 +186,37 @@ public class Game {
 		for (int i = 0; i < map.getLayerCount(); i++)
 			map.getLayer(i).setOpacity(mapOpacity);
 		map.draw(delta);
-		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 1; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 1; x++) {
-			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 1; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 1; y++) {
-				if (x >= 0 && y >= 0 && x < map.getLayer(0).getMapWidth() && y < map.getLayer(0).getMapHeight()) {
-					if (!map.isTileInLocation(x, y, 0, 1, 2)) {
-						float black = isTileBlacked(x, y);
+		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 5; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 5; x++) {
+			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 5; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 5; y++) {
 
-						if (black >= 0.0f) {
-							if (!opacities.containsKey(new TileCoord(x, y))) {
-								opacities.put(new TileCoord(x, y), -black);
-							}
+				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(1).getMapHeight() || !map.isTileInLocation(x, y, 0, 1, 2)) {
+					float black = isTileBlacked(x, y);
 
-							HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0,
-									0, Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
-
+					if (black >= 0.0f) {
+						if (!opacities.containsKey(new TileCoord(x, y))) {
+							opacities.put(new TileCoord(x, y), -black + 1f);
 						}
-					}
 
+						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0,
+								Math.max(0.0f, opacities.get(new TileCoord(x, y)))));
+
+					}
+				}
+
+				if (x >= 0 && y >= 0 && x < map.getLayer(0).getMapWidth() && y >= 0 && y < map.getLayer(0).getMapHeight()) {
 					if (map.isTileInLocation(x, y, 1)) {
 						float black = isTileBlacked(x, y);
 
 						if (black >= 0.0f) {
 							HvlSimpleTile st = (HvlSimpleTile) map.getLayer(1).getTile(x, y);
 
-							if (tileReps.containsKey(st.getTile()) || tilesReplacedWithBlank.containsKey(new TileCoord(x, y))) {
+							if (tileReps.containsKey(st.getTile())) {
 								if (!opacities.containsKey(new TileCoord(x, y))) {
-									opacities.put(new TileCoord(x, y), -black + 1.5f);
+									opacities.put(new TileCoord(x, y), -black + 1f);
 								}
 
-								if (!tilesReplacedWithBlank.containsKey(new TileCoord(x, y)))
-									tilesReplacedWithBlank.put(new TileCoord(x, y), st.getTile());
-
-								float uvX = (float) (tileReps.get(tilesReplacedWithBlank.get(new TileCoord(x, y))) % map.getLayer(1).getInfo().tileWidth)
-										/ map.getLayer(1).getInfo().tileWidth;
-								float uvY = (float) (tileReps.get(tilesReplacedWithBlank.get(new TileCoord(x, y))) / map.getLayer(1).getInfo().tileWidth)
-										/ map.getLayer(1).getInfo().tileHeight;
+								float uvX = (float) (tileReps.get(st.getTile()) % map.getLayer(1).getInfo().tileWidth) / map.getLayer(1).getInfo().tileWidth;
+								float uvY = (float) (tileReps.get(st.getTile()) / map.getLayer(1).getInfo().tileWidth) / map.getLayer(1).getInfo().tileHeight;
 
 								HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), uvX, uvY,
 										uvX + (1.0f / map.getLayer(1).getInfo().tileWidth), uvY + (1.0f / map.getLayer(1).getInfo().tileHeight),
@@ -239,11 +228,11 @@ public class Game {
 				}
 			}
 		}
-		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet())
-		{
-			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (2f * map.getTileWidth() / 2), entry.getKey().y * map.getTileHeight() - (2f * map.getTileHeight() / 2), 3 * map.getTileWidth(), 3 * map.getTileHeight(), entry.getValue());
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
+					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.7f * map.getTileWidth(), 2.7f * map.getTileHeight(), entry.getValue());
 		}
-		
+
 		for (HvlSimpleParticleSystem ps : particles) {
 			ps.draw(delta);
 		}
