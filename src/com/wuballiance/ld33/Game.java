@@ -249,11 +249,12 @@ public class Game {
 	public static void draw(float delta) {
 		for (int i = 0; i < map.getLayerCount(); i++)
 			map.getLayer(i).setOpacity(mapOpacity);
+
 		map.draw(delta);
 		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 5; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 5; x++) {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 5; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 5; y++) {
 
-				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(1).getMapHeight() || !map.isTileInLocation(x, y, 0, 1, 2)) {
+				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(1).getMapHeight() || !map.isTileInLocation(x, y, 0, 1)) {
 					float black = isTileBlacked(x, y);
 
 					if (black >= 0.0f) {
@@ -315,6 +316,20 @@ public class Game {
 			ps.draw(delta);
 		}
 		Player.draw(delta);
+		for (int x = 0; x < map.getLayer(2).getMapWidth(); x++)
+		{
+			for (int y = 0; y < map.getLayer(2).getMapHeight(); y++)
+			{
+				if (!map.isTileInLocation(x, y, 2)) continue;
+				
+				HvlSimpleTile st = (HvlSimpleTile) map.getLayer(2).getTile(x, y);
+				
+				if (st.getTile() >= 40 && st.getTile() < 56)
+				{
+					specialDraw(x * map.getTileWidth(), y * map.getTileHeight(), st.getTile());
+				}
+			}
+		}
 	}
 
 	private static float isTileBlacked(final int xArg, final int yArg) {
@@ -593,6 +608,16 @@ public class Game {
 		return tr;
 	}
 
+	public static void specialDraw(float x, float y, int type)
+	{
+		switch (type)
+		{
+		case 40:
+			HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3, map.getTileHeight() * 2, HvlTemplateInteg2D.getTexture(Main.tutorial1Index), new Color(1, 1, 1, Main.getZoom()));
+			break;
+		}
+	}
+	
 	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
 	// int tileY){
 	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
