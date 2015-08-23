@@ -88,12 +88,6 @@ public class Game {
 	public static float mapOpacity = 0f;
 
 	public static void reset() {
-		Player.reset();
-		currentTurn = 0;
-		par = 3;
-		state = State.WINDUP;
-		Main.resetBar();
-
 		particles.clear();
 		opacities.clear();
 		tileCoverAnimations.clear();
@@ -150,6 +144,7 @@ public class Game {
 		currentTurn = 0;
 		par = 3;
 		state = State.WINDUP;
+		Main.resetBar();
 	}
 
 	public static void initialize() {

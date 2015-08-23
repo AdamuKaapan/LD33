@@ -70,6 +70,7 @@ public class Player {
 					vel.x = dir.x;
 					vel.y = dir.y;
 					Game.setState(State.MOVING);
+					Game.setCurrentTurn(Game.getCurrentTurn() + 1);
 				}
 				isDragging = false;
 			}
@@ -92,7 +93,6 @@ public class Player {
 			}
 
 			if (vel.length() < 12f) {
-				Game.setCurrentTurn(Game.getCurrentTurn() + 1);
 				Game.setState(State.WINDUP);
 				vel.x = 0;
 				vel.y = 0;
