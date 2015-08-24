@@ -122,6 +122,7 @@ public class MenuManager {
 		addLevelButton("1", "TestMap", 40, Display.getWidth()/2, Display.getHeight()/2, "only in soviet russia bitch");
 		addLevelButton("2", "Map1", 40, Display.getWidth()/16*9, Display.getHeight()/2, "but what about japan?");
 		addLevelButton("3", "Map2", 40, Display.getWidth()/16*10, Display.getHeight()/2, "and mongolia?");
+		addLevelButton("4", "HarrisMap1", 40, Display.getWidth()/16*11, Display.getHeight()/2, "but will it blend?");
 		//END LEVEL DEFINITIONS
 		
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());

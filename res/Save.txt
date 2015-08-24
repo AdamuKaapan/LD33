@@ -1,4 +1,4 @@
-names:{'TestMap', 'Map1', 'Map2'}
-comps:{'true', 'true', 'true'}
-shots:{'4', '8', '6'}
+names:{'TestMap', 'Map1', 'Map2', 'HarrisMap1'}
+comps:{'false', 'false', 'false', 'true'}
+shots:{'-1', '-1', '-1', '9'}
 muted:false
