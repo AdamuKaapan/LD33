@@ -115,9 +115,11 @@ public class MenuManager {
 
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
-		//Dialogue only = new Dialogue(new ArrayList<String>(Arrays.asList("when you look into the abyss... the abyss looks into you", "only in soviet russia")), game);
-		//levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("1").setTextScale(0.1f).setClickedCommand(getLevelLink(game, "TestMap")).build());
+		
+		//START LEVEL DEFINITIONS
 		addLevelButton("1", "TestMap", Display.getWidth()/2, Display.getHeight()/2, "only in soviet russia bitch");
+		//END LEVEL DEFINITIONS
+		
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		options.add(new HvlArrangerBox.Builder().build());
@@ -296,7 +298,7 @@ public class MenuManager {
 		return new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/(true ? 1.2f : 1.8f)));
+				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, getOpacity(component)/(SaveFile.isCompleted(levelName) ? 0.8f : 1.5f)));
 				component.draw(delta);
 			}
 		};
