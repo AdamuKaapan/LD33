@@ -192,6 +192,7 @@ public class MenuManager {
 				component.draw(delta);
 			}
 		}).build());
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(false));
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>(){
 			@Override
 			public void run(HvlButton a) {

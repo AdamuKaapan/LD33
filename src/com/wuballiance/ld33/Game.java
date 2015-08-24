@@ -631,7 +631,7 @@ public class Game {
 		recheck();
 	}
 
-	private static void onWin() {
+	private static void onWin(){
 		MenuManager.best = currentTurn < SaveFile.getHighScore(currentLevel) || SaveFile.getHighScore(currentLevel) == -1;
 		HvlMenu.setCurrent(MenuManager.win);
 		int loc = -1;
