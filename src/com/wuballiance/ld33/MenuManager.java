@@ -11,6 +11,7 @@ import com.osreboot.ridhvl.HvlFontUtil;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.action.HvlAction2;
+import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.input.HvlInput;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlComponentDefault;
@@ -19,6 +20,7 @@ import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
+import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
@@ -98,7 +100,7 @@ public class MenuManager {
 		main.add(new HvlArrangerBox.Builder().build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("left in shadow").build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("begin").setClickedCommand(getMenuLink(levels)).build());
-		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("options").build());
+		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("options").setClickedCommand(getMenuLink(options)).build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(quit)).build());
 		main.add(new HvlButton.Builder().setOnDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex))).setHoverDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex))).setOffDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex)))
 				.setClickedCommand(new HvlAction1<HvlButton>(){
@@ -109,7 +111,7 @@ public class MenuManager {
 						}catch(Exception e){}
 					}
 				}).setX((float)Display.getWidth() - 96).setY((float)Display.getHeight() - 96).build());
-		
+
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
 		//Dialogue only = new Dialogue(new ArrayList<String>(Arrays.asList("when you look into the abyss... the abyss looks into you", "only in soviet russia")), game);
@@ -117,6 +119,40 @@ public class MenuManager {
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		options.add(new HvlArrangerBox.Builder().build());
+		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("options").build());
+		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("sound").setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton button){
+				SaveFile.muted = !SaveFile.muted;
+				HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
+			}
+		}).build());
+		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth()/16*6) - 128).setY(Display.getHeight()/32*15).setText("on").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, (getOpacity(component))));
+				component.draw(delta);
+			}
+		}).setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton aArg){
+				SaveFile.muted = false;
+				HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
+			}
+		}).build());
+		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth()/16*10) - 128).setY(Display.getHeight()/32*15).setText("off").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, (getOpacity(component))));
+				component.draw(delta);
+			}
+		}).setClickedCommand(new HvlAction1<HvlButton>(){
+			@Override
+			public void run(HvlButton aArg){
+				SaveFile.muted = true;
+				HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
+			}
+		}).build());
 		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		paused.add(new HvlArrangerBox.Builder().build());
@@ -146,7 +182,7 @@ public class MenuManager {
 				menuGoal = game;
 			}}).build());
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("give up").setClickedCommand(getMenuLink(levels)).build());
-		
+
 		win.add(new HvlArrangerBox.Builder().build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("total eclipse [victory]").setScale(0.2f).build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
@@ -171,7 +207,7 @@ public class MenuManager {
 				Game.reset();
 				menuGoal = game;
 			}}).build());
-		
+
 		HvlMenu.setCurrent(splash);
 
 		new HvlInput(new HvlInput.HvlInputFilter(){
@@ -187,10 +223,22 @@ public class MenuManager {
 		});
 	}
 
+	public static HvlLabeledButton getOptionsSoundOn(){
+		return (HvlLabeledButton)options.getChild(1);
+	}
+
+	public static HvlLabeledButton getOptionsSoundOff(){
+		return (HvlLabeledButton)options.getChild(2);
+	}
+
 	public static void update(float delta){
 		for(HvlComponent c : opacity.keySet()){
-			opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity));
-			if(c instanceof HvlButton && ((HvlButton)c).isHovering()) textOpacityGoal = 0f;
+			if(c == getOptionsSoundOn()) opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1/(SaveFile.muted ? 1.8f : 1.2f)));
+			else if(c == getOptionsSoundOff()) opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1/(!SaveFile.muted ? 1.8f : 1.2f)));
+			else{
+				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity));
+				if(c instanceof HvlButton && ((HvlButton)c).isHovering()) textOpacityGoal = 0f;
+			}
 		}
 		textOpacity = HvlMath.stepTowards(textOpacity, delta, textOpacityGoal);
 		textOpacityGoal = 1f;
