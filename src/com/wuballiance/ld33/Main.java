@@ -87,7 +87,7 @@ public class Main extends HvlTemplateInteg2D {
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
 
-		playerAnimation = new HvlAnimatedTextureUV(getTexture(playerAnimationIndex), 512, 62, 0.02f);
+		playerAnimation = new HvlAnimatedTextureUV(getTexture(playerAnimationIndex), 256, 62, 0.02f);
 
 		frame1 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
 		frame2 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
