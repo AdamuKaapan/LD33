@@ -779,6 +779,9 @@ public class Game {
 	public static void recheck() {
 		if (state == State.MOVING)
 			return;
+		
+		if (!explosions.isEmpty() || !explosionsToAdd.isEmpty() || !explosionAnimations.isEmpty())
+			return;
 
 		boolean win = true;
 
