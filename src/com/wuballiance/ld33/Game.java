@@ -292,20 +292,57 @@ public class Game {
 			map.getLayer(i).setOpacity(mapOpacity);
 
 		map.draw(delta);
+		drawTileBlack();
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : dotAnimations.entrySet()) {
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth() * 0.5f),
+					entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (map.getTileHeight() * 0.5f), 1f * map.getTileWidth(),
+					1f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
+		}
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
+					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(),
+					entry.getValue(), new Color(1, 1, 1, mapOpacity));
+		}
+		drawExplosionAnimations();
+		drawBombIdleAnimations();
+		for (Explosion exp : explosions) {
+			exp.draw(delta);
+		}
+
+		for (HvlSimpleParticleSystem ps : particles) {
+			ps.draw(delta);
+		}
+		Player.draw(delta);
+		handleSpecialDraws();
+	}
+
+	private static void drawTileBlack() {
 		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 5; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 5; x++) {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 5; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 5; y++) {
 
-				if (x < 0 || y < 0 || x >= map.getLayer(0).getMapWidth() || y >= map.getLayer(1).getMapHeight() || !map.isTileInLocation(x, y, 0, 1)) {
-					float black = isTileBlacked(x, y);
+				if (x >= 0 && y >= 0 && x < map.getLayer(0).getMapWidth() && y < map.getLayer(1).getMapHeight()) {
+					boolean isBlack = !map.isTileInLocation(x, y, 0, 1);
+					
+					if (map.isTileInLocation(x, y, 0) && !map.isTileInLocation(x, y, 1))
+					{
+						HvlSimpleTile st = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
+						
+						if (st.getTile() == 0)
+							isBlack = true;
+					}
+					
+					if (isBlack) {
+						float black = isTileBlacked(x, y);
 
-					if (black >= 0.0f) {
-						if (!opacities.containsKey(new TileCoord(x, y))) {
-							opacities.put(new TileCoord(x, y), -black);
+						if (black >= 0.0f) {
+							if (!opacities.containsKey(new TileCoord(x, y))) {
+								opacities.put(new TileCoord(x, y), -black);
+							}
+
+							HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0,
+									0, Math.max(0.0f, opacities.get(new TileCoord(x, y)) * mapOpacity)));
+
 						}
-
-						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0,
-								Math.max(0.0f, opacities.get(new TileCoord(x, y)) * mapOpacity)));
-
 					}
 				}
 
@@ -334,16 +371,9 @@ public class Game {
 				}
 			}
 		}
-		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : dotAnimations.entrySet()) {
-			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth() * 0.5f),
-					entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (map.getTileHeight() * 0.5f), 1f * map.getTileWidth(),
-					1f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
-		}
-		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
-			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
-					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(),
-					entry.getValue(), new Color(1, 1, 1, mapOpacity));
-		}
+	}
+
+	private static void drawExplosionAnimations() {
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : explosionAnimations.entrySet()) {
 			if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.smallExplosionAnimationIndex)) {
 				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (2 * map.getTileWidth()),
@@ -359,12 +389,15 @@ public class Game {
 				HvlPainter2D.hvlRotate(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2),
 						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2),
 						(float) Math.toDegrees(directionalBombDirs.get(new TileCoord(entry.getKey().x, entry.getKey().y))) + 90);
-				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (2.75f * map.getTileWidth()),
-						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (2.75f * map.getTileHeight()), 5.5f * map.getTileWidth(),
+				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (2.75f * map.getTileWidth()), entry.getKey().y
+						* map.getTileHeight() + (map.getTileHeight() / 2) - (2.75f * map.getTileHeight()), 5.5f * map.getTileWidth(),
 						5.5f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
 				HvlPainter2D.hvlResetRotation();
 			}
 		}
+	}
+
+	private static void drawBombIdleAnimations() {
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : bombIdleAnimations.entrySet()) {
 			if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.smallBombIndex)) {
 				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth()),
@@ -382,14 +415,9 @@ public class Game {
 						3f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
 			}
 		}
-		for (Explosion exp : explosions) {
-			exp.draw(delta);
-		}
+	}
 
-		for (HvlSimpleParticleSystem ps : particles) {
-			ps.draw(delta);
-		}
-		Player.draw(delta);
+	private static void handleSpecialDraws() {
 		for (int x = 0; x < map.getLayer(2).getMapWidth(); x++) {
 			for (int y = 0; y < map.getLayer(2).getMapHeight(); y++) {
 				if (!map.isTileInLocation(x, y, 2))
@@ -438,8 +466,9 @@ public class Game {
 
 				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(found.get(0).x, found.get(0).y);
 				if (t.getTile() == onTile) {
-					return Math.max(0, HvlMath.distance(map.toWorldX(found.get(0).x) + (map.getTileWidth() / 2), map.toWorldY(found.get(0).y) + (map.getTileHeight() / 2),
-							map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)) / 128.0f);
+					return Math.max(0, HvlMath.distance(map.toWorldX(found.get(0).x) + (map.getTileWidth() / 2),
+							map.toWorldY(found.get(0).y) + (map.getTileHeight() / 2), map.toWorldX(xArg) + (map.getTileWidth() / 2),
+							map.toWorldY(yArg) + (map.getTileHeight() / 2)) / 128.0f);
 				} else
 					return -1.0f;
 			}
@@ -605,10 +634,8 @@ public class Game {
 	private static void onWin() {
 		HvlMenu.setCurrent(MenuManager.win);
 		int loc = -1;
-		for (int i = 0; i < SaveFile.names.length; i++)
-		{
-			if (SaveFile.names[i].equals(currentLevel))
-			{
+		for (int i = 0; i < SaveFile.names.length; i++) {
+			if (SaveFile.names[i].equals(currentLevel)) {
 				loc = i;
 				break;
 			}
@@ -619,7 +646,7 @@ public class Game {
 
 		HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
 
-		((HvlLabel)((HvlArrangerBox)MenuManager.win.getFirstChildOfType(HvlArrangerBox.class)).get(1)).setText("in " + Game.getCurrentTurn() + " shots");
+		((HvlLabel) ((HvlArrangerBox) MenuManager.win.getFirstChildOfType(HvlArrangerBox.class)).get(1)).setText("in " + Game.getCurrentTurn() + " shots");
 	}
 
 	private static void onLose() {
@@ -740,13 +767,15 @@ public class Game {
 		}
 	}
 
-	private static void drawWord(String word, float size, float x, float y){
-		MenuManager.font.drawWord(word, x + (map.getTileWidth() / 2) - (MenuManager.font.getLineWidth(word) * size * 0.5f), y
-				+ (map.getTileHeight() / 2) - (80 * size), size, new Color(0, 0, 0, Main.getZoom()*0.8f));
+	private static void drawWord(String word, float size, float x, float y) {
+		MenuManager.font.drawWord(word, x + (map.getTileWidth() / 2) - (MenuManager.font.getLineWidth(word) * size * 0.5f), y + (map.getTileHeight() / 2)
+				- (80 * size), size, new Color(0, 0, 0, Main.getZoom() * 0.8f));
 
 	}
+
 	public static void recheck() {
-		if (state == State.MOVING) return;
+		if (state == State.MOVING)
+			return;
 
 		boolean win = true;
 
@@ -771,22 +800,22 @@ public class Game {
 		}
 	}
 
-		// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
-		// int tileY){
-		// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
-		// map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
-		// new HvlRectanglePositionProvider(0, map.getTileWidth(), 0,
-		// map.getTileHeight()),
-		// HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
-		// tr.setStartColor(new Color(1, 1, 1, 1f));
-		// tr.setEndColor(Color.transparent);
-		// tr.setMinScale(0.8f);
-		// tr.setMaxScale(1.0f);
-		// tr.setParticlesPerSpawn(25);
-		// tr.setMinLifetime(5f);
-		// tr.setMaxLifetime(7f);
-		// tr.setMinTimeToSpawn(5f);
-		// tr.setMaxTimeToSpawn(5f);
-		// return tr;
-		// }
-	}
+	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
+	// int tileY){
+	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
+	// map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
+	// new HvlRectanglePositionProvider(0, map.getTileWidth(), 0,
+	// map.getTileHeight()),
+	// HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
+	// tr.setStartColor(new Color(1, 1, 1, 1f));
+	// tr.setEndColor(Color.transparent);
+	// tr.setMinScale(0.8f);
+	// tr.setMaxScale(1.0f);
+	// tr.setParticlesPerSpawn(25);
+	// tr.setMinLifetime(5f);
+	// tr.setMaxLifetime(7f);
+	// tr.setMinTimeToSpawn(5f);
+	// tr.setMaxTimeToSpawn(5f);
+	// return tr;
+	// }
+}
