@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTimer;
+import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
@@ -30,7 +31,7 @@ public class Main extends HvlTemplateInteg2D {
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4, playerSmall2Index = 5,
 			player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9, auraIndex = 10, logoIndex = 11, logoInvertIndex = 12,
-			darkenAnimationIndex = 13, explosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16, smallBombIndex = 17;
+			darkenAnimationIndex = 13, smallExplosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16, smallBombIndex = 17, largeBombIndex = 18, largeExplosionIndex = 19;
 
 	private float playerRotation = 0;
 
@@ -50,6 +51,8 @@ public class Main extends HvlTemplateInteg2D {
 	@Override
 	public void initialize() {
 		getTimer().setMaxDelta(HvlTimer.MD_TENTH);
+		
+		HvlConfigUtil.loadStaticConfig(SaveFile.class, "res/Save.txt");
 
 		HvlTilemapCollisionUtil.registerCornerSet(25, 26, 33, 34);
 
@@ -67,10 +70,12 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("Logo");
 		getTextureLoader().loadResource("LogoInvert");
 		getTextureLoader().loadResource("DarkenAnimation");
-		getTextureLoader().loadResource("ExplosionAnimation");
+		getTextureLoader().loadResource("SmallExplosionAnimation");
 		getTextureLoader().loadResource("DotAnimation");
 		getTextureLoader().loadResource("Tutorial1");
 		getTextureLoader().loadResource("SmallBombAnimation");
+		getTextureLoader().loadResource("LargeBombAnimation");
+		getTextureLoader().loadResource("LargeExplosionAnimation");
 
 		pars = new HashMap<>();
 		pars.put("TestMap", 30);
