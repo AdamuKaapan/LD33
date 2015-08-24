@@ -66,7 +66,7 @@ public class Game {
 		}
 	}
 
-	public static final int offTile = 8, onTile = 16, directionalExplosionTile = 61, mediumExplosionTile = 62, smallExplosionTile = 63;
+	public static final int offTile = 8, onTile = 16, directionalExplosionTile = 61, largeExplosionTile = 62, smallExplosionTile = 63;
 
 	public static List<HvlSimpleParticleSystem> particles;
 
@@ -174,6 +174,9 @@ public class Game {
 				if (st.getTile() == smallExplosionTile) {
 					bombIdleAnimations.put(new TileCoord(x, y), getSmallBombAnimation());
 				}
+				if (st.getTile() == largeExplosionTile) {
+					bombIdleAnimations.put(new TileCoord(x, y), getLargeBombAnimation());
+				}
 			}
 		}
 
@@ -237,6 +240,8 @@ public class Game {
 			if (!entry.getValue().isRunning()) {
 				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.smallExplosionAnimationIndex))
 					Explosion.activateSmallExplosion(entry.getKey().x, entry.getKey().y);
+				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.largeExplosionIndex))
+					Explosion.activateLargeExplosion(entry.getKey().x, entry.getKey().y);
 
 				trAnim.add(entry.getKey());
 				Game.map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(offTile));
@@ -327,11 +332,23 @@ public class Game {
 						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (2.25f * map.getTileHeight()), 4f * map.getTileWidth(),
 						6f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
 			}
+			if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.largeExplosionIndex)) {
+				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (4 * map.getTileWidth()),
+						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (4f * map.getTileHeight()), 8f * map.getTileWidth(),
+						8f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
+			}
 		}
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : bombIdleAnimations.entrySet()) {
-			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.5f),
-					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.5f), 2f * map.getTileWidth(), 2f * map.getTileHeight(), entry.getValue(),
-					new Color(1, 1, 1, mapOpacity));
+			if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.smallBombIndex)) {
+				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth()),
+						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (map.getTileHeight()), 2f * map.getTileWidth(),
+						2f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
+			}
+			if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.largeBombIndex)) {
+				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth() * 1.5f),
+						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (map.getTileHeight() * 1.5f), 3f * map.getTileWidth(),
+						3f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
+			}
 		}
 		for (Explosion exp : explosions) {
 			exp.draw(delta);
@@ -516,7 +533,15 @@ public class Game {
 			map.getLayer(2).setTile(x, y, null);
 			if (!explosionAnimations.containsKey(new TileCoord(x, y))) {
 				tileCoverAnimations.remove(new TileCoord(x, y));
-				explosionAnimations.put(new TileCoord(x, y), getExplosionAnimation());
+				explosionAnimations.put(new TileCoord(x, y), getSmallExplosionAnimation());
+				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
+			}
+		}
+		if (st2 != null && st2.getTile() == largeExplosionTile) {
+			map.getLayer(2).setTile(x, y, null);
+			if (!explosionAnimations.containsKey(new TileCoord(x, y))) {
+				tileCoverAnimations.remove(new TileCoord(x, y));
+				explosionAnimations.put(new TileCoord(x, y), getLargeExplosionAnimation());
 				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
 			}
 		}
@@ -619,8 +644,14 @@ public class Game {
 		return Math.max(0.0f, 1.0f - ((float) currentTurn / par));
 	}
 
-	public static HvlAnimatedTextureUV getExplosionAnimation() {
+	public static HvlAnimatedTextureUV getSmallExplosionAnimation() {
 		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.smallExplosionAnimationIndex), 256, 93, 0.015f);
+		tr.setAutoStop(true);
+		return tr;
+	}
+
+	public static HvlAnimatedTextureUV getLargeExplosionAnimation() {
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.largeExplosionIndex), 512, 128, 0.015f);
 		tr.setAutoStop(true);
 		return tr;
 	}
@@ -633,6 +664,11 @@ public class Game {
 
 	public static HvlAnimatedTextureUV getSmallBombAnimation() {
 		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.smallBombIndex), 256, 62, 0.04f);
+		return tr;
+	}
+
+	public static HvlAnimatedTextureUV getLargeBombAnimation() {
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.largeBombIndex), 256, 62, 0.04f);
 		return tr;
 	}
 
