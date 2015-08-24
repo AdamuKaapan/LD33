@@ -1,0 +1,4 @@
+names:{'FirstSteps', 'Conserve', 'HarrisMap1', 'Map1', 'Corners'}
+comps:{'false', 'false', 'false', 'false', 'true'}
+shots:{'-1', '-1', '-1', '-1', '9'}
+muted:false

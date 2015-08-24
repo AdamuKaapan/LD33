@@ -119,10 +119,11 @@ public class MenuManager {
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 2));
 
 		//START LEVEL DEFINITIONS
-		addLevelButton("1", "FirstSteps", 7, 0, 0, "please put a quote here");
-		addLevelButton("2", "Conserve", 13, 0, -1);
-		addLevelButton("3", "HarrisMap1", 40, 0, 1);
-		addLevelButton("4", "Map1", 40, 0, 1);
+		addLevelButton("1", "FirstSteps", 6, 0, 0, "please put a quote here");
+		addLevelButton("2", "Conserve", 9, 1, 0);
+		addLevelButton("3", "HarrisMap1", 8, 1, -1);
+		addLevelButton("4", "Map1", 7, 0, -1);
+		addLevelButton("5", "Corners", 9, -1, -1);
 		//END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
@@ -247,7 +248,7 @@ public class MenuManager {
 			if(c == getOptionsSoundOn()) opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1/(SaveFile.muted ? 1.8f : 1.2f)));
 			else if(c == getOptionsSoundOff()) opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1/(!SaveFile.muted ? 1.8f : 1.2f)));
 			else if(levelButtons.contains(c)){
-				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta*2, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity));
+				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta*2, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity + 0.6f));
 				if(c instanceof HvlButton && ((HvlButton)c).isHovering()) textOpacityGoal = 0f;
 			}else{
 				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity));
@@ -274,7 +275,7 @@ public class MenuManager {
 
 	private static void addLevelButton(String id, String levelName, int par, int xArg, int yArg, String... dialogue){
 		float x = Display.getWidth()/24*((float)xArg + 12);
-		float y = Display.getHeight()/16*((float)yArg + 7.5f);
+		float y = Display.getHeight()/16*((float)-yArg + 7.5f);
 		Main.pars.put(levelName, par);
 		Dialogue cutscene = new Dialogue(new ArrayList<String>(Arrays.asList(dialogue)), game);
 		HvlLabeledButton button = new HvlLabeledButton.Builder().setWidth(24).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(dialogue.length > 0 ? cutscene.getMenu() : game, levelName)).build();
