@@ -138,11 +138,11 @@ public class MenuManager {
 		addLevelButton("10", "Maps/OneAndOnly", 6, 8, 0, "");
 		addLevelButton("11", "Maps/Katamari", 7, 9, 0);
 		addLevelButton("12", "Maps/Compass", 10, 10, 0, "");
-		addLevelButton("13", "Maps/Spiral", 7, 0, 1, "");
-		addLevelButton("14", "Maps/Zig", 7, 0, 2, "");
-		addLevelButton("15", "Maps/Clockwise", 7, 13, 0, "");
-		addLevelButton("16", "Maps/ChainReaction", 2, 15, 0, "");
-		addLevelButton("17", "Maps/HarrisMap1", 7, 16, 0, "");
+		addLevelButton("13", "Maps/Spiral", 7, 0, 1);
+		addLevelButton("14", "Maps/Zig", 7, 0, 2);
+		addLevelButton("15", "Maps/Clockwise", 7, 13, 0);
+		addLevelButton("16", "Maps/ChainReaction", 2, 15, 0);
+		addLevelButton("17", "Maps/HarrisMap1", 7, 16, 0);
 
 		// addLevelButton("1", "FirstSteps", 6, 0, 0,
 		// "please put a quote here");
