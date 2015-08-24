@@ -292,6 +292,31 @@ public class Game {
 			map.getLayer(i).setOpacity(mapOpacity);
 
 		map.draw(delta);
+		drawTileBlack();
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : dotAnimations.entrySet()) {
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth() * 0.5f),
+					entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (map.getTileHeight() * 0.5f), 1f * map.getTileWidth(),
+					1f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
+		}
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
+			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
+					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(),
+					entry.getValue(), new Color(1, 1, 1, mapOpacity));
+		}
+		drawExplosionAnimations();
+		drawBombIdleAnimations();
+		for (Explosion exp : explosions) {
+			exp.draw(delta);
+		}
+
+		for (HvlSimpleParticleSystem ps : particles) {
+			ps.draw(delta);
+		}
+		Player.draw(delta);
+		handleSpecialDraws();
+	}
+	
+	private static void drawTileBlack() {
 		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 5; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 5; x++) {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 5; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 5; y++) {
 
@@ -334,16 +359,9 @@ public class Game {
 				}
 			}
 		}
-		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : dotAnimations.entrySet()) {
-			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth() * 0.5f),
-					entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (map.getTileHeight() * 0.5f), 1f * map.getTileWidth(),
-					1f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
-		}
-		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
-			HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() - (map.getTileWidth() * 0.9f),
-					entry.getKey().y * map.getTileHeight() - (map.getTileHeight() * 0.9f), 2.8f * map.getTileWidth(), 2.8f * map.getTileHeight(),
-					entry.getValue(), new Color(1, 1, 1, mapOpacity));
-		}
+	}
+
+	private static void drawExplosionAnimations() {
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : explosionAnimations.entrySet()) {
 			if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.smallExplosionAnimationIndex)) {
 				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (2 * map.getTileWidth()),
@@ -365,6 +383,9 @@ public class Game {
 				HvlPainter2D.hvlResetRotation();
 			}
 		}
+	}
+	
+	private static void drawBombIdleAnimations() {
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : bombIdleAnimations.entrySet()) {
 			if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.smallBombIndex)) {
 				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (map.getTileWidth()),
@@ -382,14 +403,10 @@ public class Game {
 						3f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
 			}
 		}
-		for (Explosion exp : explosions) {
-			exp.draw(delta);
-		}
-
-		for (HvlSimpleParticleSystem ps : particles) {
-			ps.draw(delta);
-		}
-		Player.draw(delta);
+	}
+	
+	private static void handleSpecialDraws()
+	{
 		for (int x = 0; x < map.getLayer(2).getMapWidth(); x++) {
 			for (int y = 0; y < map.getLayer(2).getMapHeight(); y++) {
 				if (!map.isTileInLocation(x, y, 2))
@@ -403,7 +420,7 @@ public class Game {
 			}
 		}
 	}
-
+	
 	private static float isTileBlacked(final int xArg, final int yArg) {
 		int radius = 1;
 
