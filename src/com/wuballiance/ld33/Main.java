@@ -11,6 +11,7 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTimer;
+import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
@@ -50,6 +51,8 @@ public class Main extends HvlTemplateInteg2D {
 	@Override
 	public void initialize() {
 		getTimer().setMaxDelta(HvlTimer.MD_TENTH);
+		
+		HvlConfigUtil.loadStaticConfig(SaveFile.class, "res/Save.txt");
 
 		HvlTilemapCollisionUtil.registerCornerSet(25, 26, 33, 34);
 

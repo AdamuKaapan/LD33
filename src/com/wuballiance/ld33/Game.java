@@ -85,6 +85,8 @@ public class Game {
 	private static Map<TileCoord, HvlAnimatedTextureUV> dotAnimations;
 
 	private static Map<TileCoord, HvlAnimatedTextureUV> bombIdleAnimations;
+	
+	private static Map<TileCoord, Float> directionalBombDirs;
 
 	public static int currentTurn;
 	public static int par;
@@ -105,6 +107,7 @@ public class Game {
 		explosions.clear();
 		explosionsToAdd.clear();
 		dotAnimations.clear();
+		directionalBombDirs.clear();
 
 		map = HvlLayeredTileMap.load(currentLevel, true, 0, 0, 48, 48, HvlTemplateInteg2D.getTexture(Main.tilesheetIndex));
 
@@ -196,6 +199,7 @@ public class Game {
 		explosionsToAdd = new LinkedList<>();
 		dotAnimations = new HashMap<>();
 		bombIdleAnimations = new HashMap<>();
+		directionalBombDirs = new HashMap<>();
 		tileReps = new HashMap<>();
 		tileReps.put(1, 21);
 		tileReps.put(2, 22);
