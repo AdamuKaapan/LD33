@@ -278,6 +278,17 @@ public class MenuManager {
 
 		Dialogue.update(delta);
 	}
+	
+	public static HvlLabel getHighscoreLabel(){
+		return new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabel)component).setText("best " + " shots");
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
+				component.draw(delta);
+			}
+		}).build();
+	}
 
 	private static void addLevelButton(String id, String levelName, int par, int xArg, int yArg, String... dialogue){
 		float x = Display.getWidth()/24*((float)xArg + 12);
