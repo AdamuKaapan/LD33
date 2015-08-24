@@ -1,6 +1,8 @@
 package com.wuballiance.ld33;
 import java.awt.Desktop;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import org.lwjgl.input.Keyboard;
@@ -20,7 +22,6 @@ import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
-import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
@@ -115,7 +116,8 @@ public class MenuManager {
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
 		//Dialogue only = new Dialogue(new ArrayList<String>(Arrays.asList("when you look into the abyss... the abyss looks into you", "only in soviet russia")), game);
-		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("1").setTextScale(0.1f).setClickedCommand(getLevelLink(game, "TestMap")).build());
+		//levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("1").setTextScale(0.1f).setClickedCommand(getLevelLink(game, "TestMap")).build());
+		addLevelButton("1", "TestMap", Display.getWidth()/2, Display.getHeight()/2, "only in soviet russia bitch");
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		options.add(new HvlArrangerBox.Builder().build());
@@ -258,6 +260,13 @@ public class MenuManager {
 		Dialogue.update(delta);
 	}
 
+	private static void addLevelButton(String id, String levelName, float x, float y, String... dialogue){
+		if(dialogue != null){
+			Dialogue cutscene = new Dialogue(new ArrayList<String>(Arrays.asList(dialogue)), game);
+			levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setWidth(32).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(cutscene.getMenu(), levelName)).build());
+		}else levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setWidth(32).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(game, levelName)).build());
+	}
+	
 	public static float getOpacity(HvlComponent component){
 		if(!opacity.containsKey(component)) opacity.put(component, 0f);
 		return Math.min(Math.max(opacity.get(component), Math.min(HvlMenu.getCurrent().getTotalTime()/2f, 0.5f)), 1 - menuDecay) - (float)Math.pow(Main.getZoom(), 0.2f);
@@ -279,6 +288,16 @@ public class MenuManager {
 				Game.setCurrentLevel(level);
 				Game.initialize();
 				menuGoal = menu;
+			}
+		};
+	}
+	
+	public static HvlAction2<HvlComponent, Float> getLevelButtonDraw(final String levelName){
+		return new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/(true ? 1.2f : 1.8f)));
+				component.draw(delta);
 			}
 		};
 	}
