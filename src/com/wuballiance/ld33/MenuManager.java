@@ -104,7 +104,7 @@ public class MenuManager {
 		loss = new HvlMenu();
 
 		main.add(new HvlArrangerBox.Builder().build());
-		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("left in shadow").build());
+		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("tenebrous expanse").build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("begin").setClickedCommand(getMenuLink(levels)).build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("options").setClickedCommand(getMenuLink(options)).build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(quit)).build());

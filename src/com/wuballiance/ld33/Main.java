@@ -47,7 +47,7 @@ public class Main extends HvlTemplateInteg2D {
 	}
 
 	public Main() {
-		super(60, 1280, 720, "LD33", new HvlDisplayModeDefault());
+		super(60, 1280, 720, "Tenebrous Expanse - by WubAlliance", new HvlDisplayModeDefault());
 	}
 
 	@Override
@@ -106,11 +106,24 @@ public class Main extends HvlTemplateInteg2D {
 
 		MenuManager.initialize();
 
-		for(int i = 0; i < 8; i++) HvlMenuDJ.addSong(MenuManager.main, getSound(i));
+		HvlMenuDJ.addSong(MenuManager.main, getSound(0));
+		HvlMenuDJ.addSong(MenuManager.main, getSound(1));
+		HvlMenuDJ.addSong(MenuManager.main, getSound(2));
+		HvlMenuDJ.addSong(MenuManager.game, getSound(3));
+		HvlMenuDJ.addSong(MenuManager.game, getSound(4));
+		HvlMenuDJ.addSong(MenuManager.game, getSound(5));
+		HvlMenuDJ.addSong(MenuManager.game, getSound(6));
+		HvlMenuDJ.addSong(MenuManager.game, getSound(7));
+		
+		
 		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.splash);
 		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.levels);
 		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.options);
 		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.win);
+		
+		HvlMenuDJ.addAllSongs(MenuManager.game, MenuManager.paused);
+		HvlMenuDJ.addAllSongs(MenuManager.game, MenuManager.loss);
+		
 		HvlMenuDJ.setFadeTime(1f);
 		
 		HvlCamera.setAlignment(HvlCameraAlignment.CENTER);
