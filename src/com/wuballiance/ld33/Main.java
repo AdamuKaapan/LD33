@@ -33,7 +33,7 @@ public class Main extends HvlTemplateInteg2D {
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4, playerSmall2Index = 5,
 			player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9, auraIndex = 10, logoIndex = 11, logoInvertIndex = 12,
 			darkenAnimationIndex = 13, smallExplosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16, smallBombIndex = 17,
-			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20;
+			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20, directionalExplosionIndex = 21;
 
 	private float playerRotation = 0;
 
@@ -79,6 +79,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("LargeBombAnimation");
 		getTextureLoader().loadResource("LargeExplosionAnimation");
 		getTextureLoader().loadResource("DirectionalBombAnimation");
+		getTextureLoader().loadResource("DirectionalExplosionAnimation");
 
 		pars = new HashMap<>();
 		pars.put("TestMap", 30);
