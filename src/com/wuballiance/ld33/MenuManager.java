@@ -173,6 +173,7 @@ public class MenuManager {
 
 		paused.add(new HvlArrangerBox.Builder().build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("paused").build());
+		paused.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(false));
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getMenuLink(game)).build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>(){
 			@Override
@@ -216,6 +217,7 @@ public class MenuManager {
 				component.draw(delta);
 			}
 		}).build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(true));
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("replay").setClickedCommand(new HvlAction1<HvlButton>(){
 			@Override
@@ -279,11 +281,13 @@ public class MenuManager {
 		Dialogue.update(delta);
 	}
 	
-	public static HvlLabel getHighscoreLabel(){
+	public static boolean best = false;
+	
+	public static HvlLabel getHighscoreLabel(final boolean showBest){
 		return new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setText("best " + " shots");
+				((HvlLabel)component).setText(SaveFile.getHighScore(Game.getCurrentLevel()) == -1 ? "no score yet" : ((best && showBest ? "[new!] " : "") + "best " + SaveFile.getHighScore(Game.getCurrentLevel()) + " shots"));
 				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
 				component.draw(delta);
 			}
