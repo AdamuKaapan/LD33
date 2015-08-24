@@ -147,6 +147,18 @@ public class Player {
 				startPoint.mult(-16);
 				startPoint.add(pos);
 				HvlPainter2D.hvlDrawLine(startPoint.x, startPoint.y, pos.x - dir.x, pos.y - dir.y, new Color(0.4f, 0.4f, 0.4f, 1), 3);
+				
+				HvlCoord hairPoint = new HvlCoord(dir.x, dir.y);
+				hairPoint.normalize();
+				hairPoint.mult(16);
+				hairPoint.add(pos);
+				
+				HvlCoord hair2Point = new HvlCoord(dir.x, dir.y);
+				hair2Point.normalize();
+				hair2Point.mult(18);
+				hair2Point.add(pos);
+				
+				HvlPainter2D.hvlDrawLine(hairPoint.x, hairPoint.y, hair2Point.x, hair2Point.y, new Color(0.4f, 0.4f, 0.4f, 1), 2);
 			}	
 		}
 	}
