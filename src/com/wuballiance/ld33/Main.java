@@ -14,6 +14,7 @@ import com.osreboot.ridhvl.HvlTimer;
 import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
+import com.osreboot.ridhvl.menu.HvlMenuDJ;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.HvlCamera;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
@@ -81,6 +82,15 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("DirectionalBombAnimation");
 		getTextureLoader().loadResource("DirectionalExplosionAnimation");
 
+		getSoundLoader().loadResource("Bright Darkness");
+		getSoundLoader().loadResource("Checkmate");
+		getSoundLoader().loadResource("Droplet of Light");
+		getSoundLoader().loadResource("Light and Darkness");
+		getSoundLoader().loadResource("Nightfall");
+		getSoundLoader().loadResource("Persona");
+		getSoundLoader().loadResource("Sky without Stars");
+		getSoundLoader().loadResource("Torental River");
+		
 		pars = new HashMap<>();
 		pars.put("TestMap", 30);
 
@@ -96,11 +106,20 @@ public class Main extends HvlTemplateInteg2D {
 
 		MenuManager.initialize();
 
+		for(int i = 0; i < 8; i++) HvlMenuDJ.addSong(MenuManager.main, getSound(i));
+		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.splash);
+		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.levels);
+		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.options);
+		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.win);
+		HvlMenuDJ.setFadeTime(1f);
+		
 		HvlCamera.setAlignment(HvlCameraAlignment.CENTER);
 	}
 
 	@Override
 	public void update(float delta) {
+		HvlMenuDJ.setVolume(SaveFile.muted ? 0 : 1f);
+		
 		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth() / 2), HvlCamera.getY() - (Display.getHeight() / 2), Display.getWidth(), Display.getHeight(),
 				new Color(1, 1, 1, getZoom()));
 

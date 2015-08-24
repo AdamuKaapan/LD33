@@ -132,6 +132,7 @@ public class MenuManager {
 		addLevelButton("11", "Katamari", 7, -2, 0);
 		addLevelButton("12", "Compass", 10, -2, -1);
 		addLevelButton("13", "AliveFinally", 7, 2, 0);
+		addLevelButton("14", "Clockwise", 7, 2, 1);
 		//END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
