@@ -14,6 +14,8 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.menu.HvlMenu;
+import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
+import com.osreboot.ridhvl.menu.component.HvlLabel;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.particle.HvlParticle;
@@ -609,6 +611,7 @@ public class Game {
 
 	private static void onWin() {
 		HvlMenu.setCurrent(MenuManager.win);
+		((HvlLabel)((HvlArrangerBox)MenuManager.win.getFirstChildOfType(HvlArrangerBox.class)).get(1)).setText("in " + Game.getCurrentTurn() + " shots");
 
 	}
 
