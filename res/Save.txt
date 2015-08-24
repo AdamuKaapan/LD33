@@ -1,4 +1,4 @@
-names:{'FirstSteps', 'Conserve', 'Rounds', 'HarrisMap1', 'Map1', 'Corners', 'Loading', 'HollowPoint', 'StoppingForce', 'OneAndOnly', 'Katamari'}
-comps:{'true', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false'}
-shots:{'3', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1'}
+names:{'FirstSteps', 'Conserve', 'Rounds', 'HarrisMap1', 'Map1', 'Corners', 'Loading', 'HollowPoint', 'StoppingForce', 'OneAndOnly', 'Katamari', 'Chain1'}
+comps:{'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'true'}
+shots:{'-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '4'}
 muted:false
