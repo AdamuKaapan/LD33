@@ -50,11 +50,11 @@ public class Explosion {
 	}
 	
 	public static void activateLargeExplosion(int x, int y) {
-		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 4) {
+		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 6) {
 			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(192f);
 
 			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()
-					+ (Game.getMap().getTileHeight() / 2)), dir, 1.0f));
+					+ (Game.getMap().getTileHeight() / 2)), dir, 0.75f));
 		}
 	}
 
@@ -66,7 +66,11 @@ public class Explosion {
 			HvlCoord vel = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta));
 			vel.normalize().fixNaN().mult(128.0f);
 			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()
-					+ (Game.getMap().getTileHeight() / 2)), vel, 2f));
+					+ (Game.getMap().getTileHeight() / 2)), vel, 1.75f));
 		}
+	}
+	
+	public static float getDirectionalExplosionAngle(int x, int y, float xVel, float yVel) {
+		return (float) Math.atan2(yVel, xVel);
 	}
 }

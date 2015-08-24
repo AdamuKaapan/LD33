@@ -31,7 +31,8 @@ public class Main extends HvlTemplateInteg2D {
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4, playerSmall2Index = 5,
 			player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9, auraIndex = 10, logoIndex = 11, logoInvertIndex = 12,
-			darkenAnimationIndex = 13, smallExplosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16, smallBombIndex = 17, largeBombIndex = 18, largeExplosionIndex = 19;
+			darkenAnimationIndex = 13, smallExplosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16, smallBombIndex = 17,
+			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20;
 
 	private float playerRotation = 0;
 
@@ -51,7 +52,7 @@ public class Main extends HvlTemplateInteg2D {
 	@Override
 	public void initialize() {
 		getTimer().setMaxDelta(HvlTimer.MD_TENTH);
-		
+
 		HvlConfigUtil.loadStaticConfig(SaveFile.class, "res/Save.txt");
 
 		HvlTilemapCollisionUtil.registerCornerSet(25, 26, 33, 34);
@@ -76,10 +77,11 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("SmallBombAnimation");
 		getTextureLoader().loadResource("LargeBombAnimation");
 		getTextureLoader().loadResource("LargeExplosionAnimation");
+		getTextureLoader().loadResource("DirectionalBombAnimation");
 
 		pars = new HashMap<>();
 		pars.put("TestMap", 30);
-		
+
 		collisionAnimation = new HvlAnimatedTextureUV(getTexture(spikeAnimationIndex), 256, 64, 0.02f);
 		collisionAnimation.setAutoStop(true);
 
@@ -188,11 +190,12 @@ public class Main extends HvlTemplateInteg2D {
 	private void drawHealthBar(float delta) {
 		barProgress = HvlMath.stepTowards(barProgress, delta / 2, Game.getHealthBar());
 		if (HvlMenu.getCurrent() == MenuManager.game) {
-			HvlCoord offset = new HvlCoord((int)(Player.getPos().x - (Player.getVel().x * delta)), (int)(Player.getPos().y - (Player.getVel().y * delta)));
+			HvlCoord offset = new HvlCoord((int) (Player.getPos().x - (Player.getVel().x * delta)), (int) (Player.getPos().y - (Player.getVel().y * delta)));
 			hvlDrawLine(offset.x - (Display.getWidth() / 8) - 4, offset.y - (Display.getHeight() / 16 * 7), offset.x + (Display.getWidth() / 8) + 4, offset.y
 					- (Display.getHeight() / 16 * 7), new Color(0.4f, 0.4f, 0.4f, getZoom()), 8);
 			hvlDrawLine(offset.x - (Display.getWidth() / 8), offset.y - (Display.getHeight() / 16 * 7),
-					offset.x - (Display.getWidth() / 8) + ((Display.getWidth() / 4) * barProgress), offset.y - (Display.getHeight() / 16 * 7), new Color(0, 0, 0, getZoom()), 4);
+					offset.x - (Display.getWidth() / 8) + ((Display.getWidth() / 4) * barProgress), offset.y - (Display.getHeight() / 16 * 7), new Color(0, 0,
+							0, getZoom()), 4);
 		}
 	}
 
