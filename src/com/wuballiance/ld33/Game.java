@@ -297,7 +297,7 @@ public class Game {
 
 					if (black >= 0.0f) {
 						if (!opacities.containsKey(new TileCoord(x, y))) {
-							opacities.put(new TileCoord(x, y), -black + 1f);
+							opacities.put(new TileCoord(x, y), -black);
 						}
 
 						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0,
@@ -315,7 +315,7 @@ public class Game {
 
 							if (tileReps.containsKey(st.getTile())) {
 								if (!opacities.containsKey(new TileCoord(x, y))) {
-									opacities.put(new TileCoord(x, y), -black + 1f);
+									opacities.put(new TileCoord(x, y), -black);
 								}
 
 								float uvX = (float) (tileReps.get(st.getTile()) % map.getLayer(1).getInfo().tileWidth) / map.getLayer(1).getInfo().tileWidth;
@@ -324,7 +324,7 @@ public class Game {
 								HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), uvX, uvY,
 										uvX + (1.0f / map.getLayer(1).getInfo().tileWidth), uvY + (1.0f / map.getLayer(1).getInfo().tileHeight),
 										HvlTemplateInteg2D.getTexture(Main.tilesheetIndex),
-										new Color(1, 1, 1, Math.max(0.0f, opacities.get(new TileCoord(x, y)) * mapOpacity)));
+										new Color(0, 0, 0, Math.max(0.0f, opacities.get(new TileCoord(x, y)) * mapOpacity)));
 							}
 						}
 					}
@@ -435,8 +435,8 @@ public class Game {
 
 				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(found.get(0).x, found.get(0).y);
 				if (t.getTile() == onTile) {
-					return HvlMath.distance(map.toWorldX(found.get(0).x) + (map.getTileWidth() / 2), map.toWorldY(found.get(0).y) + (map.getTileHeight() / 2),
-							map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)) / 128.0f;
+					return Math.max(0, HvlMath.distance(map.toWorldX(found.get(0).x) + (map.getTileWidth() / 2), map.toWorldY(found.get(0).y) + (map.getTileHeight() / 2),
+							map.toWorldX(xArg) + (map.getTileWidth() / 2), map.toWorldY(yArg) + (map.getTileHeight() / 2)) / 128.0f);
 				} else
 					return -1.0f;
 			}
