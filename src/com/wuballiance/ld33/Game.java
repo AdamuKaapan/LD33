@@ -632,6 +632,7 @@ public class Game {
 	}
 
 	private static void onWin(){
+		if (HvlMenu.getCurrent() == MenuManager.win) return;
 		MenuManager.best = currentTurn < SaveFile.getHighScore(currentLevel) || SaveFile.getHighScore(currentLevel) == -1;
 		HvlMenu.setCurrent(MenuManager.win);
 		int loc = -1;
@@ -651,6 +652,7 @@ public class Game {
 	}
 
 	private static void onLose() {
+		if (HvlMenu.getCurrent() == MenuManager.loss) return;
 		HvlMenu.setCurrent(MenuManager.loss);
 	}
 
