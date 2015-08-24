@@ -8,9 +8,9 @@ public class SaveFile {
 	
 	static
 	{
-		names = new String[] { "FirstSteps", "Conserve", "Rounds", "HarrisMap1", "Map1", "Corners", "Loading", "HollowPoint"};
-		comps = new boolean[] { false, false, false, false, false, false, false, false };
-		shots = new int[] { -1, -1, -1, -1, -1, -1, -1, -1 };
+		names = new String[] { "FirstSteps", "Conserve", "Rounds", "HarrisMap1", "Map1", "Corners", "Loading", "HollowPoint", "StoppingForce", "OneAndOnly"};
+		comps = new boolean[] { false, false, false, false, false, false, false, false, false, false };
+		shots = new int[] { -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 };
 		muted = false;
 	}
 	

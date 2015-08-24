@@ -127,6 +127,8 @@ public class MenuManager {
 		addLevelButton("6", "Corners", 9, -1, 0);
 		addLevelButton("7", "Loading", 15, -1, 1);
 		addLevelButton("8", "HollowPoint", 4, -1, 2);
+		addLevelButton("9", "StoppingForce", 6, -2, 2);
+		addLevelButton("10", "OneAndOnly", 10, -2, 1);
 		//END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
@@ -315,7 +317,7 @@ public class MenuManager {
 		return new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
-				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, getOpacity(component)/(SaveFile.isCompleted(levelName) ? 0.8f : 1.3f)));
+				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, getOpacity(component)/(!SaveFile.isCompleted(levelName) ? 0.8f : 1.4f)));
 				component.draw(delta);
 			}
 		};
