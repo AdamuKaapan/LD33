@@ -320,29 +320,29 @@ public class Game {
 		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 5; x < map.toTileX(Player.getX() + (Display.getWidth() / 2)) + 5; x++) {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 5; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 5; y++) {
 
+				boolean isBlackable = true;
+
 				if (x >= 0 && y >= 0 && x < map.getLayer(0).getMapWidth() && y < map.getLayer(1).getMapHeight()) {
-					boolean isBlackable = !map.isTileInLocation(x, y, 0, 1);
-					
-					if (map.isTileInLocation(x, y, 0) && !map.isTileInLocation(x, y, 1))
-					{
+					isBlackable = !map.isTileInLocation(x, y, 0, 1);
+
+					if (map.isTileInLocation(x, y, 0) && !map.isTileInLocation(x, y, 1)) {
 						HvlSimpleTile st = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
-						
+
 						if (st.getTile() == 0)
 							isBlackable = true;
 					}
-					
-					if (isBlackable) {
-						float black = isTileBlacked(x, y);
+				}
+				if (isBlackable) {
+					float black = isTileBlacked(x, y);
 
-						if (black >= 0.0f) {
-							if (!opacities.containsKey(new TileCoord(x, y))) {
-								opacities.put(new TileCoord(x, y), -black);
-							}
-
-							HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0,
-									0, Math.max(0.0f, opacities.get(new TileCoord(x, y)) * mapOpacity)));
-
+					if (black >= 0.0f) {
+						if (!opacities.containsKey(new TileCoord(x, y))) {
+							opacities.put(new TileCoord(x, y), -black);
 						}
+
+						HvlPainter2D.hvlDrawQuad(x * map.getTileWidth(), y * map.getTileHeight(), map.getTileWidth(), map.getTileHeight(), new Color(0, 0, 0,
+								Math.max(0.0f, opacities.get(new TileCoord(x, y)) * mapOpacity)));
+
 					}
 				}
 
