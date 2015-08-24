@@ -321,17 +321,17 @@ public class Game {
 			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 5; y < map.toTileY(Player.getY() + (Display.getHeight() / 2)) + 5; y++) {
 
 				if (x >= 0 && y >= 0 && x < map.getLayer(0).getMapWidth() && y < map.getLayer(1).getMapHeight()) {
-					boolean isBlack = !map.isTileInLocation(x, y, 0, 1);
+					boolean isBlackable = !map.isTileInLocation(x, y, 0, 1);
 					
 					if (map.isTileInLocation(x, y, 0) && !map.isTileInLocation(x, y, 1))
 					{
 						HvlSimpleTile st = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
 						
 						if (st.getTile() == 0)
-							isBlack = true;
+							isBlackable = true;
 					}
 					
-					if (isBlack) {
+					if (isBlackable) {
 						float black = isTileBlacked(x, y);
 
 						if (black >= 0.0f) {
