@@ -4,11 +4,13 @@ public class SaveFile {
 	public static String[] names;
 	public static boolean[] comps;
 	public static int[] shots;
+	public static boolean muted;
 	
 	static
 	{
 		names = new String[] { "TestMap" };
 		comps = new boolean[] { false };
 		shots = new int[] { -1 };
+		muted = false;
 	}
 }
