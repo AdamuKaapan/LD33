@@ -7,8 +7,8 @@ public class SaveFile {
 	
 	static
 	{
-		names = new String[0];
-		comps = new boolean[0];
-		shots = new int[0];
+		names = new String[] { "TestMap" };
+		comps = new boolean[] { false };
+		shots = new int[] { -1 };
 	}
 }

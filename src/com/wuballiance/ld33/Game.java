@@ -13,6 +13,7 @@ import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
+import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
@@ -617,7 +618,20 @@ public class Game {
 
 	private static void onWin() {
 		HvlMenu.setCurrent(MenuManager.win);
-
+		int loc = -1;
+		for (int i = 0; i < SaveFile.names.length; i++)
+		{
+			if (SaveFile.names[i].equals(currentLevel))
+			{
+				loc = i;
+				break;
+			}
+		}
+		
+		SaveFile.comps[loc] = true;
+		SaveFile.shots[loc] = SaveFile.shots[loc] < 0 ? currentTurn : Math.min(SaveFile.shots[loc], currentTurn);
+		
+		HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
 	}
 
 	private static void onLose() {
