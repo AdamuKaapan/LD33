@@ -183,12 +183,11 @@ public class Main extends HvlTemplateInteg2D {
 	private void drawHealthBar(float delta) {
 		barProgress = HvlMath.stepTowards(barProgress, delta / 2, Game.getHealthBar());
 		if (HvlMenu.getCurrent() == MenuManager.game) {
-			HvlCoord offset = Player.getPos();
+			HvlCoord offset = new HvlCoord((int)(Player.getPos().x - (Player.getVel().x * delta)), (int)(Player.getPos().y - (Player.getVel().y * delta)));
 			hvlDrawLine(offset.x - (Display.getWidth() / 8) - 4, offset.y - (Display.getHeight() / 16 * 7), offset.x + (Display.getWidth() / 8) + 4, offset.y
 					- (Display.getHeight() / 16 * 7), new Color(0.4f, 0.4f, 0.4f, getZoom()), 8);
 			hvlDrawLine(offset.x - (Display.getWidth() / 8), offset.y - (Display.getHeight() / 16 * 7),
-					offset.x - (Display.getWidth() / 8) + ((Display.getWidth() / 4) * barProgress), offset.y - (Display.getHeight() / 16 * 7), new Color(0, 0,
-							0, getZoom()), 4);
+					offset.x - (Display.getWidth() / 8) + ((Display.getWidth() / 4) * barProgress), offset.y - (Display.getHeight() / 16 * 7), new Color(0, 0, 0, getZoom()), 4);
 		}
 	}
 

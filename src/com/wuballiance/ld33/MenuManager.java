@@ -97,7 +97,7 @@ public class MenuManager {
 
 		main.add(new HvlArrangerBox.Builder().build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("left in shadow").build());
-		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("levels").setClickedCommand(getMenuLink(levels)).build());
+		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("begin").setClickedCommand(getMenuLink(levels)).build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("options").build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(quit)).build());
 		main.add(new HvlButton.Builder().setOnDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex))).setHoverDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex))).setOffDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex)))
@@ -132,7 +132,13 @@ public class MenuManager {
 
 		loss.add(new HvlArrangerBox.Builder().build());
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("depletion death").build());
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setText("you used all shots").build());
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setText("you used all shots").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
+				component.draw(delta);
+			}
+		}).build());
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>(){
 			@Override
 			public void run(HvlButton a) {
@@ -147,7 +153,7 @@ public class MenuManager {
 			@Override
 			public void run(HvlComponent component, Float delta){
 				((HvlLabel)component).setText("in " + Game.getCurrentTurn() + " shots");
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)));
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
 				component.draw(delta);
 			}
 		}).build());
@@ -155,7 +161,7 @@ public class MenuManager {
 			@Override
 			public void run(HvlComponent component, Float delta){
 				((HvlLabel)component).setText("[par " + Main.pars.get(Game.getCurrentLevel()) + "]");
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)));
+				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
 				component.draw(delta);
 			}
 		}).build());
