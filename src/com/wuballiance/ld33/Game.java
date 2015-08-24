@@ -241,6 +241,7 @@ public class Game {
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : tileCoverAnimations.entrySet()) {
 			if (!entry.getValue().isRunning()) {
 				map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(onTile));
+				recheck();
 			}
 		}
 
@@ -261,6 +262,8 @@ public class Game {
 				trAnim.add(entry.getKey());
 				Game.map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(offTile));
 				bombIdleAnimations.remove(entry.getKey());
+
+				recheck();
 			}
 		}
 
@@ -584,6 +587,7 @@ public class Game {
 			}
 			// Explosion.activateDirectionalExplosion(x, y, xVel, yVel);
 		}
+		recheck();
 	}
 
 	public static int getCurrentTurn() {
@@ -595,27 +599,7 @@ public class Game {
 	}
 
 	public static void onEndTurn() {
-		boolean win = true;
-
-		for (int x = 0; x < map.getLayer(0).getMapWidth(); x++) {
-			for (int y = 0; y < map.getLayer(0).getMapHeight(); y++) {
-				if (!map.isTileInLocation(x, y, 0))
-					continue;
-
-				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
-
-				if (t.getTile() == offTile) {
-					win = false;
-					break;
-				}
-			}
-		}
-
-		if (win) {
-			onWin();
-		} else if (Game.currentTurn >= Game.par) {
-			onLose();
-		}
+		recheck();
 	}
 
 	private static void onWin() {
@@ -629,12 +613,12 @@ public class Game {
 				break;
 			}
 		}
-		
+
 		SaveFile.comps[loc] = true;
 		SaveFile.shots[loc] = SaveFile.shots[loc] < 0 ? currentTurn : Math.min(SaveFile.shots[loc], currentTurn);
-		
+
 		HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
-		
+
 		((HvlLabel)((HvlArrangerBox)MenuManager.win.getFirstChildOfType(HvlArrangerBox.class)).get(1)).setText("in " + Game.getCurrentTurn() + " shots");
 	}
 
@@ -759,24 +743,50 @@ public class Game {
 	private static void drawWord(String word, float size, float x, float y){
 		MenuManager.font.drawWord(word, x + (map.getTileWidth() / 2) - (MenuManager.font.getLineWidth(word) * size * 0.5f), y
 				+ (map.getTileHeight() / 2) - (80 * size), size, new Color(0, 0, 0, Main.getZoom()*0.8f));
+
 	}
-	
-	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
-	// int tileY){
-	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
-	// map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
-	// new HvlRectanglePositionProvider(0, map.getTileWidth(), 0,
-	// map.getTileHeight()),
-	// HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
-	// tr.setStartColor(new Color(1, 1, 1, 1f));
-	// tr.setEndColor(Color.transparent);
-	// tr.setMinScale(0.8f);
-	// tr.setMaxScale(1.0f);
-	// tr.setParticlesPerSpawn(25);
-	// tr.setMinLifetime(5f);
-	// tr.setMaxLifetime(7f);
-	// tr.setMinTimeToSpawn(5f);
-	// tr.setMaxTimeToSpawn(5f);
-	// return tr;
-	// }
-}
+	public static void recheck() {
+		if (state == State.MOVING) return;
+
+		boolean win = true;
+
+		for (int x = 0; x < map.getLayer(0).getMapWidth(); x++) {
+			for (int y = 0; y < map.getLayer(0).getMapHeight(); y++) {
+				if (!map.isTileInLocation(x, y, 0))
+					continue;
+
+				HvlSimpleTile t = (HvlSimpleTile) map.getLayer(0).getTile(x, y);
+
+				if (t.getTile() == offTile) {
+					win = false;
+					break;
+				}
+			}
+		}
+
+		if (win) {
+			onWin();
+		} else if (Game.currentTurn >= Game.par) {
+			onLose();
+		}
+	}
+
+		// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
+		// int tileY){
+		// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
+		// map.getTileWidth(), tileY * map.getTileHeight(), 64, 64,
+		// new HvlRectanglePositionProvider(0, map.getTileWidth(), 0,
+		// map.getTileHeight()),
+		// HvlTemplateInteg2D.getTexture(Main.wallParticleIndex));
+		// tr.setStartColor(new Color(1, 1, 1, 1f));
+		// tr.setEndColor(Color.transparent);
+		// tr.setMinScale(0.8f);
+		// tr.setMaxScale(1.0f);
+		// tr.setParticlesPerSpawn(25);
+		// tr.setMinLifetime(5f);
+		// tr.setMaxLifetime(7f);
+		// tr.setMinTimeToSpawn(5f);
+		// tr.setMaxTimeToSpawn(5f);
+		// return tr;
+		// }
+	}

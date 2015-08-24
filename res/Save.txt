@@ -1,4 +1,0 @@
-names:{'FirstSteps', 'Conserve', 'Map2', 'TestMap'}
-comps:{'true', 'true', 'false', 'true'}
-shots:{'3', '7', '-1', '5'}
-muted:false

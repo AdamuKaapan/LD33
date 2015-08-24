@@ -121,8 +121,8 @@ public class MenuManager {
 		//START LEVEL DEFINITIONS
 		addLevelButton("1", "FirstSteps", 7, 0, 0, "please put a quote here");
 		addLevelButton("2", "Conserve", 13, 0, -1);
-		addLevelButton("3", "Map2", 40, 1, 0);
-		addLevelButton("4", "TestMap", 40, 0, 1);
+		addLevelButton("3", "HarrisMap1", 40, 0, 1);
+		addLevelButton("4", "Map1", 40, 0, 1);
 		//END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
