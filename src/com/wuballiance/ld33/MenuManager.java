@@ -116,14 +116,15 @@ public class MenuManager {
 
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
-		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 4));
-		
+		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 2));
+
 		//START LEVEL DEFINITIONS
-		addLevelButton("1", "TestMap", 40, Display.getWidth()/2, Display.getHeight()/2, "only in soviet russia bitch");
-		addLevelButton("2", "Map1", 40, Display.getWidth()/16*9, Display.getHeight()/2, "but what about japan?");
-		addLevelButton("3", "Map2", 40, Display.getWidth()/16*10, Display.getHeight()/2, "and mongolia?");
+		addLevelButton("1", "FirstSteps", 7, 0, 0, "please put a quote here");
+		addLevelButton("2", "Conserve", 13, 0, -1);
+		addLevelButton("3", "Map2", 40, 1, 0);
+		addLevelButton("4", "TestMap", 40, 0, 1);
 		//END LEVEL DEFINITIONS
-		
+
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		options.add(new HvlArrangerBox.Builder().build());
@@ -221,7 +222,7 @@ public class MenuManager {
 		new HvlInput(new HvlInput.HvlInputFilter(){
 			@Override
 			public float getCurrentOutput(){
-				return Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) ? 1 : 0;
+				return Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Keyboard.isKeyDown(Keyboard.KEY_P) ? 1 : 0;
 			}
 		}).setReleasedAction(new HvlAction1<HvlInput>(){
 			@Override
@@ -239,11 +240,16 @@ public class MenuManager {
 		return (HvlLabeledButton)options.getChild(2);
 	}
 
+	private static ArrayList<HvlComponent> levelButtons = new ArrayList<>();
+
 	public static void update(float delta){
 		for(HvlComponent c : opacity.keySet()){
 			if(c == getOptionsSoundOn()) opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1/(SaveFile.muted ? 1.8f : 1.2f)));
 			else if(c == getOptionsSoundOff()) opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1/(!SaveFile.muted ? 1.8f : 1.2f)));
-			else{
+			else if(levelButtons.contains(c)){
+				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta*2, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity));
+				if(c instanceof HvlButton && ((HvlButton)c).isHovering()) textOpacityGoal = 0f;
+			}else{
 				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity));
 				if(c instanceof HvlButton && ((HvlButton)c).isHovering()) textOpacityGoal = 0f;
 			}
@@ -266,14 +272,16 @@ public class MenuManager {
 		Dialogue.update(delta);
 	}
 
-	private static void addLevelButton(String id, String levelName, int par, float x, float y, String... dialogue){
+	private static void addLevelButton(String id, String levelName, int par, int xArg, int yArg, String... dialogue){
+		float x = Display.getWidth()/24*((float)xArg + 12);
+		float y = Display.getHeight()/16*((float)yArg + 7.5f);
 		Main.pars.put(levelName, par);
-		if(dialogue != null){
-			Dialogue cutscene = new Dialogue(new ArrayList<String>(Arrays.asList(dialogue)), game);
-			levels.add(new HvlLabeledButton.Builder().setWidth(32).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(cutscene.getMenu(), levelName)).build());
-		}else levels.add(new HvlLabeledButton.Builder().setWidth(32).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(game, levelName)).build());
+		Dialogue cutscene = new Dialogue(new ArrayList<String>(Arrays.asList(dialogue)), game);
+		HvlLabeledButton button = new HvlLabeledButton.Builder().setWidth(24).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(dialogue.length > 0 ? cutscene.getMenu() : game, levelName)).build();
+		levels.add(button);
+		levelButtons.add(button);
 	}
-	
+
 	public static float getOpacity(HvlComponent component){
 		if(!opacity.containsKey(component)) opacity.put(component, 0f);
 		return Math.min(Math.max(opacity.get(component), Math.min(HvlMenu.getCurrent().getTotalTime()/2f, 0.5f)), 1 - menuDecay) - (float)Math.pow(Main.getZoom(), 0.2f);
@@ -298,12 +306,12 @@ public class MenuManager {
 			}
 		};
 	}
-	
+
 	public static HvlAction2<HvlComponent, Float> getLevelButtonDraw(final String levelName){
 		return new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
-				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, getOpacity(component)/(SaveFile.isCompleted(levelName) ? 0.8f : 1.5f)));
+				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, getOpacity(component)/(SaveFile.isCompleted(levelName) ? 0.8f : 1.3f)));
 				component.draw(delta);
 			}
 		};

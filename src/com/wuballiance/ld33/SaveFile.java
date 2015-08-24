@@ -8,9 +8,9 @@ public class SaveFile {
 	
 	static
 	{
-		names = new String[] { "TestMap", "Map1", "Map2" };
-		comps = new boolean[] { false, false, false };
-		shots = new int[] { -1, -1, -1 };
+		names = new String[] { "FirstSteps", "Conserve", "Map2", "TestMap"};
+		comps = new boolean[] { false, false, false, false };
+		shots = new int[] { -1, -1, -1, -1 };
 		muted = false;
 	}
 	

@@ -736,18 +736,31 @@ public class Game {
 	public static void specialDraw(float x, float y, int type) {
 		switch (type) {
 		case 40:
-			// HvlPainter2D.hvlDrawQuad(x, y, map.getTileWidth() * 3,
-			// map.getTileHeight() * 2,
-			// HvlTemplateInteg2D.getTexture(Main.tutorial1Index), new Color(1,
-			// 1, 1, Main.getZoom()));
+			drawWord("drag the object to aim", 0.18f, x, y);
 			break;
 		case 41:
-			MenuManager.font.drawWord("click and hold", x + (map.getTileWidth() / 2) - (MenuManager.font.getLineWidth("click and hold") * 0.18f * 0.5f), y
-					+ (map.getTileHeight() / 2) - (80 * 0.18f), 0.18f, new Color(0, 0, 0, Main.getZoom()));
+			drawWord("release to move", 0.18f, x, y);
+			break;
+		case 42:
+			drawWord("hit all dots to", 0.18f, x, y);
+			break;
+		case 43:
+			drawWord("continue", 0.18f, x, y);
+			break;
+		case 44:
+			drawWord("every shot", 0.18f, x, y);
+			break;
+		case 45:
+			drawWord("counts", 0.18f, x, y);
 			break;
 		}
 	}
 
+	private static void drawWord(String word, float size, float x, float y){
+		MenuManager.font.drawWord(word, x + (map.getTileWidth() / 2) - (MenuManager.font.getLineWidth(word) * size * 0.5f), y
+				+ (map.getTileHeight() / 2) - (80 * size), size, new Color(0, 0, 0, Main.getZoom()*0.8f));
+	}
+	
 	// public static HvlSimpleParticleSystem generateTileParticles(int tileX,
 	// int tileY){
 	// HvlSimpleParticleSystem tr = new HvlSimpleParticleSystem(tileX *
