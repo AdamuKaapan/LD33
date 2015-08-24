@@ -130,7 +130,8 @@ public class MenuManager {
 		addLevelButton("9", "StoppingForce", 6, -2, 2);
 		addLevelButton("10", "OneAndOnly", 10, -2, 1);
 		addLevelButton("11", "Katamari", 7, -2, 0);
-		addLevelButton("12", "Chain1", 7, -2, -1);
+		addLevelButton("12", "Compass", 10, -2, -1);
+		addLevelButton("13", "AliveFinally", 7, 2, 0);
 		//END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
@@ -289,7 +290,7 @@ public class MenuManager {
 		return new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setText(SaveFile.getHighScore(Game.getCurrentLevel()) == -1 ? "no score yet" : ((best && showBest ? "[new!] " : "") + "best " + SaveFile.getHighScore(Game.getCurrentLevel()) + " shots"));
+				((HvlLabel)component).setText(SaveFile.getHighScore(Game.getCurrentLevel()) == -1 ? "no best score yet" : ((best && showBest ? "[new!] " : "") + "best " + SaveFile.getHighScore(Game.getCurrentLevel()) + " shots"));
 				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
 				component.draw(delta);
 			}
