@@ -1,0 +1,4 @@
+names:{'FirstSteps', 'Conserve', 'Rounds', 'HarrisMap1', 'Map1', 'Corners', 'Loading', 'HollowPoint', 'StoppingForce', 'OneAndOnly', 'Katamari', 'Compass', 'AliveFinally', 'ChainReaction'}
+comps:{'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false'}
+shots:{'-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1'}
+muted:false
