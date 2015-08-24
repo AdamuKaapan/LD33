@@ -1,4 +1,4 @@
-names:{'FirstSteps', 'Conserve', 'HarrisMap1', 'Map1', 'Corners'}
-comps:{'false', 'false', 'false', 'false', 'true'}
-shots:{'-1', '-1', '-1', '-1', '9'}
+names:{'FirstSteps', 'Conserve', 'Rounds', 'HarrisMap1', 'Map1', 'Corners', 'Loading', 'HollowPoint'}
+comps:{'false', 'false', 'false', 'false', 'false', 'false', 'false', 'true'}
+shots:{'-1', '-1', '-1', '-1', '-1', '-1', '-1', '2'}
 muted:false
