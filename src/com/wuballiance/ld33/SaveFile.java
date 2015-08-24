@@ -44,4 +44,19 @@ public class SaveFile {
 		}
 		return shots[found];
 	}
+	
+	public static void setHighScore(String name, int shot)
+	{
+		int found = -1;
+		
+		for (int i = 0; i < names.length; i++)
+		{
+			if (names[i].equals(name))
+			{
+				found = i;
+				break;
+			}
+		}
+		shots[found] = shot;
+	}
 }
