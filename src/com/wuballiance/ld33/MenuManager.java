@@ -22,6 +22,7 @@ import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.HvlButton;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
+import com.osreboot.ridhvl.menu.component.HvlSpacer;
 import com.osreboot.ridhvl.menu.component.collection.HvlLabeledButton;
 import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
@@ -115,9 +116,12 @@ public class MenuManager {
 
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
+		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 4));
 		
 		//START LEVEL DEFINITIONS
-		addLevelButton("1", "TestMap", Display.getWidth()/2, Display.getHeight()/2, "only in soviet russia bitch");
+		addLevelButton("1", "TestMap", 40, Display.getWidth()/2, Display.getHeight()/2, "only in soviet russia bitch");
+		addLevelButton("2", "Map1", 40, Display.getWidth()/16*9, Display.getHeight()/2, "but what about japan?");
+		addLevelButton("3", "Map2", 40, Display.getWidth()/16*10, Display.getHeight()/2, "and mongolia?");
 		//END LEVEL DEFINITIONS
 		
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
@@ -262,11 +266,12 @@ public class MenuManager {
 		Dialogue.update(delta);
 	}
 
-	private static void addLevelButton(String id, String levelName, float x, float y, String... dialogue){
+	private static void addLevelButton(String id, String levelName, int par, float x, float y, String... dialogue){
+		Main.pars.put(levelName, par);
 		if(dialogue != null){
 			Dialogue cutscene = new Dialogue(new ArrayList<String>(Arrays.asList(dialogue)), game);
-			levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setWidth(32).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(cutscene.getMenu(), levelName)).build());
-		}else levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setWidth(32).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(game, levelName)).build());
+			levels.add(new HvlLabeledButton.Builder().setWidth(32).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(cutscene.getMenu(), levelName)).build());
+		}else levels.add(new HvlLabeledButton.Builder().setWidth(32).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(game, levelName)).build());
 	}
 	
 	public static float getOpacity(HvlComponent component){

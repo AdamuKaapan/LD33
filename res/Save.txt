@@ -1,4 +1,4 @@
-names:{'TestMap'}
-comps:{'true'}
-shots:{'4'}
+names:{'TestMap', 'Map1', 'Map2'}
+comps:{'true', 'true', 'true'}
+shots:{'4', '8', '6'}
 muted:false

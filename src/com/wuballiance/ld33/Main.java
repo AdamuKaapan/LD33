@@ -55,6 +55,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTimer().setMaxDelta(HvlTimer.MD_TENTH);
 
 		HvlConfigUtil.loadStaticConfig(SaveFile.class, "res/Save.txt");
+		HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
 
 		HvlTilemapCollisionUtil.registerCornerSet(25, 26, 33, 34);
 
