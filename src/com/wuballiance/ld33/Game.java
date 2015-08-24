@@ -15,6 +15,8 @@ import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.menu.HvlMenu;
+import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
+import com.osreboot.ridhvl.menu.component.HvlLabel;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.particle.HvlParticle;
@@ -632,6 +634,8 @@ public class Game {
 		SaveFile.shots[loc] = SaveFile.shots[loc] < 0 ? currentTurn : Math.min(SaveFile.shots[loc], currentTurn);
 		
 		HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
+		
+		((HvlLabel)((HvlArrangerBox)MenuManager.win.getFirstChildOfType(HvlArrangerBox.class)).get(1)).setText("in " + Game.getCurrentTurn() + " shots");
 	}
 
 	private static void onLose() {
