@@ -85,7 +85,7 @@ public class Game {
 	private static Map<TileCoord, HvlAnimatedTextureUV> dotAnimations;
 
 	private static Map<TileCoord, HvlAnimatedTextureUV> bombIdleAnimations;
-	
+
 	private static Map<TileCoord, Float> directionalBombDirs;
 
 	public static int currentTurn;
@@ -249,12 +249,11 @@ public class Game {
 					Explosion.activateSmallExplosion(entry.getKey().x, entry.getKey().y);
 				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.largeExplosionIndex))
 					Explosion.activateLargeExplosion(entry.getKey().x, entry.getKey().y);
-//				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.directionalExplosionIndex))
-//				{
-//					float a = directionalBombDirs.get(new TileCoord(entry.getKey().x, entry.getKey().y));
-//					HvlCoord dir = new HvlCoord((float) Math.cos(a), (float) Math.sin(a));
-//					Explosion.activateDirectionalExplosion(entry.getKey().x, entry.getKey().y, dir.x, dir.y);
-//				}
+				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.directionalExplosionIndex)) {
+					float a = directionalBombDirs.get(new TileCoord(entry.getKey().x, entry.getKey().y));
+					HvlCoord dir = new HvlCoord((float) Math.cos(a), (float) Math.sin(a));
+					Explosion.activateDirectionalExplosion(entry.getKey().x, entry.getKey().y, dir.x, dir.y);
+				}
 
 				trAnim.add(entry.getKey());
 				Game.map.getLayer(0).setTile(entry.getKey().x, entry.getKey().y, new HvlSimpleTile(offTile));
@@ -349,6 +348,15 @@ public class Game {
 				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (4 * map.getTileWidth()),
 						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (4f * map.getTileHeight()), 8f * map.getTileWidth(),
 						8f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
+			}
+			if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.directionalExplosionIndex)) {
+				HvlPainter2D.hvlRotate(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2),
+						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2),
+						(float) Math.toDegrees(directionalBombDirs.get(new TileCoord(entry.getKey().x, entry.getKey().y))) + 90);
+				HvlPainter2D.hvlDrawQuad(entry.getKey().x * map.getTileWidth() + (map.getTileWidth() / 2) - (2.75f * map.getTileWidth()),
+						entry.getKey().y * map.getTileHeight() + (map.getTileHeight() / 2) - (2.75f * map.getTileHeight()), 5.5f * map.getTileWidth(),
+						5.5f * map.getTileHeight(), entry.getValue(), new Color(1, 1, 1, mapOpacity));
+				HvlPainter2D.hvlResetRotation();
 			}
 		}
 		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> entry : bombIdleAnimations.entrySet()) {
@@ -571,7 +579,7 @@ public class Game {
 				directionalBombDirs.put(new TileCoord(x, y), Explosion.getDirectionalExplosionAngle(x, y, xVel, yVel));
 				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
 			}
-//			Explosion.activateDirectionalExplosion(x, y, xVel, yVel);
+			// Explosion.activateDirectionalExplosion(x, y, xVel, yVel);
 		}
 	}
 
@@ -679,9 +687,9 @@ public class Game {
 		tr.setAutoStop(true);
 		return tr;
 	}
-	
+
 	public static HvlAnimatedTextureUV getDirectionalExplosionAnimation() {
-		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.largeExplosionIndex), 512, 128, 0.015f);
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.directionalExplosionIndex), 512, 32, 0.05f);
 		tr.setAutoStop(true);
 		return tr;
 	}
@@ -701,7 +709,7 @@ public class Game {
 		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.largeBombIndex), 256, 62, 0.04f);
 		return tr;
 	}
-	
+
 	public static HvlAnimatedTextureUV getDirectionalBombAnimation() {
 		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.directionalBombIndex), 512, 62, 0.04f);
 		return tr;
