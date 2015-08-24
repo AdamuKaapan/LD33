@@ -290,7 +290,7 @@ public class MenuManager {
 		return new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setText(SaveFile.getHighScore(Game.getCurrentLevel()) == -1 ? "no best score yet" : ((best && showBest ? "[new!] " : "") + "best " + SaveFile.getHighScore(Game.getCurrentLevel()) + " shots"));
+				((HvlLabel)component).setText(SaveFile.getHighScore(Game.getCurrentLevel()) == -1 ? "no best score yet" : ((best && showBest ? "[new] " : "") + "best " + SaveFile.getHighScore(Game.getCurrentLevel()) + " shots"));
 				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
 				component.draw(delta);
 			}

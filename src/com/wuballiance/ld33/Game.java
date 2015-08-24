@@ -727,7 +727,7 @@ public class Game {
 	}
 
 	public static HvlAnimatedTextureUV getDotAnimation(int frame) {
-		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.dotAnimationIndex), 64, 62, 0.08f);
+		HvlAnimatedTextureUV tr = new HvlAnimatedTextureUV(HvlTemplateInteg2D.getTexture(Main.dotAnimationIndex), 256, 62, 0.08f);
 		tr.setCurrentFrame(frame % tr.getAnimationLength());
 		return tr;
 	}
