@@ -1,4 +1,5 @@
 package com.wuballiance.ld33;
+
 import java.awt.Desktop;
 import java.net.URI;
 import java.util.ArrayList;
@@ -28,7 +29,6 @@ import com.osreboot.ridhvl.menu.component.collection.HvlTextureDrawable;
 import com.osreboot.ridhvl.painter.painter2d.HvlFontPainter2D;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 
-
 public class MenuManager {
 
 	private static HashMap<HvlComponent, Float> opacity = new HashMap<>();
@@ -39,14 +39,14 @@ public class MenuManager {
 
 	public static HvlFontPainter2D font;
 
-	public static void initialize(){
+	public static void initialize() {
 		font = new HvlFontPainter2D(HvlTemplateInteg2D.getTexture(Main.fontIndex), HvlFontUtil.SIMPLISTIC, 2048, 2048, 128, 160, 16);
 
 		HvlLabel defaultLabel = new HvlLabel(font, "woops text", Color.white, 0.25f);
-		defaultLabel.setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		defaultLabel.setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
-			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)));
+			public void run(HvlComponent component, Float delta) {
+				((HvlLabel) component).setColor(new Color(1, 1, 1, getOpacity(component)));
 				component.draw(delta);
 			}
 		});
@@ -58,23 +58,26 @@ public class MenuManager {
 		HvlLabeledButton defaultLabeledButton = new HvlLabeledButton(256, 64, null, null, font, "woops text", Color.white);
 		defaultLabeledButton.setTextScale(0.2f);
 		defaultLabeledButton.setAlign(0.5f);
-		defaultLabeledButton.setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		defaultLabeledButton.setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
-			public void run(HvlComponent component, Float delta){
-				HvlLabeledButton button = (HvlLabeledButton)component;
+			public void run(HvlComponent component, Float delta) {
+				HvlLabeledButton button = (HvlLabeledButton) component;
 				button.setTextColor(new Color(1, 1, 1, getOpacity(component)));
 				button.draw(delta);
 			}
 		});
 		HvlComponentDefault.setDefault(defaultLabeledButton);
 		HvlButton defaultButton = new HvlButton(64, 64, null, null);
-		defaultButton.setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		defaultButton.setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
-			public void run(HvlComponent component, Float delta){
-				HvlButton button = (HvlButton)component;
-				if(button.getOnDrawable() instanceof HvlTextureDrawable) ((HvlTextureDrawable)button.getOnDrawable()).setColor(new Color(1, 1, 1, getOpacity(component)));
-				if(button.getOffDrawable() instanceof HvlTextureDrawable) ((HvlTextureDrawable)button.getOffDrawable()).setColor(new Color(1, 1, 1, getOpacity(component)));
-				if(button.getHoverDrawable() instanceof HvlTextureDrawable) ((HvlTextureDrawable)button.getHoverDrawable()).setColor(new Color(1, 1, 1, getOpacity(component)));
+			public void run(HvlComponent component, Float delta) {
+				HvlButton button = (HvlButton) component;
+				if (button.getOnDrawable() instanceof HvlTextureDrawable)
+					((HvlTextureDrawable) button.getOnDrawable()).setColor(new Color(1, 1, 1, getOpacity(component)));
+				if (button.getOffDrawable() instanceof HvlTextureDrawable)
+					((HvlTextureDrawable) button.getOffDrawable()).setColor(new Color(1, 1, 1, getOpacity(component)));
+				if (button.getHoverDrawable() instanceof HvlTextureDrawable)
+					((HvlTextureDrawable) button.getHoverDrawable()).setColor(new Color(1, 1, 1, getOpacity(component)));
 				component.draw(delta);
 			}
 		});
@@ -84,13 +87,14 @@ public class MenuManager {
 		levels = new HvlMenu();
 		options = new HvlMenu();
 		splash = new HvlMenu();
-		game = new HvlMenu(){
+		game = new HvlMenu() {
 			@Override
-			public void update(float delta){
+			public void update(float delta) {
 				Game.update(delta);
 			}
+
 			@Override
-			public void draw(float delta){
+			public void draw(float delta) {
 				Game.draw(delta);
 			}
 		};
@@ -104,229 +108,274 @@ public class MenuManager {
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("begin").setClickedCommand(getMenuLink(levels)).build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("options").setClickedCommand(getMenuLink(options)).build());
 		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(quit)).build());
-		main.add(new HvlButton.Builder().setOnDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex))).setHoverDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex))).setOffDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex)))
-				.setClickedCommand(new HvlAction1<HvlButton>(){
+		main.add(new HvlButton.Builder().setOnDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex)))
+				.setHoverDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex)))
+				.setOffDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex))).setClickedCommand(new HvlAction1<HvlButton>() {
 					@Override
-					public void run(HvlButton button){
-						try{
-							if(Desktop.isDesktopSupported()) Desktop.getDesktop().browse(new URI("www.wuballiance.com"));
-						}catch(Exception e){}
+					public void run(HvlButton button) {
+						try {
+							if (Desktop.isDesktopSupported())
+								Desktop.getDesktop().browse(new URI("www.wuballiance.com"));
+						} catch (Exception e) {
+						}
 					}
-				}).setX((float)Display.getWidth() - 96).setY((float)Display.getHeight() - 96).build());
+				}).setX((float) Display.getWidth() - 96).setY((float) Display.getHeight() - 96).build());
 
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 2));
 
-		//START LEVEL DEFINITIONS
-		addLevelButton("1", "FirstSteps", 6, 0, 0, "please put a quote here");
-		addLevelButton("2", "Conserve", 9, 1, 0);
-		addLevelButton("3", "Rounds", 9, 1, -1);
-		addLevelButton("4", "HarrisMap1", 7, 0, -1);
-		addLevelButton("5", "Map1", 9, -1, -1);
-		addLevelButton("6", "Corners", 9, -1, 0);
-		addLevelButton("7", "Loading", 15, -1, 1);
-		addLevelButton("8", "HollowPoint", 4, -1, 2);
-		addLevelButton("9", "StoppingForce", 6, -2, 2);
-		addLevelButton("10", "OneAndOnly", 10, -2, 1);
-		addLevelButton("11", "Katamari", 7, -2, 0);
-		addLevelButton("12", "Compass", 10, -2, -1);
-		addLevelButton("13", "AliveFinally", 7, 2, 0);
-		addLevelButton("14", "Clockwise", 7, 2, 1);
-		addLevelButton("15", "ChainReaction", 7, 3, 0);
-		//END LEVEL DEFINITIONS
+		// START LEVEL DEFINITIONS
+		addLevelButton("1", "Maps/FirstSteps", 6, 0, 0, "");
+		addLevelButton("2", "Maps/AliveFinally", 7, 1, 0);
+		addLevelButton("3", "Maps/Conserve", 9, 1, 0);
+		addLevelButton("4", "Maps/Corners", 9, 2, 0);
+		addLevelButton("5", "Maps/Rounds", 9, 3, 0);
+		addLevelButton("6", "Maps/HollowPoint", 4, 4, 0, "");
+		addLevelButton("7", "Maps/StoppingForce", 6, 5, 0);
+		addLevelButton("8", "Maps/Loading", 15, 6, 0);
+		addLevelButton("9", "Maps/Map1", 9, 7, 0);
+		addLevelButton("10", "Maps/OneAndOnly", 6, 8, 0, "");
+		addLevelButton("11", "Maps/Katamari", 7, 9, 0);
+		addLevelButton("12", "Maps/Compass", 10, 10, 0, "");
+		addLevelButton("13", "Maps/Spiral", 7, 0, 1, "");
+		addLevelButton("14", "Maps/Zig", 7, 0, 2, "");
+		addLevelButton("15", "Maps/Clockwise", 7, 13, 0, "");
+		addLevelButton("16", "Maps/ChainReaction", 2, 15, 0, "");
+		addLevelButton("17", "Maps/HarrisMap1", 7, 16, 0, "");
+
+		// addLevelButton("1", "FirstSteps", 6, 0, 0,
+		// "please put a quote here");
+		// addLevelButton("2", "Conserve", 9, 1, 0);
+		// addLevelButton("3", "Rounds", 9, 1, -1);
+		// addLevelButton("4", "HarrisMap1", 7, 0, -1);
+		// addLevelButton("5", "Map1", 9, -1, -1);
+		// addLevelButton("6", "Corners", 9, -1, 0);
+		// addLevelButton("7", "Loading", 15, -1, 1);
+		// addLevelButton("8", "HollowPoint", 4, -1, 2);
+		// addLevelButton("9", "StoppingForce", 6, -2, 2);
+		// addLevelButton("10", "OneAndOnly", 10, -2, 1);
+		// addLevelButton("11", "Katamari", 7, -2, 0);
+		// addLevelButton("12", "Compass", 10, -2, -1);
+		// addLevelButton("13", "AliveFinally", 7, 2, 0);
+		// addLevelButton("14", "Clockwise", 7, 2, 1);
+		// addLevelButton("15", "ChainReaction", 7, 3, 0);
+		// END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		options.add(new HvlArrangerBox.Builder().build());
 		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("options").build());
-		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("sound").setClickedCommand(new HvlAction1<HvlButton>(){
+		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("sound").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
-			public void run(HvlButton button){
+			public void run(HvlButton button) {
 				SaveFile.muted = !SaveFile.muted;
 				HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
 			}
 		}).build());
-		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth()/16*6) - 128).setY(Display.getHeight()/32*15).setText("on").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
-			@Override
-			public void run(HvlComponent component, Float delta){
-				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, (getOpacity(component))));
-				component.draw(delta);
-			}
-		}).setClickedCommand(new HvlAction1<HvlButton>(){
-			@Override
-			public void run(HvlButton aArg){
-				SaveFile.muted = false;
-				HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
-			}
-		}).build());
-		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth()/16*10) - 128).setY(Display.getHeight()/32*15).setText("off").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
-			@Override
-			public void run(HvlComponent component, Float delta){
-				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, (getOpacity(component))));
-				component.draw(delta);
-			}
-		}).setClickedCommand(new HvlAction1<HvlButton>(){
-			@Override
-			public void run(HvlButton aArg){
-				SaveFile.muted = true;
-				HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
-			}
-		}).build());
+		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth() / 16 * 6) - 128).setY(Display.getHeight() / 32 * 15)
+				.setText("on").setDrawOverride(new HvlAction2<HvlComponent, Float>() {
+					@Override
+					public void run(HvlComponent component, Float delta) {
+						((HvlLabeledButton) component).setTextColor(new Color(1, 1, 1, (getOpacity(component))));
+						component.draw(delta);
+					}
+				}).setClickedCommand(new HvlAction1<HvlButton>() {
+					@Override
+					public void run(HvlButton aArg) {
+						SaveFile.muted = false;
+						HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
+					}
+				}).build());
+		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth() / 16 * 10) - 128).setY(Display.getHeight() / 32 * 15)
+				.setText("off").setDrawOverride(new HvlAction2<HvlComponent, Float>() {
+					@Override
+					public void run(HvlComponent component, Float delta) {
+						((HvlLabeledButton) component).setTextColor(new Color(1, 1, 1, (getOpacity(component))));
+						component.draw(delta);
+					}
+				}).setClickedCommand(new HvlAction1<HvlButton>() {
+					@Override
+					public void run(HvlButton aArg) {
+						SaveFile.muted = true;
+						HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
+					}
+				}).build());
 		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		paused.add(new HvlArrangerBox.Builder().build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("paused").build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(false));
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getMenuLink(game)).build());
-		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>(){
+		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
 			public void run(HvlButton a) {
 				Game.reset();
 				menuGoal = game;
-			}}).build());
+			}
+		}).build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(main)).build());
 
 		loss.add(new HvlArrangerBox.Builder().build());
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("depletion death").build());
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setText("you used all shots").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
-			@Override
-			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
-				component.draw(delta);
-			}
-		}).build());
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(
+				new HvlLabel.Builder().setScale(0.1f).setText("you used all shots").setDrawOverride(new HvlAction2<HvlComponent, Float>() {
+					@Override
+					public void run(HvlComponent component, Float delta) {
+						((HvlLabel) component).setColor(new Color(1, 1, 1, getOpacity(component) / 1.2f));
+						component.draw(delta);
+					}
+				}).build());
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(false));
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>(){
+		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
 			public void run(HvlButton a) {
 				Game.reset();
 				menuGoal = game;
-			}}).build());
+			}
+		}).build());
 		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("give up").setClickedCommand(getMenuLink(levels)).build());
 
 		win.add(new HvlArrangerBox.Builder().build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("total eclipse [victory]").setScale(0.2f).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
-			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
+			public void run(HvlComponent component, Float delta) {
+				((HvlLabel) component).setColor(new Color(1, 1, 1, getOpacity(component) / 1.2f));
 				component.draw(delta);
 			}
 		}).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
-			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setText("[par " + Main.pars.get(Game.getCurrentLevel()) + "]");
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
+			public void run(HvlComponent component, Float delta) {
+				((HvlLabel) component).setText("[par " + Main.pars.get(Game.getCurrentLevel()) + "]");
+				((HvlLabel) component).setColor(new Color(1, 1, 1, getOpacity(component) / 1.2f));
 				component.draw(delta);
 			}
 		}).build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(true));
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("replay").setClickedCommand(new HvlAction1<HvlButton>(){
+		win.getFirstChildOfType(HvlArrangerBox.class)
+				.add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("replay").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
 			public void run(HvlButton a) {
 				Game.reset();
 				menuGoal = game;
-			}}).build());
+			}
+		}).build());
 
 		HvlMenu.setCurrent(splash);
 
-		new HvlInput(new HvlInput.HvlInputFilter(){
+		new HvlInput(new HvlInput.HvlInputFilter() {
 			@Override
-			public float getCurrentOutput(){
+			public float getCurrentOutput() {
 				return Keyboard.isKeyDown(Keyboard.KEY_ESCAPE) || Keyboard.isKeyDown(Keyboard.KEY_P) ? 1 : 0;
 			}
-		}).setReleasedAction(new HvlAction1<HvlInput>(){
+		}).setReleasedAction(new HvlAction1<HvlInput>() {
 			@Override
-			public void run(HvlInput aArg){
-				if(Main.getZoom() == 0 || Main.getZoom() == 1) if(HvlMenu.getCurrent() == paused) HvlMenu.setCurrent(game); else if(HvlMenu.getCurrent() == game) HvlMenu.setCurrent(paused);
+			public void run(HvlInput aArg) {
+				if (Main.getZoom() == 0 || Main.getZoom() == 1)
+					if (HvlMenu.getCurrent() == paused)
+						HvlMenu.setCurrent(game);
+					else if (HvlMenu.getCurrent() == game)
+						HvlMenu.setCurrent(paused);
 			}
 		});
 	}
 
-	public static HvlLabeledButton getOptionsSoundOn(){
-		return (HvlLabeledButton)options.getChild(1);
+	public static HvlLabeledButton getOptionsSoundOn() {
+		return (HvlLabeledButton) options.getChild(1);
 	}
 
-	public static HvlLabeledButton getOptionsSoundOff(){
-		return (HvlLabeledButton)options.getChild(2);
+	public static HvlLabeledButton getOptionsSoundOff() {
+		return (HvlLabeledButton) options.getChild(2);
 	}
 
 	private static ArrayList<HvlComponent> levelButtons = new ArrayList<>();
 
-	public static void update(float delta){
-		for(HvlComponent c : opacity.keySet()){
-			if(c == getOptionsSoundOn()) opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1/(SaveFile.muted ? 1.8f : 1.2f)));
-			else if(c == getOptionsSoundOff()) opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1/(!SaveFile.muted ? 1.8f : 1.2f)));
-			else if(levelButtons.contains(c)){
-				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta*2, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity + 0.6f));
-				if(c instanceof HvlButton && ((HvlButton)c).isHovering()) textOpacityGoal = 0f;
-			}else{
-				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, (c instanceof HvlButton && ((HvlButton)c).isHovering()) ? 1f : textOpacity));
-				if(c instanceof HvlButton && ((HvlButton)c).isHovering()) textOpacityGoal = 0f;
+	public static void update(float delta) {
+		for (HvlComponent c : opacity.keySet()) {
+			if (c == getOptionsSoundOn())
+				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1 / (SaveFile.muted ? 1.8f : 1.2f)));
+			else if (c == getOptionsSoundOff())
+				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, 1 / (!SaveFile.muted ? 1.8f : 1.2f)));
+			else if (levelButtons.contains(c)) {
+				opacity.put(c,
+						HvlMath.stepTowards(opacity.get(c), delta * 2, (c instanceof HvlButton && ((HvlButton) c).isHovering()) ? 1f : textOpacity + 0.6f));
+				if (c instanceof HvlButton && ((HvlButton) c).isHovering())
+					textOpacityGoal = 0f;
+			} else {
+				opacity.put(c, HvlMath.stepTowards(opacity.get(c), delta, (c instanceof HvlButton && ((HvlButton) c).isHovering()) ? 1f : textOpacity));
+				if (c instanceof HvlButton && ((HvlButton) c).isHovering())
+					textOpacityGoal = 0f;
 			}
 		}
 		textOpacity = HvlMath.stepTowards(textOpacity, delta, textOpacityGoal);
 		textOpacityGoal = 1f;
 
-		if(menuGoal != null){
+		if (menuGoal != null) {
 			menuDecay += delta;
-			if(menuDecay > 1){
-				if(menuGoal == quit) System.exit(0);
+			if (menuDecay > 1) {
+				if (menuGoal == quit)
+					System.exit(0);
 				HvlMenu.setCurrent(menuGoal);
 				menuDecay = 0;
 				menuGoal = null;
-				for(HvlComponent c : opacity.keySet()) opacity.put(c, 0f);
+				for (HvlComponent c : opacity.keySet())
+					opacity.put(c, 0f);
 				textOpacity = 0;
 			}
 		}
 
 		Dialogue.update(delta);
 	}
-	
+
 	public static boolean best = false;
-	
-	public static HvlLabel getHighscoreLabel(final boolean showBest){
-		return new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+
+	public static HvlLabel getHighscoreLabel(final boolean showBest) {
+		return new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
-			public void run(HvlComponent component, Float delta){
-				((HvlLabel)component).setText(SaveFile.getHighScore(Game.getCurrentLevel()) == -1 ? "no best score yet" : ((best && showBest ? "[new] " : "") + "best " + SaveFile.getHighScore(Game.getCurrentLevel()) + " shots"));
-				((HvlLabel)component).setColor(new Color(1, 1, 1, getOpacity(component)/1.2f));
+			public void run(HvlComponent component, Float delta) {
+				((HvlLabel) component).setText(SaveFile.getHighScore(Game.getCurrentLevel()) == -1 ? "no best score yet" : ((best && showBest ? "[new] " : "")
+						+ "best " + SaveFile.getHighScore(Game.getCurrentLevel()) + " shots"));
+				((HvlLabel) component).setColor(new Color(1, 1, 1, getOpacity(component) / 1.2f));
 				component.draw(delta);
 			}
 		}).build();
 	}
 
-	private static void addLevelButton(String id, String levelName, int par, int xArg, int yArg, String... dialogue){
-		float x = Display.getWidth()/24*((float)xArg + 12);
-		float y = Display.getHeight()/16*((float)-yArg + 7.5f);
+	private static void addLevelButton(String id, String levelName, int par, int xArg, int yArg, String... dialogue) {
+		float x = Display.getWidth() / 24 * ((float) xArg + 12);
+		float y = Display.getHeight() / 16 * ((float) -yArg + 7.5f);
 		Main.pars.put(levelName, par);
 		Dialogue cutscene = new Dialogue(new ArrayList<String>(Arrays.asList(dialogue)), game);
-		HvlLabeledButton button = new HvlLabeledButton.Builder().setWidth(24).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f).setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(dialogue.length > 0 ? cutscene.getMenu() : game, levelName)).build();
+		HvlLabeledButton button = new HvlLabeledButton.Builder().setWidth(24).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f)
+				.setDrawOverride(getLevelButtonDraw(levelName)).setClickedCommand(getLevelLink(dialogue.length > 0 ? cutscene.getMenu() : game, levelName))
+				.build();
 		levels.add(button);
 		levelButtons.add(button);
 	}
 
-	public static float getOpacity(HvlComponent component){
-		if(!opacity.containsKey(component)) opacity.put(component, 0f);
-		return Math.min(Math.max(opacity.get(component), Math.min(HvlMenu.getCurrent().getTotalTime()/2f, 0.5f)), 1 - menuDecay) - (float)Math.pow(Main.getZoom(), 0.2f);
+	public static float getOpacity(HvlComponent component) {
+		if (!opacity.containsKey(component))
+			opacity.put(component, 0f);
+		return Math.min(Math.max(opacity.get(component), Math.min(HvlMenu.getCurrent().getTotalTime() / 2f, 0.5f)), 1 - menuDecay)
+				- (float) Math.pow(Main.getZoom(), 0.2f);
 	}
 
-	public static HvlAction1<HvlButton> getMenuLink(final HvlMenu menu){
-		return new HvlAction1<HvlButton>(){
+	public static HvlAction1<HvlButton> getMenuLink(final HvlMenu menu) {
+		return new HvlAction1<HvlButton>() {
 			@Override
-			public void run(HvlButton button){
+			public void run(HvlButton button) {
 				menuGoal = menu;
 			}
 		};
 	}
 
-	public static HvlAction1<HvlButton> getLevelLink(final HvlMenu menu, final String level){
-		return new HvlAction1<HvlButton>(){
+	public static HvlAction1<HvlButton> getLevelLink(final HvlMenu menu, final String level) {
+		return new HvlAction1<HvlButton>() {
 			@Override
-			public void run(HvlButton button){
+			public void run(HvlButton button) {
 				Game.setCurrentLevel(level);
 				Game.initialize();
 				menuGoal = menu;
@@ -334,11 +383,11 @@ public class MenuManager {
 		};
 	}
 
-	public static HvlAction2<HvlComponent, Float> getLevelButtonDraw(final String levelName){
-		return new HvlAction2<HvlComponent, Float>(){
+	public static HvlAction2<HvlComponent, Float> getLevelButtonDraw(final String levelName) {
+		return new HvlAction2<HvlComponent, Float>() {
 			@Override
-			public void run(HvlComponent component, Float delta){
-				((HvlLabeledButton)component).setTextColor(new Color(1, 1, 1, getOpacity(component)/(!SaveFile.isCompleted(levelName) ? 0.8f : 1.4f)));
+			public void run(HvlComponent component, Float delta) {
+				((HvlLabeledButton) component).setTextColor(new Color(1, 1, 1, getOpacity(component) / (!SaveFile.isCompleted(levelName) ? 0.8f : 1.4f)));
 				component.draw(delta);
 			}
 		};
