@@ -13,4 +13,19 @@ public class SaveFile {
 		shots = new int[] { -1 };
 		muted = false;
 	}
+	
+	public static boolean isCompleted(String name)
+	{
+		int found = -1;
+		
+		for (int i = 0; i < names.length; i++)
+		{
+			if (names[i].equals(name))
+			{
+				found = i;
+				break;
+			}
+		}
+		return comps[found];
+	}
 }
