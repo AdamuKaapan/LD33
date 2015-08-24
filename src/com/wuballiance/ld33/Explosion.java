@@ -48,6 +48,15 @@ public class Explosion {
 					+ (Game.getMap().getTileHeight() / 2)), dir, 0.25f));
 		}
 	}
+	
+	public static void activateLargeExplosion(int x, int y) {
+		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 4) {
+			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(192f);
+
+			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()
+					+ (Game.getMap().getTileHeight() / 2)), dir, 1.0f));
+		}
+	}
 
 	public static void activateDirectionalExplosion(int x, int y, float xVel, float yVel) {
 
