@@ -128,11 +128,10 @@ public class Main extends HvlTemplateInteg2D {
 		
 		HvlCamera.setAlignment(HvlCameraAlignment.CENTER);
 	}
-
+	
 	@Override
 	public void update(float delta) {
 		HvlMenuDJ.setVolume(SaveFile.muted ? 0 : 1f);
-		System.out.println(HvlMenuDJ.getVolume());
 		
 		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth() / 2), HvlCamera.getY() - (Display.getHeight() / 2), Display.getWidth(), Display.getHeight(),
 				new Color(1, 1, 1, getZoom()));
