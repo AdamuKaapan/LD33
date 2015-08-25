@@ -127,10 +127,10 @@ public class MenuManager {
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 2));
 
 		// START LEVEL DEFINITIONS
-		addLevelButton("1", "Maps/FirstSteps", 6, 0, 0, "");
+		addLevelButton("1", "Maps/FirstSteps", 6, 0, 0, "you are darkness... and in your presence no light can be shed");
 		addLevelButton("2", "Maps/AliveFinally", 7, 1, 0);
 		addLevelButton("3", "Maps/Conserve", 9, 1, -1);
-		addLevelButton("4", "Maps/Corners", 9, 0, -1);
+		addLevelButton("4", "Maps/Corners", 9, 0, -1, "to fight evil you must understand the dark", "(nalini singh)");
 		addLevelButton("5", "Maps/Rounds", 9, -1, -1);
 		addLevelButton("6", "Maps/HollowPoint", 4, -1, 0, "");
 		addLevelButton("7", "Maps/StoppingForce", 6, -2, 0);
