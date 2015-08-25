@@ -127,23 +127,23 @@ public class MenuManager {
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 2));
 
 		// START LEVEL DEFINITIONS
-		addLevelButton("1", "Maps/FirstSteps", 6, 0, 0, "you are darkness... and in your presence no light can be shed");
-		addLevelButton("2", "Maps/AliveFinally", 7, 1, 0);
-		addLevelButton("3", "Maps/Conserve", 9, 1, -1);
-		addLevelButton("4", "Maps/Corners", 9, 0, -1, "to fight evil you must understand the dark", "(nalini singh)");
-		addLevelButton("5", "Maps/Rounds", 9, -1, -1);
-		addLevelButton("6", "Maps/HollowPoint", 4, -1, 0, "");
-		addLevelButton("7", "Maps/StoppingForce", 6, -2, 0);
-		addLevelButton("8", "Maps/Loading", 15, -2, -1);
-		addLevelButton("9", "Maps/Map1", 9, 2, 0);
-		addLevelButton("10", "Maps/OneAndOnly", 6, 2, 1, "");
-		addLevelButton("11", "Maps/Katamari", 7, 1, 2);
-		addLevelButton("12", "Maps/Compass", 10, 2, -1, "");
-		addLevelButton("13", "Maps/Spiral", 7, -1, 1);
-		addLevelButton("14", "Maps/Zig", 7, 0, -2);
-		addLevelButton("15", "Maps/Clockwise", 7, 1, -2);
-		addLevelButton("16", "Maps/ChainReaction", 2, 3, -2);
-		addLevelButton("17", "Maps/HarrisMap1", 7, -3, 0);
+		addLevelButton("1", "Maps/FirstSteps", 6, 		0, 0, "you are darkness... and in your presence no light can be shed");
+		addLevelButton("2", "Maps/AliveFinally", 7, 	1, 0);
+		addLevelButton("3", "Maps/Conserve", 9, 		1, -1);
+		addLevelButton("4", "Maps/Corners", 9, 			0, -1, "to fight evil you must understand the dark", "(nalini singh)");
+		addLevelButton("5", "Maps/Rounds", 9, 			-1, -1);
+		addLevelButton("6", "Maps/HollowPoint", 4, 		-1, 0);
+		addLevelButton("7", "Maps/StoppingForce", 6, 	-1, 1);
+		addLevelButton("8", "Maps/Loading", 15, 		0, 1);
+		addLevelButton("9", "Maps/Map1", 8, 			1, 1);
+		addLevelButton("10", "Maps/OneAndOnly", 6, 		2, 1, "darkness does not age... nothing is always nothing", "(dejan stojanovic)");
+		addLevelButton("11", "Maps/Katamari", 7, 		2, 0);
+		addLevelButton("12", "Maps/Compass", 10, 		2, -1);
+		addLevelButton("13", "Maps/Spiral", 7, 			1, -2);
+		addLevelButton("14", "Maps/Zig", 7, 			-1, 2, "fear can only grow in darkness");
+		addLevelButton("15", "Maps/Clockwise", 7, 		-2, 1);
+		addLevelButton("16", "Maps/ChainReaction", 2, 	-2, 0);
+		addLevelButton("17", "Maps/HarrisMap1", 7, 		-2, -1);
 		// END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
