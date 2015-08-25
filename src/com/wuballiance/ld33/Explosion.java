@@ -50,7 +50,7 @@ public class Explosion {
 	}
 	
 	public static void activateLargeExplosion(int x, int y) {
-		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 6) {
+		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 8) {
 			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(192f);
 
 			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()

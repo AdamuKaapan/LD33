@@ -134,7 +134,7 @@ public class MenuManager {
 		addLevelButton("6", "Maps/HollowPoint", 4, 4, 0, "");
 		addLevelButton("7", "Maps/StoppingForce", 6, 5, 0);
 		addLevelButton("8", "Maps/Loading", 15, 6, 0);
-		addLevelButton("9", "Maps/Map1", 9, 7, 0);
+		addLevelButton("9", "Maps/Map1", 8, 7, 0);
 		addLevelButton("10", "Maps/OneAndOnly", 6, 8, 0, "");
 		addLevelButton("11", "Maps/Katamari", 7, 9, 0);
 		addLevelButton("12", "Maps/Compass", 10, 10, 0, "");
