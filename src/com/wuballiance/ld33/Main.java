@@ -47,7 +47,7 @@ public class Main extends HvlTemplateInteg2D {
 	}
 
 	public Main() {
-		super(60, 1280, 720, "Tenebrous Expanse - by WubAlliance", new HvlDisplayModeDefault());
+		super(60, 1280, 720, "Tenebrous Expanse - by WubAlliance", "Icon", new HvlDisplayModeDefault());
 	}
 
 	@Override
@@ -132,6 +132,7 @@ public class Main extends HvlTemplateInteg2D {
 	@Override
 	public void update(float delta) {
 		HvlMenuDJ.setVolume(SaveFile.muted ? 0 : 1f);
+		System.out.println(HvlMenuDJ.getVolume());
 		
 		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth() / 2), HvlCamera.getY() - (Display.getHeight() / 2), Display.getWidth(), Display.getHeight(),
 				new Color(1, 1, 1, getZoom()));

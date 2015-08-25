@@ -128,38 +128,21 @@ public class MenuManager {
 		// START LEVEL DEFINITIONS
 		addLevelButton("1", "Maps/FirstSteps", 6, 0, 0, "");
 		addLevelButton("2", "Maps/AliveFinally", 7, 1, 0);
-		addLevelButton("3", "Maps/Conserve", 9, 1, 0);
-		addLevelButton("4", "Maps/Corners", 9, 2, 0);
-		addLevelButton("5", "Maps/Rounds", 9, 3, 0);
-		addLevelButton("6", "Maps/HollowPoint", 4, 4, 0, "");
-		addLevelButton("7", "Maps/StoppingForce", 6, 5, 0);
-		addLevelButton("8", "Maps/Loading", 15, 6, 0);
-		addLevelButton("9", "Maps/Map1", 9, 7, 0);
-		addLevelButton("10", "Maps/OneAndOnly", 6, 8, 0, "");
-		addLevelButton("11", "Maps/Katamari", 7, 9, 0);
-		addLevelButton("12", "Maps/Compass", 10, 10, 0, "");
-		addLevelButton("13", "Maps/Spiral", 7, 0, 1);
-		addLevelButton("14", "Maps/Zig", 7, 0, 2);
-		addLevelButton("15", "Maps/Clockwise", 7, 13, 0);
-		addLevelButton("16", "Maps/ChainReaction", 2, 15, 0);
-		addLevelButton("17", "Maps/HarrisMap1", 7, 16, 0);
-
-		// addLevelButton("1", "FirstSteps", 6, 0, 0,
-		// "please put a quote here");
-		// addLevelButton("2", "Conserve", 9, 1, 0);
-		// addLevelButton("3", "Rounds", 9, 1, -1);
-		// addLevelButton("4", "HarrisMap1", 7, 0, -1);
-		// addLevelButton("5", "Map1", 9, -1, -1);
-		// addLevelButton("6", "Corners", 9, -1, 0);
-		// addLevelButton("7", "Loading", 15, -1, 1);
-		// addLevelButton("8", "HollowPoint", 4, -1, 2);
-		// addLevelButton("9", "StoppingForce", 6, -2, 2);
-		// addLevelButton("10", "OneAndOnly", 10, -2, 1);
-		// addLevelButton("11", "Katamari", 7, -2, 0);
-		// addLevelButton("12", "Compass", 10, -2, -1);
-		// addLevelButton("13", "AliveFinally", 7, 2, 0);
-		// addLevelButton("14", "Clockwise", 7, 2, 1);
-		// addLevelButton("15", "ChainReaction", 7, 3, 0);
+		addLevelButton("3", "Maps/Conserve", 9, 1, -1);
+		addLevelButton("4", "Maps/Corners", 9, 0, -1);
+		addLevelButton("5", "Maps/Rounds", 9, -1, -1);
+		addLevelButton("6", "Maps/HollowPoint", 4, -1, 0, "");
+		addLevelButton("7", "Maps/StoppingForce", 6, -2, 0);
+		addLevelButton("8", "Maps/Loading", 15, -2, -1);
+		addLevelButton("9", "Maps/Map1", 9, 2, 0);
+		addLevelButton("10", "Maps/OneAndOnly", 6, 2, 1, "");
+		addLevelButton("11", "Maps/Katamari", 7, 1, 2);
+		addLevelButton("12", "Maps/Compass", 10, 2, -1, "");
+		addLevelButton("13", "Maps/Spiral", 7, -1, 1);
+		addLevelButton("14", "Maps/Zig", 7, 0, -2);
+		addLevelButton("15", "Maps/Clockwise", 7, 1, -2);
+		addLevelButton("16", "Maps/ChainReaction", 2, 3, -2);
+		addLevelButton("17", "Maps/HarrisMap1", 7, -3, 0);
 		// END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
