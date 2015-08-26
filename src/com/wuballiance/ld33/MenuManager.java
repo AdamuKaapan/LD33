@@ -19,7 +19,6 @@ import com.osreboot.ridhvl.input.HvlInput;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlComponentDefault;
 import com.osreboot.ridhvl.menu.HvlMenu;
-import com.osreboot.ridhvl.menu.HvlMenuDJ;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox.ArrangementStyle;
 import com.osreboot.ridhvl.menu.component.HvlButton;
@@ -32,6 +31,7 @@ import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 
 public class MenuManager {
 
+	public static HashMap<String, String> nextLevel = new HashMap<>();
 	private static HashMap<HvlComponent, Float> opacity = new HashMap<>();
 
 	public static float textOpacityGoal = 1, textOpacity = 0, menuDecay;
@@ -127,23 +127,23 @@ public class MenuManager {
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 2));
 
 		// START LEVEL DEFINITIONS
-		addLevelButton("1", "Maps/FirstSteps", 6, 		0, 0, "you are darkness... and in your presence no light can be shed");
-		addLevelButton("2", "Maps/AliveFinally", 7, 	1, 0);
-		addLevelButton("3", "Maps/Conserve", 9, 		1, -1);
-		addLevelButton("4", "Maps/Corners", 9, 			0, -1, "to fight evil you must understand the dark", "(nalini singh)");
-		addLevelButton("5", "Maps/Rounds", 9, 			-1, -1);
-		addLevelButton("6", "Maps/HollowPoint", 4, 		-1, 0);
-		addLevelButton("7", "Maps/StoppingForce", 6, 	-1, 1);
-		addLevelButton("8", "Maps/Loading", 15, 		0, 1);
-		addLevelButton("9", "Maps/Map1", 8, 			1, 1);
-		addLevelButton("10", "Maps/OneAndOnly", 6, 		2, 1, "darkness does not age... nothing is always nothing", "(dejan stojanovic)");
-		addLevelButton("11", "Maps/Katamari", 7, 		2, 0);
-		addLevelButton("12", "Maps/Compass", 10, 		2, -1);
-		addLevelButton("13", "Maps/Spiral", 7, 			1, -2);
-		addLevelButton("14", "Maps/Zig", 7, 			-1, 2, "fear can only grow in darkness");
-		addLevelButton("15", "Maps/Clockwise", 7, 		-2, 1);
-		addLevelButton("16", "Maps/ChainReaction", 2, 	-2, 0);
-		addLevelButton("17", "Maps/HarrisMap1", 7, 		-2, -1);
+		addLevelButton("1", "Maps/FirstSteps",		"2",	6, 		0, 0, "you are darkness... and in your presence no light can be shed");
+		addLevelButton("2", "Maps/AliveFinally",	"3",	7, 		1, 0);
+		addLevelButton("3", "Maps/Conserve",		"4",	9, 		1, -1);
+		addLevelButton("4", "Maps/Corners",			"5",	9, 		0, -1, "to fight evil you must understand the dark", "(nalini singh)");
+		addLevelButton("5", "Maps/Rounds",			"6",	9, 		-1, -1);
+		addLevelButton("6", "Maps/HollowPoint",		"7",	4, 		-1, 0);
+		addLevelButton("7", "Maps/StoppingForce",	"8",	6, 		-1, 1);
+		addLevelButton("8", "Maps/Loading",			"9",	15, 	0, 1);
+		addLevelButton("9", "Maps/Map1",			"10",	8, 		1, 1);
+		addLevelButton("10", "Maps/OneAndOnly",		"11",	6, 		2, 1, "darkness does not age... nothing is always nothing", "(dejan stojanovic)");
+		addLevelButton("11", "Maps/Katamari",		"12",	7, 		2, 0);
+		addLevelButton("12", "Maps/Compass",		"13",	10, 		2, -1);
+		addLevelButton("13", "Maps/Spiral",			"14",	7, 		1, -2);
+		addLevelButton("14", "Maps/Zig",			"15",	7, 		-1, 2, "fear can only grow in darkness");
+		addLevelButton("15", "Maps/Clockwise",		"16",	7, 		-2, 1);
+		addLevelButton("16", "Maps/ChainReaction",	"17",	2, 		-2, 0);
+		addLevelButton("17", "Maps/HarrisMap1",		"",		7, 		-2, -1);
 		// END LEVEL DEFINITIONS
 
 		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
@@ -198,6 +198,18 @@ public class MenuManager {
 				menuGoal = game;
 			}
 		}).build());
+		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("skip").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabeledButton) component).setTextColor(new Color(1, 1, 1, getOpacity(component) / (nextLevel.containsKey(Game.getCurrentLevel()) ? 1f : 1.8f)));
+				component.draw(delta);
+			}
+		}).setClickedCommand(new HvlAction1<HvlButton>() {
+			@Override
+			public void run(HvlButton a) {
+				goToNextLevel();
+			}
+		}).build());
 		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(main)).build());
 
 		loss.add(new HvlArrangerBox.Builder().build());
@@ -238,8 +250,19 @@ public class MenuManager {
 			}
 		}).build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(true));
-		win.getFirstChildOfType(HvlArrangerBox.class)
-				.add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("next").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+			@Override
+			public void run(HvlComponent component, Float delta){
+				((HvlLabeledButton) component).setTextColor(new Color(1, 1, 1, getOpacity(component) / (nextLevel.containsKey(Game.getCurrentLevel()) ? 1f : 1.8f)));
+				component.draw(delta);
+			}
+		}).setClickedCommand(new HvlAction1<HvlButton>() {
+			@Override
+			public void run(HvlButton a) {
+				goToNextLevel();
+			}
+		}).build());
+		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
 		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("replay").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
 			public void run(HvlButton a) {
@@ -267,6 +290,17 @@ public class MenuManager {
 		});
 	}
 
+	public static void goToNextLevel(){
+		if(nextLevel.containsKey(Game.getCurrentLevel())){
+			for(HvlComponent b : levelButtons){
+				if(b instanceof HvlLabeledButton && ((HvlLabeledButton)b).getText().equals(nextLevel.get(Game.getCurrentLevel()))){
+					((HvlLabeledButton)b).getClickedCommand().run((HvlLabeledButton)b);
+					break;
+				}
+			}
+		}
+	}
+	
 	public static HvlLabeledButton getOptionsSoundOn() {
 		return (HvlLabeledButton) options.getChild(1);
 	}
@@ -328,7 +362,8 @@ public class MenuManager {
 		}).build();
 	}
 
-	private static void addLevelButton(String id, String levelName, int par, int xArg, int yArg, String... dialogue) {
+	private static void addLevelButton(String id, String levelName, String nextLevelArg, int par, int xArg, int yArg, String... dialogue) {
+		if(nextLevelArg != "") nextLevel.put(levelName, nextLevelArg);
 		float x = Display.getWidth() / 24 * ((float) xArg + 12);
 		float y = Display.getHeight() / 16 * ((float) -yArg + 7.5f);
 		Main.pars.put(levelName, par);

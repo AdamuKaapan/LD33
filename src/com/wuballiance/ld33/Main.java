@@ -27,7 +27,7 @@ import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
 import com.osreboot.ridhvl.tile.HvlTilemapCollisionUtil;
 
 public class Main extends HvlTemplateInteg2D {
-
+	
 	public static Map<String, Integer> pars;
 
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4, playerSmall2Index = 5,
@@ -119,8 +119,7 @@ public class Main extends HvlTemplateInteg2D {
 		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.splash);
 		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.levels);
 		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.options);
-		HvlMenuDJ.addAllSongs(MenuManager.main, MenuManager.win);
-		
+		HvlMenuDJ.addAllSongs(MenuManager.game, MenuManager.win);
 		HvlMenuDJ.addAllSongs(MenuManager.game, MenuManager.paused);
 		HvlMenuDJ.addAllSongs(MenuManager.game, MenuManager.loss);
 		
