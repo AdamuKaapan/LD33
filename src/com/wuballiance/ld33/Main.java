@@ -13,6 +13,7 @@ import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTimer;
 import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
+import com.osreboot.ridhvl.loader.HvlSoundLoader.HvlSoundType;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.HvlMenuDJ;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
@@ -82,14 +83,14 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("DirectionalBombAnimation");
 		getTextureLoader().loadResource("DirectionalExplosionAnimation");
 
-		getSoundLoader().loadResource("Bright Darkness");
-		getSoundLoader().loadResource("Checkmate");
-		getSoundLoader().loadResource("Droplet of Light");
-		getSoundLoader().loadResource("Light and Darkness");
-		getSoundLoader().loadResource("Nightfall");
-		getSoundLoader().loadResource("Persona");
-		getSoundLoader().loadResource("Sky without Stars");
-		getSoundLoader().loadResource("Torental River");
+		getSoundLoader().loadResource("Bright_Darkness", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Checkmate", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Droplet_of_Light", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Light_and_Darkness", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Nightfall", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Persona", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Sky_without_Stars", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Torental_River", HvlSoundType.OGG);
 		
 		pars = new HashMap<>();
 		pars.put("TestMap", 30);
