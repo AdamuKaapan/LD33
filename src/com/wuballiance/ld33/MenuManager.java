@@ -138,7 +138,7 @@ public class MenuManager {
 		addLevelButton("9", "Maps/Map1",			"10",	8, 		1, 1);
 		addLevelButton("10", "Maps/OneAndOnly",		"11",	6, 		2, 1, "darkness does not age... nothing is always nothing", "(dejan stojanovic)");
 		addLevelButton("11", "Maps/Katamari",		"12",	7, 		2, 0);
-		addLevelButton("12", "Maps/Compass",		"13",	10, 		2, -1);
+		addLevelButton("12", "Maps/Compass",		"13",	10, 	2, -1);
 		addLevelButton("13", "Maps/Spiral",			"14",	7, 		1, -2);
 		addLevelButton("14", "Maps/Zig",			"15",	7, 		-1, 2, "fear can only grow in darkness");
 		addLevelButton("15", "Maps/Clockwise",		"16",	7, 		-2, 1);
