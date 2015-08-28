@@ -18,6 +18,7 @@ import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.HvlMenuDJ;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.HvlCamera;
+import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraTransformation;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
@@ -34,7 +35,7 @@ public class Main extends HvlTemplateInteg2D {
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4, playerSmall2Index = 5,
 			player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9, auraIndex = 10, logoIndex = 11, logoInvertIndex = 12,
 			darkenAnimationIndex = 13, smallExplosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16, smallBombIndex = 17,
-			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20, directionalExplosionIndex = 21;
+			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20, directionalExplosionIndex = 21, cursorIndex = 22;
 
 	private float playerRotation = 0;
 
@@ -82,6 +83,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("LargeExplosionAnimation");
 		getTextureLoader().loadResource("DirectionalBombAnimation");
 		getTextureLoader().loadResource("DirectionalExplosionAnimation");
+		getTextureLoader().loadResource("Cursor");
 
 		getSoundLoader().loadResource("Bright_Darkness", HvlSoundType.OGG);
 		getSoundLoader().loadResource("Checkmate", HvlSoundType.OGG);
@@ -91,6 +93,13 @@ public class Main extends HvlTemplateInteg2D {
 		getSoundLoader().loadResource("Persona", HvlSoundType.OGG);
 		getSoundLoader().loadResource("Sky_without_Stars", HvlSoundType.OGG);
 		getSoundLoader().loadResource("Torental_River", HvlSoundType.OGG);
+		
+//		HvlCursor.setNativeHidden(true);
+//		HvlCursor.setTexture(getTexture(cursorIndex));
+//		HvlCursor.setOffset(-8);
+//		HvlCursor.setHeight(16);
+//		HvlCursor.setWidth(16);
+//		HvlCursor.setRelativeToCamera(true);
 		
 		pars = new HashMap<>();
 		pars.put("TestMap", 30);
@@ -131,6 +140,8 @@ public class Main extends HvlTemplateInteg2D {
 	
 	@Override
 	public void update(float delta) {
+//		HvlCursor.setColor(new Color(1 - zoom, 1 - zoom, 1 - zoom, 1));
+		
 		HvlMenuDJ.setVolume(SaveFile.muted ? 0 : 1f);
 		
 		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth() / 2), HvlCamera.getY() - (Display.getHeight() / 2), Display.getWidth(), Display.getHeight(),

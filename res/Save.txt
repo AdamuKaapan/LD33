@@ -1,4 +1,4 @@
 names:{'Maps/FirstSteps', 'Maps/AliveFinally', 'Maps/Conserve', 'Maps/Corners', 'Maps/Rounds', 'Maps/HollowPoint', 'Maps/StoppingForce', 'Maps/Loading', 'Maps/Map1', 'Maps/OneAndOnly', 'Maps/Katamari', 'Maps/Compass', 'Maps/Spiral', 'Maps/Zig', 'Maps/Clockwise', 'Maps/Split', 'Maps/ChainReaction', 'Maps/HarrisMap1'}
-comps:{'true', 'true', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'true'}
-shots:{'2', '5', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '6'}
+comps:{'true', 'true', 'true', 'true', 'false', 'true', 'true', 'false', 'true', 'true', 'true', 'false', 'false', 'true', 'false', 'false', 'false', 'true'}
+shots:{'5', '4', '9', '8', '-1', '5', '4', '-1', '5', '6', '5', '-1', '-1', '6', '-1', '-1', '-1', '5'}
 muted:false
