@@ -273,9 +273,9 @@ public class Game {
 			if (!entry.getValue().isRunning()) {
 				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D
 						.getTexture(Main.smallExplosionAnimationIndex))
-					Explosion.activateSmallExplosion(entry.getKey().x, entry.getKey().y);
+					Explosion.activateRadialExplosion(entry.getKey().x, entry.getKey().y, 8, 48f, 1f);
 				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.largeExplosionIndex))
-					Explosion.activateLargeExplosion(entry.getKey().x, entry.getKey().y);
+					Explosion.activateRadialExplosion(entry.getKey().x, entry.getKey().y, 16, 144f, 0.75f);
 				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D
 						.getTexture(Main.directionalExplosionIndex)) {
 					float a = directionalBombDirs.get(new TileCoord(entry.getKey().x, entry.getKey().y));

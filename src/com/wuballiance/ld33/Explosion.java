@@ -40,23 +40,32 @@ public class Explosion {
 		HvlPainter2D.hvlDrawQuad(pos.x - 16, pos.y - 16, 32, 32, HvlTemplateInteg2D.getTexture(Main.auraIndex), new Color(1, 1, 1, 1.0f - (timeAlive / lifetime)));
 	}
 
-	public static void activateSmallExplosion(int x, int y) {
-		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 4) {
-			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(192f);
+	public static void activateRadialExplosion(int x, int y, int particleCount, float radius, float time) {
+		for (float theta = 0; theta < 2 * (float) Math.PI; theta += ((float) Math.PI * 2) / particleCount) {
+			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(radius / time);
 
 			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()
-					+ (Game.getMap().getTileHeight() / 2)), dir, 0.25f));
+					+ (Game.getMap().getTileHeight() / 2)), dir, time));
 		}
 	}
 	
-	public static void activateLargeExplosion(int x, int y) {
-		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 8) {
-			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(192f);
-
-			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()
-					+ (Game.getMap().getTileHeight() / 2)), dir, 0.75f));
-		}
-	}
+//	public static void activateSmallExplosion(int x, int y) {
+//		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 4) {
+//			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(192f);
+//
+//			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()
+//					+ (Game.getMap().getTileHeight() / 2)), dir, 0.25f));
+//		}
+//	}
+	
+//	public static void activateLargeExplosion(int x, int y) {
+//		for (float theta = 0; theta < 2 * (float) Math.PI; theta += (float) Math.PI / 8) {
+//			HvlCoord dir = new HvlCoord((float) Math.cos(theta), (float) Math.sin(theta)).normalize().fixNaN().mult(192f);
+//
+//			Game.explosionsToAdd.add(new Explosion(new HvlCoord(x * Game.getMap().getTileWidth() + (Game.getMap().getTileWidth() / 2), y * Game.getMap().getTileHeight()
+//					+ (Game.getMap().getTileHeight() / 2)), dir, 0.75f));
+//		}
+//	}
 
 	public static void activateDirectionalExplosion(int x, int y, float xVel, float yVel) {
 
