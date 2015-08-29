@@ -77,7 +77,7 @@ public class Player {
 
 	public static void update(float delta) {
 		//particles.setPosition(pos.x, pos.y);
-		if (Game.getState() == State.WINDUP) {
+		if (Game.getState() == State.WINDUP && Game.currentTurn < Game.par) {
 			if (Mouse.isButtonDown(0)) {
 				if (HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2) < radius) {
 					isDragging = true;

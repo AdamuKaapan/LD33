@@ -4898,7 +4898,7 @@ Tile:8
 Tile:8
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
 <com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 26, 14>
-Tile:8
+Tile:0
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
 <com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 26, 15>
 Tile:0
@@ -12481,15 +12481,12 @@ Tile:35
 Tile:18
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
 <com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 25, 14>
-Tile:26
-</com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
-<com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 25, 15>
-Tile:35
+Tile:2
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
 <com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 26, 9>
 Tile:18
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
-<com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 26, 15>
+<com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 26, 14>
 Tile:2
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
 <com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 27, 9>
@@ -12508,9 +12505,6 @@ Tile:9
 Tile:9
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
 <com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 27, 14>
-Tile:9
-</com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
-<com.osreboot.ridhvl.tile.collection.HvlSimpleTile, 27, 15>
 Tile:36
 </com.osreboot.ridhvl.tile.collection.HvlSimpleTile>
 </TileMap>
