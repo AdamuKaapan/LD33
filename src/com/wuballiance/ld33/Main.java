@@ -13,10 +13,12 @@ import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTimer;
 import com.osreboot.ridhvl.config.HvlConfigUtil;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
+import com.osreboot.ridhvl.loader.HvlSoundLoader.HvlSoundType;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.HvlMenuDJ;
 import com.osreboot.ridhvl.painter.HvlAnimatedTextureUV;
 import com.osreboot.ridhvl.painter.HvlCamera;
+import com.osreboot.ridhvl.painter.HvlCursor;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraTransformation;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
@@ -33,7 +35,7 @@ public class Main extends HvlTemplateInteg2D {
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4, playerSmall2Index = 5,
 			player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9, auraIndex = 10, logoIndex = 11, logoInvertIndex = 12,
 			darkenAnimationIndex = 13, smallExplosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16, smallBombIndex = 17,
-			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20, directionalExplosionIndex = 21;
+			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20, directionalExplosionIndex = 21, cursorIndex = 22;
 
 	private float playerRotation = 0;
 
@@ -81,15 +83,23 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("LargeExplosionAnimation");
 		getTextureLoader().loadResource("DirectionalBombAnimation");
 		getTextureLoader().loadResource("DirectionalExplosionAnimation");
+		getTextureLoader().loadResource("Cursor");
 
-		getSoundLoader().loadResource("Bright Darkness");
-		getSoundLoader().loadResource("Checkmate");
-		getSoundLoader().loadResource("Droplet of Light");
-		getSoundLoader().loadResource("Light and Darkness");
-		getSoundLoader().loadResource("Nightfall");
-		getSoundLoader().loadResource("Persona");
-		getSoundLoader().loadResource("Sky without Stars");
-		getSoundLoader().loadResource("Torental River");
+		getSoundLoader().loadResource("Bright_Darkness", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Checkmate", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Droplet_of_Light", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Light_and_Darkness", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Nightfall", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Persona", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Sky_without_Stars", HvlSoundType.OGG);
+		getSoundLoader().loadResource("Torental_River", HvlSoundType.OGG);
+		
+//		HvlCursor.setNativeHidden(true);
+//		HvlCursor.setTexture(getTexture(cursorIndex));
+//		HvlCursor.setOffset(-8);
+//		HvlCursor.setHeight(16);
+//		HvlCursor.setWidth(16);
+//		HvlCursor.setRelativeToCamera(true);
 		
 		pars = new HashMap<>();
 		pars.put("TestMap", 30);
@@ -130,6 +140,8 @@ public class Main extends HvlTemplateInteg2D {
 	
 	@Override
 	public void update(float delta) {
+//		HvlCursor.setColor(new Color(1 - zoom, 1 - zoom, 1 - zoom, 1));
+		
 		HvlMenuDJ.setVolume(SaveFile.muted ? 0 : 1f);
 		
 		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth() / 2), HvlCamera.getY() - (Display.getHeight() / 2), Display.getWidth(), Display.getHeight(),
@@ -229,6 +241,11 @@ public class Main extends HvlTemplateInteg2D {
 			hvlDrawLine(offset.x - (Display.getWidth() / 8), offset.y - (Display.getHeight() / 16 * 7),
 					offset.x - (Display.getWidth() / 8) + ((Display.getWidth() / 4) * barProgress), offset.y - (Display.getHeight() / 16 * 7), new Color(0, 0,
 							0, getZoom()), 4);
+			for(float i = 0; i < 1; i += 1f/((float)pars.get(Game.getCurrentLevel()))){
+				hvlDrawLine(
+						offset.x - (Display.getWidth() / 8) + (i * (Display.getWidth()/4)), offset.y - (Display.getHeight() / 16 * 7) - 4,
+						offset.x - (Display.getWidth() / 8) + (i * (Display.getWidth()/4)), offset.y - (Display.getHeight() / 16 * 7) + 4, new Color(0.4f, 0.4f, 0.4f, getZoom()), 2);
+			}
 		}
 	}
 

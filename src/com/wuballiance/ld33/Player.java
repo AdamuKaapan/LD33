@@ -79,19 +79,21 @@ public class Player {
 		//particles.setPosition(pos.x, pos.y);
 		if (Game.getState() == State.WINDUP && Game.currentTurn < Game.par) {
 			if (Mouse.isButtonDown(0)) {
-				if (HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2) < radius) {
+				if (!isDragging) {
 					isDragging = true;
 					dragStart = new HvlCoord(HvlCursor.getCursorX(), HvlCursor.getCursorY());
 				}
 			} else {
-				if (isDragging && HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2) > radius * 2) {
+				if (isDragging) {
 					HvlCoord dir = new HvlCoord(dragStart.x - HvlCursor.getCursorX(), dragStart.y - HvlCursor.getCursorY());
-					float oldLen = dir.length();
-					dir.normalize().mult(Math.min(oldLen, 196.0f) * launchSpeed);
-					vel.x = dir.x;
-					vel.y = dir.y;
-					Game.setState(State.MOVING);
-					Game.setCurrentTurn(Game.getCurrentTurn() + 1);
+					if(dir.length() > radius * 2){
+						float oldLen = dir.length();
+						dir.normalize().mult(Math.min(oldLen, 196.0f) * launchSpeed);
+						vel.x = dir.x;
+						vel.y = dir.y;
+						Game.setState(State.MOVING);
+						Game.setCurrentTurn(Game.getCurrentTurn() + 1);
+					}
 				}
 				isDragging = false;
 			}
@@ -140,24 +142,24 @@ public class Player {
 			float oldLen = dir.length();
 			dir.normalize().fixNaN().mult(Math.min(oldLen, 196.0f));
 
-			float distance = HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2);
-			if(distance > radius * 2){
+			//float distance = HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2);
+			if(dir.length() > radius * 2){
 				HvlCoord startPoint = new HvlCoord(dir.x, dir.y);
 				startPoint.normalize();
 				startPoint.mult(-16);
 				startPoint.add(pos);
 				HvlPainter2D.hvlDrawLine(startPoint.x, startPoint.y, pos.x - dir.x, pos.y - dir.y, new Color(0.4f, 0.4f, 0.4f, 1), 3);
-				
+
 				HvlCoord hairPoint = new HvlCoord(dir.x, dir.y);
 				hairPoint.normalize();
 				hairPoint.mult(16);
 				hairPoint.add(pos);
-				
+
 				HvlCoord hair2Point = new HvlCoord(dir.x, dir.y);
 				hair2Point.normalize();
 				hair2Point.mult(18);
 				hair2Point.add(pos);
-				
+
 				HvlPainter2D.hvlDrawLine(hairPoint.x, hairPoint.y, hair2Point.x, hair2Point.y, new Color(0.4f, 0.4f, 0.4f, 1), 2);
 			}	
 		}
