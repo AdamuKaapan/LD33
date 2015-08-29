@@ -782,7 +782,13 @@ public class Game {
 		
 		if (!explosions.isEmpty() || !explosionsToAdd.isEmpty() || !explosionAnimations.isEmpty())
 			return;
-
+		
+		for (Map.Entry<TileCoord, HvlAnimatedTextureUV> anim : tileCoverAnimations.entrySet())
+		{
+			if (anim.getValue().isRunning())
+				return;
+		}
+		
 		boolean win = true;
 
 		for (int x = 0; x < map.getLayer(0).getMapWidth(); x++) {

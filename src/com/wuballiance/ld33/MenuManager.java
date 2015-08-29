@@ -142,7 +142,7 @@ public class MenuManager {
 		addLevelButton("13", "Maps/Spiral",			"14",	9, 		1, -2);
 		addLevelButton("14", "Maps/Zig",			"15",	6, 		-1, 2, "fear can only grow in darkness");
 		addLevelButton("15", "Maps/Clockwise",		"16",	5, 		-2, 1);
-		addLevelButton("16", "Maps/ChainReaction",	"17",	2, 		-2, 0);
+		addLevelButton("16", "Maps/ChainReaction",	"17",	3, 		-2, 0);
 		addLevelButton("17", "Maps/HarrisMap1",		"",		5, 		-2, -1);
 		// END LEVEL DEFINITIONS
 
