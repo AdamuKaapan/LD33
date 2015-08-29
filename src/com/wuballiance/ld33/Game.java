@@ -595,7 +595,6 @@ public class Game {
 			if (!explosionAnimations.containsKey(new TileCoord(x, y))) {
 				tileCoverAnimations.remove(new TileCoord(x, y));
 				explosionAnimations.put(new TileCoord(x, y), getSmallExplosionAnimation());
-				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
 			}
 		}
 		if (st2 != null && st2.getTile() == largeExplosionTile) {
@@ -603,7 +602,6 @@ public class Game {
 			if (!explosionAnimations.containsKey(new TileCoord(x, y))) {
 				tileCoverAnimations.remove(new TileCoord(x, y));
 				explosionAnimations.put(new TileCoord(x, y), getLargeExplosionAnimation());
-				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
 			}
 		}
 		if (st2 != null && st2.getTile() == directionalExplosionTile) {
@@ -612,7 +610,6 @@ public class Game {
 				tileCoverAnimations.remove(new TileCoord(x, y));
 				explosionAnimations.put(new TileCoord(x, y), getDirectionalExplosionAnimation());
 				directionalBombDirs.put(new TileCoord(x, y), Explosion.getDirectionalExplosionAngle(x, y, xVel, yVel));
-				Game.map.getLayer(0).setTile(x, y, new HvlSimpleTile(0));
 			}
 			// Explosion.activateDirectionalExplosion(x, y, xVel, yVel);
 		}
