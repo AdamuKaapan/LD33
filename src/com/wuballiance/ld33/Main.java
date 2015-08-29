@@ -241,6 +241,11 @@ public class Main extends HvlTemplateInteg2D {
 			hvlDrawLine(offset.x - (Display.getWidth() / 8), offset.y - (Display.getHeight() / 16 * 7),
 					offset.x - (Display.getWidth() / 8) + ((Display.getWidth() / 4) * barProgress), offset.y - (Display.getHeight() / 16 * 7), new Color(0, 0,
 							0, getZoom()), 4);
+			for(float i = 0; i < 1; i += 1f/((float)pars.get(Game.getCurrentLevel()))){
+				hvlDrawLine(
+						offset.x - (Display.getWidth() / 8) + (i * (Display.getWidth()/4)), offset.y - (Display.getHeight() / 16 * 7) - 4,
+						offset.x - (Display.getWidth() / 8) + (i * (Display.getWidth()/4)), offset.y - (Display.getHeight() / 16 * 7) + 4, new Color(0.4f, 0.4f, 0.4f, getZoom()), 2);
+			}
 		}
 	}
 

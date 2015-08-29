@@ -131,17 +131,17 @@ public class MenuManager {
 		addLevelButton("2", "Maps/AliveFinally",	"3",	7, 		1, 0);
 		addLevelButton("3", "Maps/Conserve",		"4",	9, 		1, -1);
 		addLevelButton("4", "Maps/Corners",			"5",	10, 	0, -1, "to fight evil you must understand the dark", "(nalini singh)");
-		addLevelButton("5", "Maps/Rounds",			"6",	9, 		-1, -1);
+		addLevelButton("5", "Maps/Rounds",			"6",	8, 		-1, -1);
 		addLevelButton("6", "Maps/HollowPoint",		"7",	5, 		-1, 0);
 		addLevelButton("7", "Maps/StoppingForce",	"8",	5, 		-1, 1);
-		addLevelButton("8", "Maps/Loading",			"9",	15, 	0, 1);
+		addLevelButton("8", "Maps/Loading",			"9",	10, 	0, 1);
 		addLevelButton("9", "Maps/Map1",			"10",	6, 		1, 1);
-		addLevelButton("10", "Maps/OneAndOnly",		"11",	7, 		2, 1, "darkness does not age... nothing is always nothing", "(dejan stojanovic)");
+		addLevelButton("10", "Maps/OneAndOnly",		"11",	8, 		2, 1, "darkness does not age... nothing is always nothing", "(dejan stojanovic)");
 		addLevelButton("11", "Maps/Katamari",		"12",	6, 		2, 0);
-		addLevelButton("12", "Maps/Compass",		"13",	10, 	2, -1);
-		addLevelButton("13", "Maps/Spiral",			"14",	7, 		1, -2);
+		addLevelButton("12", "Maps/Compass",		"13",	4, 		2, -1);
+		addLevelButton("13", "Maps/Spiral",			"14",	9, 		1, -2);
 		addLevelButton("14", "Maps/Zig",			"15",	6, 		-1, 2, "fear can only grow in darkness");
-		addLevelButton("15", "Maps/Clockwise",		"16",	7, 		-2, 1);
+		addLevelButton("15", "Maps/Clockwise",		"16",	5, 		-2, 1);
 		addLevelButton("16", "Maps/ChainReaction",	"17",	2, 		-2, 0);
 		addLevelButton("17", "Maps/HarrisMap1",		"",		5, 		-2, -1);
 		// END LEVEL DEFINITIONS
