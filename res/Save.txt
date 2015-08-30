@@ -1,4 +1,0 @@
-names:{'Maps/FirstSteps', 'Maps/AliveFinally', 'Maps/Conserve', 'Maps/Corners', 'Maps/Rounds', 'Maps/HollowPoint', 'Maps/StoppingForce', 'Maps/Loading', 'Maps/Map1', 'Maps/OneAndOnly', 'Maps/Katamari', 'Maps/Compass', 'Maps/Spiral', 'Maps/Zig', 'Maps/Clockwise', 'Maps/Split', 'Maps/ChainReaction', 'Maps/HarrisMap1'}
-comps:{'true', 'true', 'true', 'true', 'true', 'true', 'true', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false', 'false'}
-shots:{'2', '5', '9', '10', '5', '4', '5', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1', '-1'}
-muted:false
