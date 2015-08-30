@@ -32,7 +32,7 @@ import com.osreboot.ridhvl.tile.collection.HvlSimpleTile;
 
 public class Game {
 	public enum State {
-		MOVING, WINDUP
+		MOVING, WINDUP, WINWAIT
 	}
 
 	public static class TileCoord {
@@ -273,9 +273,9 @@ public class Game {
 			if (!entry.getValue().isRunning()) {
 				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D
 						.getTexture(Main.smallExplosionAnimationIndex))
-					Explosion.activateSmallExplosion(entry.getKey().x, entry.getKey().y);
+					Explosion.activateRadialExplosion(entry.getKey().x, entry.getKey().y, 8, 48f, 1f);
 				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D.getTexture(Main.largeExplosionIndex))
-					Explosion.activateLargeExplosion(entry.getKey().x, entry.getKey().y);
+					Explosion.activateRadialExplosion(entry.getKey().x, entry.getKey().y, 16, 144f, 0.75f);
 				if (entry.getValue().getCurrentTexture() == HvlTemplateInteg2D
 						.getTexture(Main.directionalExplosionIndex)) {
 					float a = directionalBombDirs.get(new TileCoord(entry.getKey().x, entry.getKey().y));
@@ -308,6 +308,31 @@ public class Game {
 		explosionsToAdd.clear();
 		for (Explosion r : trExp) {
 			explosions.remove(r);
+		}
+
+		if (state == State.WINWAIT) {
+			boolean shouldWin = true;
+
+			for (Map.Entry<TileCoord, Float> entry : opacities.entrySet()) {
+				float x = Game.getMap().toWorldX(entry.getKey().x);
+				float y = Game.getMap().toWorldY(entry.getKey().y);
+
+				if (x - (2 * Game.getMap().getTileWidth()) < Player.getX() - (Display.getWidth() / 2)
+						|| y - (2 * Game.getMap().getTileHeight()) < Player.getY() - (Display.getHeight() / 2))
+					continue;
+				if (x + (2 * Game.getMap().getTileWidth()) > Player.getX() + (Display.getWidth() / 2)
+						|| y + (2 * Game.getMap().getTileHeight()) > Player.getY() + (Display.getHeight() / 2))
+					continue;
+
+				if (entry.getValue() < 1.0f) {
+					shouldWin = false;
+					break;
+				}
+			}
+
+			if (shouldWin) {
+				onWin();
+			}
 		}
 	}
 
@@ -674,7 +699,8 @@ public class Game {
 				map.getLayer(0).setTile(x, y, new HvlSimpleTile(offTile));
 			}
 		} else if (st0 != null && st0.getTile() == offTile) {
-			if (!tileCoverAnimations.containsKey(new TileCoord(x, y)) && !explosionAnimations.containsKey(new TileCoord(x, y)))
+			if (!tileCoverAnimations.containsKey(new TileCoord(x, y))
+					&& !explosionAnimations.containsKey(new TileCoord(x, y)))
 				tileCoverAnimations.put(new TileCoord(x, y), getTileCoverParticles());
 
 			dotAnimations.remove(new TileCoord(x, y));
@@ -883,7 +909,7 @@ public class Game {
 		}
 
 		if (win) {
-			onWin();
+			state = State.WINWAIT;
 		} else if (Game.currentTurn >= Game.par) {
 			onLose();
 		}
