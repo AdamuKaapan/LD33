@@ -130,11 +130,11 @@ public class MenuManager {
 		addLevelButton("1", "Maps/FirstSteps",		"2",	6, 		0, 0, "you are darkness... and in your presence no light can be shed");
 		addLevelButton("2", "Maps/AliveFinally",	"3",	8, 		1, 0);
 		addLevelButton("3", "Maps/Conserve",		"4",	9, 		1, -1);
-		addLevelButton("4", "Maps/Corners",			"5",	10, 	0, -1, "to fight evil you must understand the dark", "(nalini singh)");
-		addLevelButton("5", "Maps/Rounds",			"6",	8, 		-1, -1);
+		addLevelButton("4", "Maps/Corners",			"5",	11, 	0, -1, "to fight evil you must understand the dark", "(nalini singh)");
+		addLevelButton("5", "Maps/Rounds",			"6",	7, 		-1, -1);
 		addLevelButton("6", "Maps/HollowPoint",		"7",	5, 		-1, 0);
-		addLevelButton("7", "Maps/StoppingForce",	"8",	5, 		-1, 1);
-		addLevelButton("8", "Maps/Loading",			"9",	11, 	0, 1);
+		addLevelButton("7", "Maps/StoppingForce",	"8",	6, 		-1, 1);
+		addLevelButton("8", "Maps/Loading",			"9",	13, 	0, 1);
 		addLevelButton("9", "Maps/Map1",			"10",	6, 		1, 1);
 		addLevelButton("10", "Maps/OneAndOnly",		"11",	8, 		2, 1, "darkness does not age... nothing is always nothing", "(dejan stojanovic)");
 		addLevelButton("11", "Maps/Katamari",		"12",	6, 		2, 0);
