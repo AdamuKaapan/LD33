@@ -105,10 +105,10 @@ public class MenuManager {
 		loss = new HvlMenu();
 
 		main.add(new HvlArrangerBox.Builder().build());
-		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("tenebrous expanse").build());
-		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("begin").setClickedCommand(getMenuLink(levels)).build());
-		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("options").setClickedCommand(getMenuLink(options)).build());
-		main.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(quit)).build());
+		main.getFirstArrangerBox().add(new HvlLabel.Builder().setText("tenebrous expanse").build());
+		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("begin").setClickedCommand(getMenuLink(levels)).build());
+		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("options").setClickedCommand(getMenuLink(options)).build());
+		main.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(quit)).build());
 		main.add(new HvlButton.Builder().setOnDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex)))
 				.setHoverDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex)))
 				.setOffDrawable(new HvlTextureDrawable(HvlTemplateInteg2D.getTexture(Main.logoInvertIndex))).setClickedCommand(new HvlAction1<HvlButton>() {
@@ -123,8 +123,8 @@ public class MenuManager {
 				}).setX((float) Display.getWidth() - 96).setY((float) Display.getHeight() - 96).build());
 
 		levels.add(new HvlArrangerBox.Builder().build());
-		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("levels").build());
-		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlSpacer(0, Display.getHeight() / 2));
+		levels.getFirstArrangerBox().add(new HvlLabel.Builder().setText("levels").build());
+		levels.getFirstArrangerBox().add(new HvlSpacer(0, Display.getHeight() / 2));
 
 		// START LEVEL DEFINITIONS
 		addLevelButton("1", "Maps/FirstSteps",		"2",	6, 		0, 0, "you are darkness... and in your presence no light can be shed");
@@ -146,11 +146,11 @@ public class MenuManager {
 		addLevelButton("17", "Maps/HarrisMap1",		"",		5, 		-2, -1);
 		// END LEVEL DEFINITIONS
 
-		levels.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
+		levels.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		options.add(new HvlArrangerBox.Builder().build());
-		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("options").build());
-		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("sound").setClickedCommand(new HvlAction1<HvlButton>() {
+		options.getFirstArrangerBox().add(new HvlLabel.Builder().setText("options").build());
+		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("sound").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
 			public void run(HvlButton button) {
 				SaveFile.muted = !SaveFile.muted;
@@ -185,20 +185,20 @@ public class MenuManager {
 						HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
 					}
 				}).build());
-		options.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
+		options.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("back").setClickedCommand(getMenuLink(main)).build());
 
 		paused.add(new HvlArrangerBox.Builder().build());
-		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("paused").build());
-		paused.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(false));
-		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getMenuLink(game)).build());
-		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>() {
+		paused.getFirstArrangerBox().add(new HvlLabel.Builder().setText("paused").build());
+		paused.getFirstArrangerBox().add(getHighscoreLabel(false));
+		paused.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("resume").setClickedCommand(getMenuLink(game)).build());
+		paused.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
 			public void run(HvlButton a) {
 				Game.reset();
 				menuGoal = game;
 			}
 		}).build());
-		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("skip").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		paused.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("skip").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
 				((HvlLabeledButton) component).setTextColor(new Color(1, 1, 1, getOpacity(component) / (nextLevel.containsKey(Game.getCurrentLevel()) ? 1f : 1.8f)));
@@ -210,11 +210,11 @@ public class MenuManager {
 				goToNextLevel();
 			}
 		}).build());
-		paused.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(main)).build());
+		paused.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(main)).build());
 
 		loss.add(new HvlArrangerBox.Builder().build());
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("depletion death").build());
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(
+		loss.getFirstArrangerBox().add(new HvlLabel.Builder().setText("depletion death").build());
+		loss.getFirstArrangerBox().add(
 				new HvlLabel.Builder().setScale(0.1f).setText("you used all shots").setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 					@Override
 					public void run(HvlComponent component, Float delta) {
@@ -222,15 +222,15 @@ public class MenuManager {
 						component.draw(delta);
 					}
 				}).build());
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(false));
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>() {
+		loss.getFirstArrangerBox().add(getHighscoreLabel(false));
+		loss.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("retry").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
 			public void run(HvlButton a) {
 				Game.reset();
 				menuGoal = game;
 			}
 		}).build());
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("skip").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		loss.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("skip").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
 				((HvlLabeledButton) component).setTextColor(new Color(1, 1, 1, getOpacity(component) / (nextLevel.containsKey(Game.getCurrentLevel()) ? 1f : 1.8f)));
@@ -242,18 +242,18 @@ public class MenuManager {
 				goToNextLevel();
 			}
 		}).build());
-		loss.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(levels)).build());
+		loss.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("quit").setClickedCommand(getMenuLink(levels)).build());
 
 		win.add(new HvlArrangerBox.Builder().build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setText("total eclipse").setScale(0.2f).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>() {
+		win.getFirstArrangerBox().add(new HvlLabel.Builder().setText("total eclipse").setScale(0.2f).build());
+		win.getFirstArrangerBox().add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
 			public void run(HvlComponent component, Float delta) {
 				((HvlLabel) component).setColor(new Color(1, 1, 1, getOpacity(component) / 1.2f));
 				component.draw(delta);
 			}
 		}).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>() {
+		win.getFirstArrangerBox().add(new HvlLabel.Builder().setScale(0.1f).setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
 			public void run(HvlComponent component, Float delta) {
 				((HvlLabel) component).setText("[par " + Main.pars.get(Game.getCurrentLevel()) + "]");
@@ -261,8 +261,8 @@ public class MenuManager {
 				component.draw(delta);
 			}
 		}).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(getHighscoreLabel(true));
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("next").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
+		win.getFirstArrangerBox().add(getHighscoreLabel(true));
+		win.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("next").setDrawOverride(new HvlAction2<HvlComponent, Float>(){
 			@Override
 			public void run(HvlComponent component, Float delta){
 				((HvlLabeledButton) component).setTextColor(new Color(1, 1, 1, getOpacity(component) / (nextLevel.containsKey(Game.getCurrentLevel()) ? 1f : 1.8f)));
@@ -274,8 +274,8 @@ public class MenuManager {
 				goToNextLevel();
 			}
 		}).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
-		win.getFirstChildOfType(HvlArrangerBox.class).add(new HvlLabeledButton.Builder().setText("replay").setClickedCommand(new HvlAction1<HvlButton>() {
+		win.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("level select").setClickedCommand(getMenuLink(levels)).build());
+		win.getFirstArrangerBox().add(new HvlLabeledButton.Builder().setText("replay").setClickedCommand(new HvlAction1<HvlButton>() {
 			@Override
 			public void run(HvlButton a) {
 				Game.reset();
