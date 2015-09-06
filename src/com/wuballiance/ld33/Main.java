@@ -43,9 +43,9 @@ public class Main extends HvlTemplateInteg2D {
 
 	public static HvlRenderFrame frame1, frame2;
 	public static HvlShader bloom1, bloom2;
-
+	
 	public static HvlAnimatedTextureUV collisionAnimation, playerAnimation;
-
+	
 	public static void main(String[] args) {
 		new Main();
 	}
