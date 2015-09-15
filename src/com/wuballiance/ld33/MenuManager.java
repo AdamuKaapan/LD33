@@ -43,7 +43,7 @@ public class MenuManager {
 	public static void initialize() {
 		font = new HvlFontPainter2D(HvlTemplateInteg2D.getTexture(Main.fontIndex), HvlFontUtil.SIMPLISTIC, 2048, 2048, 128, 160, 16);
 
-		HvlLabel defaultLabel = new HvlLabel(font, "woops text", Color.white, 0.25f);
+		HvlLabel defaultLabel = new HvlLabel(font, "woops text", 0.25f, Color.white);
 		defaultLabel.setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 			@Override
 			public void run(HvlComponent component, Float delta) {
