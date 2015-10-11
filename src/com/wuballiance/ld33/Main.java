@@ -1,9 +1,6 @@
 package com.wuballiance.ld33;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +34,7 @@ public class Main extends HvlTemplateInteg2D {
 	public static final int tilesheetIndex = 0, fontIndex = 1, player1Index = 2, player2Index = 3, playerSmall1Index = 4, playerSmall2Index = 5,
 			player3Index = 6, spikeAnimationIndex = 7, wallParticleIndex = 8, playerAnimationIndex = 9, auraIndex = 10, logoIndex = 11, logoInvertIndex = 12,
 			darkenAnimationIndex = 13, smallExplosionAnimationIndex = 14, dotAnimationIndex = 15, tutorial1Index = 16, smallBombIndex = 17,
-			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20, directionalExplosionIndex = 21, cursorIndex = 22;
+			largeBombIndex = 18, largeExplosionIndex = 19, directionalBombIndex = 20, directionalExplosionIndex = 21, cursorIndex = 22, aura2Index = 23;
 
 	private float playerRotation = 0;
 
@@ -86,6 +83,7 @@ public class Main extends HvlTemplateInteg2D {
 		getTextureLoader().loadResource("DirectionalBombAnimation");
 		getTextureLoader().loadResource("DirectionalExplosionAnimation");
 		getTextureLoader().loadResource("Cursor");
+		getTextureLoader().loadResource("Aura2");
 
 		getSoundLoader().loadResource("Bright_Darkness", HvlSoundType.OGG);
 		getSoundLoader().loadResource("Checkmate", HvlSoundType.OGG);
@@ -221,6 +219,18 @@ public class Main extends HvlTemplateInteg2D {
 		HvlPainter2D.hvlDrawQuad((Display.getWidth() / 2) - (size2 * 2) + offset.x, (Display.getHeight() / 2) - (size2 * 2) + offset.y, (size2 * 2) * 2,
 				(size2 * 2) * 2, playerAnimation, new Color(1, 1, 1, -(0.9f - zoom)));
 
+//		for(float x = 0; x <= 1.05f; x += 0.05f){
+//			for(float y = 0; y <= 1.05f; y += 0.05f){
+//				if(HvlMath.distance(x * Display.getWidth(), y * Display.getHeight(), Display.getWidth()/2, Display.getHeight()/2) < 400){
+//					float distance = HvlMath.distance(x * Display.getWidth(), y * Display.getHeight(), Display.getWidth()/2, Display.getHeight()/2)/400;
+//					float direction = (float)Math.atan2((Display.getWidth()/2) - (x * Display.getWidth()), (Display.getHeight()/2) - (y * Display.getHeight()));
+//					hvlRotate(x * Display.getWidth(), y * Display.getHeight(), 360 - (float)Math.toDegrees(direction));
+//					hvlDrawQuadc(x * Display.getWidth(), y * Display.getHeight(), 50, 50 * ((1 - distance)*0.75f), getTexture(aura2Index), new Color(1f, 1f, 1f, Math.max((1 - zoom) * distance * 0.05f, 0)));
+//					hvlResetRotation();
+//				}
+//			}
+//		}
+		
 		HvlCamera.doTransform();
 	}
 
