@@ -1,6 +1,9 @@
 package com.wuballiance.ld33;
 
-import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.*;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawLine;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlDrawQuad;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlResetRotation;
+import static com.osreboot.ridhvl.painter.painter2d.HvlPainter2D.hvlRotate;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +14,7 @@ import org.newdawn.slick.Color;
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.HvlTimer;
-import com.osreboot.ridhvl.config.HvlConfigUtil;
+import com.osreboot.ridhvl.configold.HvlConfigUtil;
 import com.osreboot.ridhvl.display.collection.HvlDisplayModeDefault;
 import com.osreboot.ridhvl.loader.HvlSoundLoader.HvlSoundType;
 import com.osreboot.ridhvl.menu.HvlMenu;
@@ -21,7 +24,6 @@ import com.osreboot.ridhvl.painter.HvlCamera;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraAlignment;
 import com.osreboot.ridhvl.painter.HvlCamera.HvlCameraTransformation;
 import com.osreboot.ridhvl.painter.HvlRenderFrame;
-import com.osreboot.ridhvl.painter.HvlRenderFrame.HvlRenderFrameProfile;
 import com.osreboot.ridhvl.painter.HvlShader;
 import com.osreboot.ridhvl.painter.painter2d.HvlPainter2D;
 import com.osreboot.ridhvl.template.HvlTemplateInteg2D;
@@ -109,8 +111,8 @@ public class Main extends HvlTemplateInteg2D {
 
 		playerAnimation = new HvlAnimatedTextureUV(getTexture(playerAnimationIndex), 256, 62, 0.02f);
 
-		frame1 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
-		frame2 = new HvlRenderFrame(HvlRenderFrameProfile.DEFAULT, Display.getWidth(), Display.getHeight());
+		frame1 = new HvlRenderFrame(Display.getWidth(), Display.getDisplayMode().getHeight());
+		frame2 = new HvlRenderFrame(Display.getWidth(), Display.getDisplayMode().getHeight());
 		bloom1 = new HvlShader(HvlShader.PATH_SHADER_DEFAULT + "bloom1" + HvlShader.SUFFIX_FRAGMENT);
 		bloom2 = new HvlShader(HvlShader.PATH_SHADER_DEFAULT + "bloom2" + HvlShader.SUFFIX_FRAGMENT);
 
@@ -144,11 +146,11 @@ public class Main extends HvlTemplateInteg2D {
 		
 		HvlMenuDJ.setVolume(SaveFile.muted ? 0 : 1f);
 		
-		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth() / 2), HvlCamera.getY() - (Display.getHeight() / 2), Display.getWidth(), Display.getHeight(),
+		hvlDrawQuad(HvlCamera.getX() - (Display.getWidth() / 2), HvlCamera.getY() - (Display.getDisplayMode().getHeight() / 2), Display.getWidth(), Display.getDisplayMode().getHeight(),
 				new Color(1, 1, 1, getZoom()));
 
 		frame1.setX((int) (HvlCamera.getX() - (Display.getWidth() / 2)));
-		frame1.setY((int) (HvlCamera.getY() - (Display.getHeight() / 2)));
+		frame1.setY((int) (HvlCamera.getY() - (Display.getDisplayMode().getHeight() / 2)));
 		HvlRenderFrame.setCurrentRenderFrame(frame1);
 		HvlCamera.doTransformation(HvlCameraTransformation.NEGATIVE);
 		playerRotation += delta;
@@ -161,19 +163,19 @@ public class Main extends HvlTemplateInteg2D {
 		HvlRenderFrame.setCurrentRenderFrame(frame2);
 		HvlShader.setCurrentShader(bloom1);
 		HvlCamera.doTransformation(HvlCameraTransformation.NEGATIVE);
-		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), frame1);
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getDisplayMode().getHeight(), frame1);
 		HvlCamera.doTransformation(HvlCameraTransformation.UNDONEGATIVE);
 		HvlShader.setCurrentShader(null);
 		HvlRenderFrame.setCurrentRenderFrame(null);
 
 		HvlShader.setCurrentShader(bloom2);
 		HvlCamera.undoTransform();
-		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), frame2);
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getDisplayMode().getHeight(), frame2);
 		HvlCamera.doTransform();
 		HvlShader.setCurrentShader(null);
 
 		HvlCamera.doTransformation(HvlCameraTransformation.NEGATIVE);
-		hvlDrawQuad(0, 0, Display.getWidth(), Display.getHeight(), frame1);
+		hvlDrawQuad(0, 0, Display.getWidth(), Display.getDisplayMode().getHeight(), frame1);
 		HvlCamera.doTransformation(HvlCameraTransformation.UNDONEGATIVE);
 
 		drawPlayer(delta);
@@ -188,11 +190,11 @@ public class Main extends HvlTemplateInteg2D {
 			HvlCamera.setPosition(Player.getX(), Player.getY());
 			zoomGoal = maxZoom;
 		} else if (HvlMenu.getCurrent() == MenuManager.splash) {
-			HvlCamera.setPosition((Display.getWidth() / 2), (Display.getHeight() / 2));
+			HvlCamera.setPosition((Display.getWidth() / 2), (Display.getDisplayMode().getHeight() / 2));
 			zoomGoal = maxZoom;
 			Splash.draw(delta);
 		} else {
-			HvlCamera.setPosition((Display.getWidth() / 2), (Display.getHeight() / 2));
+			HvlCamera.setPosition((Display.getWidth() / 2), (Display.getDisplayMode().getHeight() / 2));
 			zoomGoal = 0f;
 		}
 
@@ -202,30 +204,30 @@ public class Main extends HvlTemplateInteg2D {
 		HvlCamera.undoTransform();
 		float size = HvlMath.lerp(512, Player.radius, Math.min(zoom, 1));
 		HvlCoord offset = Splash.getOffset();
-		hvlRotate((Display.getWidth() / 2) + offset.x, (Display.getHeight() / 2) + offset.y, playerRotation * -4);
-		hvlDrawQuad((Display.getWidth() / 2) - size + offset.x, (Display.getHeight() / 2) - size + offset.y, size * 2, size * 2, getTexture(player3Index),
+		hvlRotate((Display.getWidth() / 2) + offset.x, (Display.getDisplayMode().getHeight() / 2) + offset.y, playerRotation * -4);
+		hvlDrawQuad((Display.getWidth() / 2) - size + offset.x, (Display.getDisplayMode().getHeight() / 2) - size + offset.y, size * 2, size * 2, getTexture(player3Index),
 				new Color(1, 1, 1, 1 - zoom - (float) Math.sin(playerRotation)));
 		hvlResetRotation();
-		hvlRotate((Display.getWidth() / 2) + offset.x, (Display.getHeight() / 2) + offset.y, -playerRotation * 3);
-		hvlDrawQuad((Display.getWidth() / 2) - size + offset.x, (Display.getHeight() / 2) - size + offset.y, size * 2, size * 2, getTexture(player2Index),
+		hvlRotate((Display.getWidth() / 2) + offset.x, (Display.getDisplayMode().getHeight() / 2) + offset.y, -playerRotation * 3);
+		hvlDrawQuad((Display.getWidth() / 2) - size + offset.x, (Display.getDisplayMode().getHeight() / 2) - size + offset.y, size * 2, size * 2, getTexture(player2Index),
 				new Color(1, 1, 1, 1 - zoom));
 		hvlResetRotation();
-		hvlRotate((Display.getWidth() / 2) + offset.x, (Display.getHeight() / 2) + offset.y, playerRotation * 2);
-		hvlDrawQuad((Display.getWidth() / 2) - size + offset.x, (Display.getHeight() / 2) - size + offset.y, size * 2, size * 2, getTexture(player1Index),
+		hvlRotate((Display.getWidth() / 2) + offset.x, (Display.getDisplayMode().getHeight() / 2) + offset.y, playerRotation * 2);
+		hvlDrawQuad((Display.getWidth() / 2) - size + offset.x, (Display.getDisplayMode().getHeight() / 2) - size + offset.y, size * 2, size * 2, getTexture(player1Index),
 				new Color(1, 1, 1, 1 - zoom));
 		hvlResetRotation();
 
 		float size2 = (size * 2.5f);
-		HvlPainter2D.hvlDrawQuad((Display.getWidth() / 2) - (size2 * 2) + offset.x, (Display.getHeight() / 2) - (size2 * 2) + offset.y, (size2 * 2) * 2,
+		HvlPainter2D.hvlDrawQuad((Display.getWidth() / 2) - (size2 * 2) + offset.x, (Display.getDisplayMode().getHeight() / 2) - (size2 * 2) + offset.y, (size2 * 2) * 2,
 				(size2 * 2) * 2, playerAnimation, new Color(1, 1, 1, -(0.9f - zoom)));
 
 //		for(float x = 0; x <= 1.05f; x += 0.05f){
 //			for(float y = 0; y <= 1.05f; y += 0.05f){
-//				if(HvlMath.distance(x * Display.getWidth(), y * Display.getHeight(), Display.getWidth()/2, Display.getHeight()/2) < 400){
-//					float distance = HvlMath.distance(x * Display.getWidth(), y * Display.getHeight(), Display.getWidth()/2, Display.getHeight()/2)/400;
-//					float direction = (float)Math.atan2((Display.getWidth()/2) - (x * Display.getWidth()), (Display.getHeight()/2) - (y * Display.getHeight()));
-//					hvlRotate(x * Display.getWidth(), y * Display.getHeight(), 360 - (float)Math.toDegrees(direction));
-//					hvlDrawQuadc(x * Display.getWidth(), y * Display.getHeight(), 50, 50 * ((1 - distance)*0.75f), getTexture(aura2Index), new Color(1f, 1f, 1f, Math.max((1 - zoom) * distance * 0.05f, 0)));
+//				if(HvlMath.distance(x * Display.getWidth(), y * Display.getDisplayMode().getHeight(), Display.getWidth()/2, Display.getDisplayMode().getHeight()/2) < 400){
+//					float distance = HvlMath.distance(x * Display.getWidth(), y * Display.getDisplayMode().getHeight(), Display.getWidth()/2, Display.getDisplayMode().getHeight()/2)/400;
+//					float direction = (float)Math.atan2((Display.getWidth()/2) - (x * Display.getWidth()), (Display.getDisplayMode().getHeight()/2) - (y * Display.getDisplayMode().getHeight()));
+//					hvlRotate(x * Display.getWidth(), y * Display.getDisplayMode().getHeight(), 360 - (float)Math.toDegrees(direction));
+//					hvlDrawQuadc(x * Display.getWidth(), y * Display.getDisplayMode().getHeight(), 50, 50 * ((1 - distance)*0.75f), getTexture(aura2Index), new Color(1f, 1f, 1f, Math.max((1 - zoom) * distance * 0.05f, 0)));
 //					hvlResetRotation();
 //				}
 //			}
@@ -248,15 +250,15 @@ public class Main extends HvlTemplateInteg2D {
 		barProgress = HvlMath.stepTowards(barProgress, delta / 2, Game.getHealthBar());
 		if (HvlMenu.getCurrent() == MenuManager.game) {
 			HvlCoord offset = new HvlCoord((int) (Player.getPos().x - (Player.getVel().x * delta)), (int) (Player.getPos().y - (Player.getVel().y * delta)));
-			hvlDrawLine(offset.x - (Display.getWidth() / 8) - 4, offset.y - (Display.getHeight() / 16 * 7), offset.x + (Display.getWidth() / 8) + 4, offset.y
-					- (Display.getHeight() / 16 * 7), new Color(0.4f, 0.4f, 0.4f, getZoom()), 8);
-			hvlDrawLine(offset.x - (Display.getWidth() / 8), offset.y - (Display.getHeight() / 16 * 7),
-					offset.x - (Display.getWidth() / 8) + ((Display.getWidth() / 4) * barProgress), offset.y - (Display.getHeight() / 16 * 7), new Color(0, 0,
+			hvlDrawLine(offset.x - (Display.getWidth() / 8) - 4, offset.y - (Display.getDisplayMode().getHeight() / 16 * 7), offset.x + (Display.getWidth() / 8) + 4, offset.y
+					- (Display.getDisplayMode().getHeight() / 16 * 7), new Color(0.4f, 0.4f, 0.4f, getZoom()), 8);
+			hvlDrawLine(offset.x - (Display.getWidth() / 8), offset.y - (Display.getDisplayMode().getHeight() / 16 * 7),
+					offset.x - (Display.getWidth() / 8) + ((Display.getWidth() / 4) * barProgress), offset.y - (Display.getDisplayMode().getHeight() / 16 * 7), new Color(0, 0,
 							0, getZoom()), 4);
 			for(float i = 0; i < 1; i += 1f/((float)pars.get(Game.getCurrentLevel()))){
 				hvlDrawLine(
-						offset.x - (Display.getWidth() / 8) + (i * (Display.getWidth()/4)), offset.y - (Display.getHeight() / 16 * 7) - 4,
-						offset.x - (Display.getWidth() / 8) + (i * (Display.getWidth()/4)), offset.y - (Display.getHeight() / 16 * 7) + 4, new Color(0.4f, 0.4f, 0.4f, getZoom()), 2);
+						offset.x - (Display.getWidth() / 8) + (i * (Display.getWidth()/4)), offset.y - (Display.getDisplayMode().getHeight() / 16 * 7) - 4,
+						offset.x - (Display.getWidth() / 8) + (i * (Display.getWidth()/4)), offset.y - (Display.getDisplayMode().getHeight() / 16 * 7) + 4, new Color(0.4f, 0.4f, 0.4f, getZoom()), 2);
 			}
 		}
 	}

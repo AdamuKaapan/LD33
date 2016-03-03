@@ -14,7 +14,7 @@ import com.osreboot.ridhvl.HvlFontUtil;
 import com.osreboot.ridhvl.HvlMath;
 import com.osreboot.ridhvl.action.HvlAction1;
 import com.osreboot.ridhvl.action.HvlAction2;
-import com.osreboot.ridhvl.config.HvlConfigUtil;
+import com.osreboot.ridhvl.configold.HvlConfigUtil;
 import com.osreboot.ridhvl.input.HvlInput;
 import com.osreboot.ridhvl.menu.HvlComponent;
 import com.osreboot.ridhvl.menu.HvlComponentDefault;
@@ -52,7 +52,7 @@ public class MenuManager {
 			}
 		});
 		HvlComponentDefault.setDefault(defaultLabel);
-		HvlArrangerBox defaultArrangerBox = new HvlArrangerBox(Display.getWidth(), Display.getHeight(), ArrangementStyle.VERTICAL);
+		HvlArrangerBox defaultArrangerBox = new HvlArrangerBox(Display.getWidth(), Display.getDisplayMode().getHeight(), ArrangementStyle.VERTICAL);
 		defaultArrangerBox.setBorderU(16);
 		defaultArrangerBox.setBorderD(16);
 		HvlComponentDefault.setDefault(defaultArrangerBox);
@@ -120,11 +120,11 @@ public class MenuManager {
 						} catch (Exception e) {
 						}
 					}
-				}).setX((float) Display.getWidth() - 96).setY((float) Display.getHeight() - 96).build());
+				}).setX((float) Display.getWidth() - 96).setY((float) Display.getDisplayMode().getHeight() - 96).build());
 
 		levels.add(new HvlArrangerBox.Builder().build());
 		levels.getFirstArrangerBox().add(new HvlLabel.Builder().setText("levels").build());
-		levels.getFirstArrangerBox().add(new HvlSpacer(0, Display.getHeight() / 2));
+		levels.getFirstArrangerBox().add(new HvlSpacer(0, Display.getDisplayMode().getHeight() / 2));
 
 		// START LEVEL DEFINITIONS
 		addLevelButton("1", "Maps/FirstSteps",		"2",	6, 		0, 0, "you are darkness... and in your presence no light can be shed");
@@ -157,7 +157,7 @@ public class MenuManager {
 				HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
 			}
 		}).build());
-		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth() / 16 * 6) - 128).setY(Display.getHeight() / 32 * 15)
+		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth() / 16 * 6) - 128).setY(Display.getDisplayMode().getHeight() / 32 * 15)
 				.setText("on").setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 					@Override
 					public void run(HvlComponent component, Float delta) {
@@ -171,7 +171,7 @@ public class MenuManager {
 						HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
 					}
 				}).build());
-		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth() / 16 * 10) - 128).setY(Display.getHeight() / 32 * 15)
+		options.add(new HvlLabeledButton.Builder().setTextScale(0.1f).setX((Display.getWidth() / 16 * 10) - 128).setY(Display.getDisplayMode().getHeight() / 32 * 15)
 				.setText("off").setDrawOverride(new HvlAction2<HvlComponent, Float>() {
 					@Override
 					public void run(HvlComponent component, Float delta) {
@@ -377,7 +377,7 @@ public class MenuManager {
 	private static void addLevelButton(String id, String levelName, String nextLevelArg, int par, int xArg, int yArg, String... dialogue) {
 		if(nextLevelArg != "") nextLevel.put(levelName, nextLevelArg);
 		float x = Display.getWidth() / 24 * ((float) xArg + 12);
-		float y = Display.getHeight() / 16 * ((float) -yArg + 7.5f);
+		float y = Display.getDisplayMode().getHeight() / 16 * ((float) -yArg + 7.5f);
 		Main.pars.put(levelName, par);
 		Dialogue cutscene = new Dialogue(new ArrayList<String>(Arrays.asList(dialogue)), game);
 		HvlLabeledButton button = new HvlLabeledButton.Builder().setWidth(24).setX(x - 16).setY(y - 8).setText(id).setTextScale(0.1f)

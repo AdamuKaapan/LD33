@@ -44,7 +44,7 @@ public class Dialogue {
 				}
 				currentWords.remove(0);
 			}
-			for(String s : currentLines) MenuManager.font.drawWord(s, (Display.getWidth()/2) - (MenuManager.font.getLineWidth(s) * 0.05f), (Display.getHeight()/2) - (currentLines.size() * 8) + (currentLines.indexOf(s)*32), 0.1f, new Color(1, 1, 1, (Math.min(fade, 1) - Math.max(0, fade - 4)) * 0.8f));
+			for(String s : currentLines) MenuManager.font.drawWord(s, (Display.getWidth()/2) - (MenuManager.font.getLineWidth(s) * 0.05f), (Display.getDisplayMode().getHeight()/2) - (currentLines.size() * 8) + (currentLines.indexOf(s)*32), 0.1f, new Color(1, 1, 1, (Math.min(fade, 1) - Math.max(0, fade - 4)) * 0.8f));
 		}else{
 			index++;
 			fade = 0;

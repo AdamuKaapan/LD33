@@ -142,7 +142,7 @@ public class Player {
 			float oldLen = dir.length();
 			dir.normalize().fixNaN().mult(Math.min(oldLen, 196.0f));
 
-			//float distance = HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getHeight() / 2);
+			//float distance = HvlMath.distance(HvlCursor.getCursorX(), HvlCursor.getCursorY(), Display.getWidth() / 2, Display.getDisplayMode().getHeight() / 2);
 			if(dir.length() > radius * 2){
 				HvlCoord startPoint = new HvlCoord(dir.x, dir.y);
 				startPoint.normalize();

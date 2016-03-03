@@ -13,7 +13,7 @@ import org.newdawn.slick.Color;
 
 import com.osreboot.ridhvl.HvlCoord;
 import com.osreboot.ridhvl.HvlMath;
-import com.osreboot.ridhvl.config.HvlConfigUtil;
+import com.osreboot.ridhvl.configold.HvlConfigUtil;
 import com.osreboot.ridhvl.menu.HvlMenu;
 import com.osreboot.ridhvl.menu.component.HvlArrangerBox;
 import com.osreboot.ridhvl.menu.component.HvlLabel;
@@ -318,10 +318,10 @@ public class Game {
 				float y = Game.getMap().toWorldY(entry.getKey().y);
 
 				if (x - (2 * Game.getMap().getTileWidth()) < Player.getX() - (Display.getWidth() / 2)
-						|| y - (2 * Game.getMap().getTileHeight()) < Player.getY() - (Display.getHeight() / 2))
+						|| y - (2 * Game.getMap().getTileHeight()) < Player.getY() - (Display.getDisplayMode().getHeight() / 2))
 					continue;
 				if (x + (2 * Game.getMap().getTileWidth()) > Player.getX() + (Display.getWidth() / 2)
-						|| y + (2 * Game.getMap().getTileHeight()) > Player.getY() + (Display.getHeight() / 2))
+						|| y + (2 * Game.getMap().getTileHeight()) > Player.getY() + (Display.getDisplayMode().getHeight() / 2))
 					continue;
 
 				if (entry.getValue() < 1.0f) {
@@ -370,8 +370,8 @@ public class Game {
 	private static void drawTileBlack() {
 		for (int x = map.toTileX(Player.getX() - (Display.getWidth() / 2)) - 5; x < map
 				.toTileX(Player.getX() + (Display.getWidth() / 2)) + 5; x++) {
-			for (int y = map.toTileY(Player.getY() - (Display.getHeight() / 2)) - 5; y < map
-					.toTileY(Player.getY() + (Display.getHeight() / 2)) + 5; y++) {
+			for (int y = map.toTileY(Player.getY() - (Display.getDisplayMode().getHeight() / 2)) - 5; y < map
+					.toTileY(Player.getY() + (Display.getDisplayMode().getHeight() / 2)) + 5; y++) {
 
 				boolean isBlackable = true;
 
@@ -739,7 +739,7 @@ public class Game {
 
 		HvlConfigUtil.saveStaticConfig(SaveFile.class, "res/Save.txt");
 
-		((HvlLabel) ((HvlArrangerBox) MenuManager.win.getFirstChildOfType(HvlArrangerBox.class)).get(1))
+		((HvlLabel) ((HvlArrangerBox) MenuManager.win.getFirstOfType(HvlArrangerBox.class)).get(1))
 				.setText("in " + Game.getCurrentTurn() + " shots");
 	}
 
