@@ -1,3 +1,5 @@
 /bin/
 .classpath
 /res/Save.txt
+/res/*.wav
+/res/*.ogg
